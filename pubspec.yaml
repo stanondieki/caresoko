@@ -1,0 +1,101 @@
+name: gotocarefinder
+description: "A new Flutter project."
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  get: ^4.6.6
+  http: ^1.2.2
+  intl_phone_field: ^3.2.0
+  pinput: ^5.0.0
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+  google_api_headers: ^4.3.1
+  google_maps_webservice2: ^1.0.5
+  flutter_google_places_hoc081098: ^2.0.0
+  badges: 
+  fluttertoast: ^8.2.10
+  shared_preferences: ^2.3.5
+  provider: 
+  intl: any
+  readmore: ^3.0.0
+  flutter_rating_bar: ^4.0.1
+  image_picker: ^1.1.2
+  flutter_widget_from_html_core: any
+  get_storage: ^2.1.1
+  accordion: ^2.6.0 
+  google_maps_flutter: ^2.10.0
+  permission_handler: ^11.3.1
+#  razorpay_flutter: ^1.3.7
+  razorpay_flutter: ^1.3.9
+  webview_flutter: ^4.10.0
+  share_plus: ^10.1.3
+  package_info_plus:
+  english_words: ^4.0.0
+  url_launcher: ^6.3.1
+#  onesignal_flutter: ^5.2.9
+  onesignal_flutter: ^5.3.4
+  cached_network_image: ^3.4.1
+  dotted_border: ^2.1.0
+  panorama_viewer: ^2.0.7
+  http_auth: ^1.0.4
+  flutter_spinkit: 
+  syncfusion_flutter_datepicker: ^28.1.37
+  flutter_local_notifications: ^18.0.1
+  photo_view: ^0.15.0
+  flutter_svg: ^2.0.16
+  flutter_switch: ^0.3.2
+  googleapis_auth: ^1.6.0
+  dio: ^5.7.0
+  signature: ^5.5.0
+  sensors_plus: ^4.0.2
+  flutter_stripe: ^11.0.0   # or latest
+  flutter_stripe_web: ^6.5.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+dependency_overrides:
+  meta: ^1.16.0
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Gilroy Black
+      fonts:
+        - asset: fonts/Gilroy-Black.otf
+    - family: Gilroy Light
+      fonts:
+        - asset: fonts/Gilroy-Light.otf
+    - family: Gilroy Heavy
+      fonts:
+        - asset: fonts/Gilroy-Heavy.otf
+    - family: Gilroy Medium
+      fonts:
+        - asset: fonts/Gilroy-Medium.otf
+    - family: Gilroy Bold
+      fonts:
+        - asset: fonts/Gilroy-Bold.otf
+    - family: Gilroy ExtraBold
+      fonts:
+        - asset: fonts/Gilroy-ExtraBold.otf
+    - family: Gilroy Regular
+      fonts:
+        - asset: fonts/Gilroy-Regular.otf
