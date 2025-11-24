@@ -1175,6 +1175,11 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                               .countryId,
                                           "mobile": addPropertiesController
                                               .contactNumberController.text,
+                                          "image": addPropertiesController
+                                                  .propertyImagesBase64.isNotEmpty
+                                              ? addPropertiesController
+                                                  .propertyImagesBase64.first
+                                              : "",
                                         }),
                                       );
 

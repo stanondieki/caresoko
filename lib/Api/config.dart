@@ -48,6 +48,7 @@ class Config {
   static const String searchApi = 'u_search_property.php';
   static const String checDateApi = 'u_check.php';
   static const String bookApi = 'u_book.php';
+  static const String homecareBookApi = 'u_homecare_book.php';
   static const String statusWiseBook = 'u_book_status_wise.php';
   static const String bookingCancle = 'u_book_cancle.php';
   static const String bookingDetails = 'u_book_details.php';
@@ -70,6 +71,8 @@ class Config {
   static const String editPropertyApi = 'u_property_edit.php';
   static const String addPropartyApi = 'u_proparty_add.php';
   static const String editPropartyApi = 'u_proparty_edit.php';
+  static const String propartyDetailsEditApi = 'u_proparty_details_edit.php';
+  static const String propartyBookApi = 'u_proparty_book.php';
   static const String addHomecareApi = 'u_homecare_add.php';
   static const String editAgencyApi = 'u_homecare_edit.php';
   static const String extraImageList = 'u_extra_list.php';

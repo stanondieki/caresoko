@@ -148,7 +148,7 @@ class _BoardingScreenState extends State<BoardingPage> {
                 ),
                 _currentPage == 2
                     ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: GestureDetector(
                           onTap: () {
                             listOfPropertiController.getPropertiList();
@@ -157,7 +157,7 @@ class _BoardingScreenState extends State<BoardingPage> {
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Darkblue,
-                                borderRadius: BorderRadius.circular(50)),
+                                borderRadius: BorderRadius.circular(0)),
                             height: 50,
                             width: double.infinity,
                             child: Center(
@@ -173,7 +173,7 @@ class _BoardingScreenState extends State<BoardingPage> {
                         ),
                       )
                     : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: GestureDetector(
                           onTap: () {
                             _pageController.nextPage(
@@ -183,7 +183,7 @@ class _BoardingScreenState extends State<BoardingPage> {
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Darkblue,
-                                borderRadius: BorderRadius.circular(50)),
+                                borderRadius: BorderRadius.circular(0)),
                             height: 50,
                             width: double.infinity,
                             child: Center(

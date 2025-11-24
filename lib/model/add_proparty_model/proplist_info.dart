@@ -97,15 +97,15 @@ class Proplist {
     countryTitle: json["country_title"],
     price: json["price"],
     beds: json["beds"],
-    plimit: json["plimit"],
-    bathroom: json["bathroom"],
-    sqrft: json["sqrft"],
+    plimit: json["capacity"], // PHP returns 'capacity'
+    bathroom: json["bathrooms"], // PHP returns 'bathrooms'
+    sqrft: json["size"], // PHP returns 'size'
     isSell: json["is_sell"],
     facilitySelect: json["facility_select"],
     status: json["status"],
     latitude: json["latitude"],
     longtitude: json["longtitude"],
-    mobile: json["mobile"],
+    mobile: json["contact"], // PHP returns 'contact'
     buyorrent: json["buyorrent"],
     city: json["city"],
     rate: json["rate"],

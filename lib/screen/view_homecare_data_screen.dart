@@ -150,7 +150,7 @@ class _ViewHomecareDataScreenState extends State<ViewHomecareDataScreen> {
 
     try {
       // 5. Call the API
-      final uri = Uri.parse("${Config.path}${Config.bookApi}");
+      final uri = Uri.parse("${Config.path}${Config.homecareBookApi}");
 
       final res = await http.post(
         uri,

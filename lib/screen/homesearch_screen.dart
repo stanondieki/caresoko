@@ -144,7 +144,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 padding: const EdgeInsets.only(left: 15, top: 10),
                 child: searchController.searchText != ""
                     ? Text(
-                  "${searchController.homesearchData?.searchPropety?.length ?? 0} found",
+                  "${(searchController.homes.length + searchController.agencies.length + searchController.advertisedProperties.length)} found",
                   style: TextStyle(
                     fontSize: 17,
                     fontFamily: FontFamily.gilroyBold,
@@ -157,8 +157,13 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
               // =================== RESULTS / FEATURED ===================
               searchController.searchText != ""
                   ? searchController.isLoading
-                  ? _buildTabbedResults()
-                  : SizedBox()
+                      ? _buildTabbedResults()
+                      : Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: CircularProgressIndicator(color: blueColor),
+                          ),
+                        )
                   : showFeaturedList(),
             ],
           ),
@@ -170,8 +175,10 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   /// When there is no active search text – show the featured list from homepage.
   Widget showFeaturedList() {
     return Expanded(
-      child: homePageController
-          .homeDatatInfo!.homeData!.featuredProperty!.isNotEmpty
+      child: homePageController.homeDatatInfo != null &&
+              homePageController.homeDatatInfo!.homeData != null &&
+              homePageController.homeDatatInfo!.homeData!.featuredProperty != null &&
+              homePageController.homeDatatInfo!.homeData!.featuredProperty!.isNotEmpty
           ? ListView.builder(
         itemCount: homePageController
             .homeDatatInfo?.homeData!.featuredProperty!.length,
@@ -363,57 +370,15 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   // =================== NEW: TABBED SEARCH RESULTS ===================
 
   Widget _buildTabbedResults() {
-    final allResults = searchController.homesearchData?.searchPropety ?? [];
-
-    if (allResults.isEmpty) {
-      return Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-          child: Column(
-            children: [
-              SizedBox(height: Get.height * 0.10),
-              const Image(
-                image: AssetImage("assets/images/searchDataEmpty.png"),
-                height: 110,
-                width: 110,
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: SizedBox(
-                  width: Get.width * 0.80,
-                  child: Text(
-                    "Sorry, Search Data Not Found".tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: notifire.getgreycolor,
-                      fontFamily: FontFamily.gilroyBold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    // Group results into Homes, Agencies, Advertised
-    final List<dynamic> homes = [];
-    final List<dynamic> agencies = [];
-    final List<dynamic> advertised = [];
-
-    for (final item in allResults) {
-      final title =
-      (item.propertyTypeTitle ?? "").toString().toLowerCase();
-
-      if (title.contains("agency")) {
-        agencies.add(item);
-      } else if (title.contains("home") && !title.contains("agency")) {
-        homes.add(item);
-      } else {
-        advertised.add(item);
-      }
-    }
+    // Use lists from controller
+    final homes = searchController.homes;
+    final agencies = searchController.agencies;
+    final advertised = searchController.advertisedProperties;
+    
+    print("DEBUG: _buildTabbedResults called");
+    print("DEBUG: homes count: ${homes.length}");
+    print("DEBUG: agencies count: ${agencies.length}");
+    print("DEBUG: advertised count: ${advertised.length}");
 
     return Expanded(
       child: DefaultTabController(
@@ -451,9 +416,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
             Expanded(
               child: TabBarView(
                 children: [
-                  _buildResultList(homes),
-                  _buildResultList(agencies),
-                  _buildResultList(advertised),
+                  _buildResultList(homes, "Homes"),
+                  _buildResultList(agencies, "Agencies"),
+                  _buildResultList(advertised, "Advertised"),
                 ],
               ),
             ),
@@ -463,7 +428,8 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     );
   }
 
-  Widget _buildResultList(List<dynamic> items) {
+  Widget _buildResultList(List<dynamic> items, String tabName) {
+    print("DEBUG: _buildResultList for $tabName, count: ${items.length}");
     if (items.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -497,6 +463,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
+        print("DEBUG: Building item $index for $tabName");
         final item = items[index];
 
         return InkWell(

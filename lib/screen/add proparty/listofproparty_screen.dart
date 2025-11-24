@@ -96,7 +96,7 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
                 constraints: const BoxConstraints(maxWidth: 1200),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: GetBuilder<ListOfPropertyController>(builder: (context) {
+                  child: GetBuilder<ListOfPropertyController>(builder: (controller) {
                     final isLoaded = listOfPropertiController.isLodding;
                     final list = listOfPropertiController.propListInfo?.proplist ?? [];
 
@@ -105,7 +105,7 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
                     }
 
                     if (list.isEmpty) {
-                      return _emptyState(context as BuildContext);
+                      return _emptyState(context);
                     }
 
                     return Scrollbar(

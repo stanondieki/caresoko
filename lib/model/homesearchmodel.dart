@@ -11,13 +11,19 @@ String homesearchModelToJson(HomesearchModel data) =>
     json.encode(data.toJson());
 
 class HomesearchModel {
-  List<SearchPropety>? searchPropety;
+  List<SearchPropety>? searchPropety; // Backward compatibility
+  List<SearchPropety>? homes;
+  List<SearchPropety>? advertisedProperties;
+  List<SearchPropety>? agencies;
   String? responseCode;
   String? result;
   String? responseMsg;
 
   HomesearchModel({
     this.searchPropety,
+    this.homes,
+    this.advertisedProperties,
+    this.agencies,
     this.responseCode,
     this.result,
     this.responseMsg,
@@ -29,6 +35,18 @@ class HomesearchModel {
             ? []
             : List<SearchPropety>.from(
                 json["search_propety"]!.map((x) => SearchPropety.fromJson(x))),
+        homes: json["homes"] == null
+            ? []
+            : List<SearchPropety>.from(
+                json["homes"]!.map((x) => SearchPropety.fromJson(x))),
+        advertisedProperties: json["advertised_properties"] == null
+            ? []
+            : List<SearchPropety>.from(
+                json["advertised_properties"]!.map((x) => SearchPropety.fromJson(x))),
+        agencies: json["agencies"] == null
+            ? []
+            : List<SearchPropety>.from(
+                json["agencies"]!.map((x) => SearchPropety.fromJson(x))),
         responseCode: json["ResponseCode"],
         result: json["Result"],
         responseMsg: json["ResponseMsg"],
@@ -38,6 +56,15 @@ class HomesearchModel {
         "search_propety": searchPropety == null
             ? []
             : List<dynamic>.from(searchPropety!.map((x) => x.toJson())),
+        "homes": homes == null
+            ? []
+            : List<dynamic>.from(homes!.map((x) => x.toJson())),
+        "advertised_properties": advertisedProperties == null
+            ? []
+            : List<dynamic>.from(advertisedProperties!.map((x) => x.toJson())),
+        "agencies": agencies == null
+            ? []
+            : List<dynamic>.from(agencies!.map((x) => x.toJson())),
         "ResponseCode": responseCode,
         "Result": result,
         "ResponseMsg": responseMsg,
@@ -70,15 +97,15 @@ class SearchPropety {
   });
 
   factory SearchPropety.fromJson(Map<String, dynamic> json) => SearchPropety(
-        id: json["id"],
+        id: json["id"]?.toString(),
         name: json["name"],
-        rate: json["rate"],
-        capacity: json["capacity"],
+        rate: json["rate"]?.toString(),
+        capacity: json["capacity"]?.toString(),
         city: json["city"],
         image: json["image"],
-        propertyType: json["property_type"],
+        propertyType: json["property_type"]?.toString(),
         propertyTypeTitle: json["property_type_title"],
-        price: json["price"],
+        price: json["price"]?.toString(),
         isFavourite: json["IS_FAVOURITE"],
       );
 
