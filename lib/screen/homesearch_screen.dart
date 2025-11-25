@@ -156,14 +156,14 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
 
               // =================== RESULTS / FEATURED ===================
               searchController.searchText != ""
-                  ? searchController.isLoading
-                      ? _buildTabbedResults()
-                      : Center(
+                  ? !searchController.isLoading
+                      ? Center(
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: CircularProgressIndicator(color: blueColor),
                           ),
                         )
+                      : _buildTabbedResults()
                   : showFeaturedList(),
             ],
           ),

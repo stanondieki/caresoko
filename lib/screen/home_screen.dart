@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: padding,
                 child: GetBuilder<HomePageController>(builder: (_) {
-                  if (!(homePageController.isLoading || propartyHomePageController.isLoading)) {
+                  if (!homePageController.isLoading || !propartyHomePageController.isLoading) {
                     return SizedBox(
                       height: Get.height,
                       width: Get.width,
