@@ -1,4 +1,3 @@
-
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
@@ -25,22 +24,36 @@ import 'package:intl/intl.dart';
 /// Responsive Utilities
 /// =======================
 class Responsive {
-  static double width(BuildContext context) => MediaQuery.of(context).size.width;
+  static double width(BuildContext context) =>
+      MediaQuery.of(context).size.width;
   static bool isMobile(BuildContext context) => width(context) < 600;
-  static bool isTablet(BuildContext context) => width(context) >= 600 && width(context) < 1024;
+  static bool isTablet(BuildContext context) =>
+      width(context) >= 600 && width(context) < 1024;
   static bool isDesktop(BuildContext context) => width(context) >= 1024;
 
-  static double hPadding(BuildContext context) =>
-      isDesktop(context) ? 32 : isTablet(context) ? 24 : 12;
+  static double hPadding(BuildContext context) => isDesktop(context)
+      ? 32
+      : isTablet(context)
+          ? 24
+          : 12;
 
-  static double vSpacing(BuildContext context) =>
-      isDesktop(context) ? 24 : isTablet(context) ? 20 : 16;
+  static double vSpacing(BuildContext context) => isDesktop(context)
+      ? 24
+      : isTablet(context)
+          ? 20
+          : 16;
 
-  static int gridColumns(BuildContext context) =>
-      isDesktop(context) ? 2 : isTablet(context) ? 2 : 1;
+  static int gridColumns(BuildContext context) => isDesktop(context)
+      ? 2
+      : isTablet(context)
+          ? 2
+          : 1;
 
-  static double maxContentWidth(BuildContext context) =>
-      isDesktop(context) ? 1000 : isTablet(context) ? 820 : width(context);
+  static double maxContentWidth(BuildContext context) => isDesktop(context)
+      ? 1000
+      : isTablet(context)
+          ? 820
+          : width(context);
 }
 
 /// Centers and constrains page content for web/desktop while allowing full-bleed on mobile.
@@ -72,7 +85,8 @@ class SectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Theme.of(context).dividerColor.withOpacity(0.6)),
+        border:
+            Border.all(color: Theme.of(context).dividerColor.withOpacity(0.6)),
       ),
       padding: padding ?? const EdgeInsets.all(16),
       child: child,
@@ -120,7 +134,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -129,11 +144,13 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
     print(".....//.......//.....//" + manegeRoute);
     if (manegeRoute == "edit") {
       addHomecareController.readyPricing = addHomecareController.eReadyPricing!;
-      addHomecareController.agencyPricingController.text = addHomecareController.ePricing!;
+      addHomecareController.agencyPricingController.text =
+          addHomecareController.ePricing!;
       addHomecareController.privatePay = addHomecareController.ePrivatePay!;
       addHomecareController.insurance = addHomecareController.eInsurance!;
       addHomecareController.medicaid = addHomecareController.eMedicaid!;
-      addHomecareController.agencyLicenseNoController.text = addHomecareController.eAgencyLicenseNo!;
+      addHomecareController.agencyLicenseNoController.text =
+          addHomecareController.eAgencyLicenseNo!;
       setState(() {});
     }
 
@@ -179,7 +196,9 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
         backgroundColor: notifire.getblackwhitecolor,
         elevation: 0,
         title: Text(
-          manegeRoute == "Add" ? "Add Homecare Agency".tr : "Edit Homecare Agency".tr,
+          manegeRoute == "Add"
+              ? "Add Homecare Agency".tr
+              : "Edit Homecare Agency".tr,
           style: titleStyle,
         ),
         centerTitle: true,
@@ -211,7 +230,9 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                         ),
                         if (!Responsive.isMobile(context))
                           Text(
-                            manegeRoute == "Add" ? "Step 6 of 8".tr : "Step 5 of 7",
+                            manegeRoute == "Add"
+                                ? "Step 6 of 8".tr
+                                : "Step 5 of 7",
                             style: captionStyle,
                           ),
                       ],
@@ -235,7 +256,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                         crossAxisCount: crossAxisCount,
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
-                        childAspectRatio: Responsive.isMobile(context) ? 1 : 1.2,
+                        childAspectRatio:
+                            Responsive.isMobile(context) ? 1 : 1.2,
                       ),
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -244,7 +266,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Do you have ready pricing?".tr, style: sectionTitle),
+                              Text("Do you have ready pricing?".tr,
+                                  style: sectionTitle),
                               SizedBox(height: 8),
                               Column(
                                 children: [
@@ -253,14 +276,18 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                                       Transform.scale(
                                         scale: 1,
                                         child: Checkbox(
-                                          value: addHomecareController.readyPricing,
-                                          side: const BorderSide(color: Color(0xffC5CAD4)),
+                                          value: addHomecareController
+                                              .readyPricing,
+                                          side: const BorderSide(
+                                              color: Color(0xffC5CAD4)),
                                           activeColor: blueColor,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                           ),
                                           onChanged: (_) {
-                                            addHomecareController.readyPricing = true;
+                                            addHomecareController.readyPricing =
+                                                true;
                                             setState(() {});
                                           },
                                         ),
@@ -277,19 +304,24 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                                   ),
                                   Divider(thickness: 1),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Transform.scale(
                                         scale: 1,
                                         child: Checkbox(
-                                          value: !addHomecareController.readyPricing,
-                                          side: const BorderSide(color: Color(0xffC5CAD4)),
+                                          value: !addHomecareController
+                                              .readyPricing,
+                                          side: const BorderSide(
+                                              color: Color(0xffC5CAD4)),
                                           activeColor: blueColor,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                           ),
                                           onChanged: (_) {
-                                            addHomecareController.readyPricing = false;
+                                            addHomecareController.readyPricing =
+                                                false;
                                             setState(() {});
                                           },
                                         ),
@@ -316,25 +348,29 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                                   decoration: BoxDecoration(
                                     color: notifire.getblackwhitecolor,
                                     borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(color: notifire.getborderColor),
+                                    border: Border.all(
+                                        color: notifire.getborderColor),
                                   ),
                                   child: TextFormField(
-                                    controller: addHomecareController.agencyPricingController,
+                                    controller: addHomecareController
+                                        .agencyPricingController,
                                     minLines: 5,
                                     keyboardType: TextInputType.multiline,
                                     maxLines: null,
                                     cursorColor: notifire.getwhiteblackcolor,
-                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     decoration: InputDecoration(
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: blueColor),
+                                        borderSide:
+                                            BorderSide(color: blueColor),
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       contentPadding: EdgeInsets.all(12),
                                       border: InputBorder.none,
                                       hintText:
-                                      "Pricing breakdown (per hr/day/week/month) with different service packages (e.g., full care, partial care, day-only)."
-                                          .tr,
+                                          "Pricing breakdown (per hr/day/week/month) with different service packages (e.g., full care, partial care, day-only)."
+                                              .tr,
                                       hintStyle: TextStyle(
                                         fontFamily: FontFamily.gilroyMedium,
                                         fontSize: 15,
@@ -348,7 +384,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                                     validator: (value) {
                                       if (addHomecareController.readyPricing &&
                                           (value == null || value.isEmpty)) {
-                                        return 'Please Break Down Your Pricing'.tr;
+                                        return 'Please Break Down Your Pricing'
+                                            .tr;
                                       }
                                       return null;
                                     },
@@ -364,12 +401,14 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                             children: [
                               textfield(
                                 type: "License Number".tr,
-                                controller: addHomecareController.agencyLicenseNoController,
+                                controller: addHomecareController
+                                    .agencyLicenseNoController,
                                 labelText: "License Number".tr,
                                 textInputType: TextInputType.text,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please Enter Your License Number'.tr;
+                                    return 'Please Enter Your License Number'
+                                        .tr;
                                   }
                                   return null;
                                 },
@@ -396,7 +435,9 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                         SectionCard(
                           child: _binaryOptionBlock(
                             context: context,
-                            title: "Do you accept private payments from clients?".tr,
+                            title:
+                                "Do you accept private payments from clients?"
+                                    .tr,
                             value: addHomecareController.privatePay,
                             onYes: () {
                               addHomecareController.privatePay = true;
@@ -428,7 +469,9 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                         SectionCard(
                           child: _binaryOptionBlock(
                             context: context,
-                            title: "Do you support Medicaid as a payment option?".tr,
+                            title:
+                                "Do you support Medicaid as a payment option?"
+                                    .tr,
                             value: addHomecareController.medicaid,
                             onYes: () {
                               addHomecareController.medicaid = true;
@@ -468,17 +511,20 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                               ),
                               onclick: () {
                                 addHomecareController.agencyLicenseNo =
-                                    addHomecareController.agencyLicenseNoController.text;
+                                    addHomecareController
+                                        .agencyLicenseNoController.text;
                                 addHomecareController.pricing =
-                                    addHomecareController.agencyPricingController.text;
+                                    addHomecareController
+                                        .agencyPricingController.text;
 
                                 // If you want to enforce validation before continuing, uncomment:
                                 // if (!(_formKey.currentState?.validate() ?? false)) return;
 
-                                Get.toNamed(
-                                  Routes.addHomecareScreen7,
-                                  arguments: {"add": manegeRoute},
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   Routes.addHomecareScreen7,
+                                //   arguments: {"add": manegeRoute},
+                                // );
                               },
                             ),
                           ),
@@ -529,7 +575,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                 value: value,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onYes(),
               ),
             ),
@@ -545,7 +592,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
                 value: !value,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onNo(),
               ),
             ),
@@ -557,7 +605,8 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
   }
 
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
       setState(() {});
@@ -653,7 +702,6 @@ class _AddHomeCareScreen6State extends State<AddHomeCareScreen6> {
     );
   }
 }
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

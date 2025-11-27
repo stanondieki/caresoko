@@ -21,7 +21,7 @@ class ListOfAgenciesScreen extends StatefulWidget {
 
 class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
   final ListOfAgenciesController listOfAgenciesController =
-  Get.put(ListOfAgenciesController());
+      Get.put(ListOfAgenciesController());
   final AddHomecareController addHomecareController = Get.find();
 
   late ColorNotifire notifire;
@@ -49,8 +49,8 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
     final crossAxisCount = width >= 1400
         ? 3
         : width >= 1100
-        ? 2
-        : 1;
+            ? 2
+            : 1;
 
     return Scaffold(
       backgroundColor: notifire.getfevAndSearch,
@@ -75,10 +75,11 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(
-                  Routes.addHomecareScreen1,
-                  arguments: {"add": "Add"},
-                );
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(
+                //   Routes.addHomecareScreen1,
+                //   arguments: {"add": "Add"},
+                // );
               },
               child: Container(
                 height: 50,
@@ -101,21 +102,25 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
               padding: EdgeInsets.symmetric(horizontal: horizPad),
               child: GetBuilder<ListOfAgenciesController>(builder: (context) {
                 final isLoaded = listOfAgenciesController.isLodding;
-                final list = listOfAgenciesController.agencyListInfo?.agencylist ?? [];
+                final list =
+                    listOfAgenciesController.agencyListInfo?.agencylist ?? [];
 
                 if (!isLoaded) {
                   return Container(
-                    decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                    decoration:
+                        BoxDecoration(color: notifire.getblackwhitecolor),
                     child: const Center(child: CircularProgressIndicator()),
                   );
                 }
 
                 if (list.isEmpty) {
                   return Container(
-                    decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                    decoration:
+                        BoxDecoration(color: notifire.getblackwhitecolor),
                     child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -128,7 +133,8 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
                             SizedBox(
                               width: Get.width * 0.80,
                               child: Text(
-                                "Sorry, there is no any nearby \n category or data not found".tr,
+                                "Sorry, there is no any nearby \n category or data not found"
+                                    .tr,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: notifire.getgreycolor,
@@ -148,31 +154,32 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
                   decoration: BoxDecoration(color: notifire.getblackwhitecolor),
                   child: crossAxisCount == 1
                       ? ListView.builder(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
-                    itemCount: list.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (ctx, index) => _agencyCard(
-                      context: ctx, // ✅ passes real BuildContext
-                      index: index,
-                      isWide: false,
-                    ),
-                  )
+                          padding: const EdgeInsets.only(top: 10, bottom: 20),
+                          itemCount: list.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (ctx, index) => _agencyCard(
+                            context: ctx, // ✅ passes real BuildContext
+                            index: index,
+                            isWide: false,
+                          ),
+                        )
                       : GridView.builder(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 2.9,
-                    ),
-                    itemCount: list.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (ctx, index) => _agencyCard(
-                      context: ctx, // ✅ passes real BuildContext
-                      index: index,
-                      isWide: true,
-                    ),
-                  ),
+                          padding: const EdgeInsets.only(top: 10, bottom: 20),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 2.9,
+                          ),
+                          itemCount: list.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (ctx, index) => _agencyCard(
+                            context: ctx, // ✅ passes real BuildContext
+                            index: index,
+                            isWide: true,
+                          ),
+                        ),
                 );
 
                 // return Container(
@@ -253,7 +260,8 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
             eTransportation1: agency.transportation == 1,
             eMemoryCare1: agency.memoryCare == 1,
             ePalliativeCare1: agency.palliativeCare == 1,
-            eChronicConditionManagement1: agency.chronicConditionManagement == 1,
+            eChronicConditionManagement1:
+                agency.chronicConditionManagement == 1,
             ePostHospitalizationCare1: agency.postHospitalizationCare == 1,
             eRespiteCare1: agency.respiteCare == 1,
             eStaffAvailability1: agency.staffAvailability ?? "",
@@ -285,10 +293,11 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
           print("Stack trace: $stackTrace");
         }
 
-        Get.toNamed(
-          Routes.addHomecareScreen1,
-          arguments: {"add": "edit"},
-        );
+        // COMMENTED OUT: Advert functionality disabled
+        // Get.toNamed(
+        //   Routes.addHomecareScreen1,
+        //   arguments: {"add": "edit"},
+        // );
       },
       child: Container(
         height: 125,
@@ -343,7 +352,8 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset("assets/images/Rating.png", height: 12, width: 12),
+                        Image.asset("assets/images/Rating.png",
+                            height: 12, width: 12),
                         const SizedBox(width: 4),
                         Text(
                           "${agency.rate}",
@@ -415,8 +425,6 @@ class _ListOfAgenciesScreenState extends State<ListOfAgenciesScreen> {
     );
   }
 }
-
-
 
 // // ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, prefer_interpolation_to_compose_strings, avoid_print
 //

@@ -57,7 +57,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -84,13 +85,18 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
               (addPropertiesController.eNoOfSharedRooms ?? 0).toString();
 
           // Preselect features from fList (comma-separated titles)
-          final titles = (addPropertiesController.fList).split(",").map((e) => e.trim()).toSet();
-          final facilities = dashBoardController.facilityInfo?.facilitylist ?? [];
+          final titles = (addPropertiesController.fList)
+              .split(",")
+              .map((e) => e.trim())
+              .toSet();
+          final facilities =
+              dashBoardController.facilityInfo?.facilitylist ?? [];
           addPropertiesController.selectedFeaturesIndexes.clear();
           for (final f in facilities) {
             if (titles.contains(f.title)) {
               final id = f.id;
-              if (id != null) addPropertiesController.selectedFeaturesIndexes.add(id);
+              if (id != null)
+                addPropertiesController.selectedFeaturesIndexes.add(id);
             }
           }
         });
@@ -98,7 +104,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
         print("Edit prefill error: $e\n$stackTrace");
       }
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) => getdarkmodepreviousstate());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => getdarkmodepreviousstate());
   }
 
   @override
@@ -115,7 +122,9 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
         backgroundColor: notifire.getblackwhitecolor,
         elevation: 0,
         title: Text(
-          manegeRoute == "Add" ? "Add Home Or Facility".tr : "Edit Home Or Facility".tr,
+          manegeRoute == "Add"
+              ? "Add Home Or Facility".tr
+              : "Edit Home Or Facility".tr,
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -135,17 +144,20 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
             final bool isDesktop = width >= 1100;
 
             // Page sizing
-            final double maxContentWidth = isDesktop ? 1100 : (isTablet ? 900 : width);
+            final double maxContentWidth =
+                isDesktop ? 1100 : (isTablet ? 900 : width);
             final EdgeInsets pagePadding = EdgeInsets.symmetric(
               horizontal: isPhone ? 12 : 20,
               vertical: isPhone ? 0 : 8,
             );
 
             // Form field width (two columns on larger screens)
-            final double fieldMaxWidth = isPhone ? width - 24 : (maxContentWidth - 20) / 2;
+            final double fieldMaxWidth =
+                isPhone ? width - 24 : (maxContentWidth - 20) / 2;
 
             // Features grid columns
-            final facilities = dashBoardController.facilityInfo?.facilitylist ?? [];
+            final facilities =
+                dashBoardController.facilityInfo?.facilitylist ?? [];
             final int featureCols = isPhone ? 2 : (isTablet ? 3 : 4);
 
             return Center(
@@ -161,18 +173,24 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Container(
-                              decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                              decoration: BoxDecoration(
+                                  color: notifire.getblackwhitecolor),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: 10),
                                   _h1("Home Features"),
                                   SizedBox(height: 20),
-                                  _step(isAdd: manegeRoute == "Add", stepAdd: "Step 2 of 8", stepEdit: "Step 2 of 7"),
+                                  _step(
+                                      isAdd: manegeRoute == "Add",
+                                      stepAdd: "Step 2 of 8",
+                                      stepEdit: "Step 2 of 7"),
                                   SizedBox(height: 10),
                                   _h2("Help Prospects Understand Your Home"),
                                   SizedBox(height: 10),
-                                  Divider(height: 0.5, color: notifire.getgreycolor),
+                                  Divider(
+                                      height: 0.5,
+                                      color: notifire.getgreycolor),
                                   SizedBox(height: 16),
 
                                   // ====== FORM GRID (Wrap) ======
@@ -182,14 +200,18 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                     children: [
                                       _boxed(
                                         width: fieldMaxWidth,
-                                        label: "How many residents can your home house?",
+                                        label:
+                                            "How many residents can your home house?",
                                         child: textfield(
                                           labelText: "Home Capacity".tr,
-                                          controller: addPropertiesController.propertyCapacityController,
+                                          controller: addPropertiesController
+                                              .propertyCapacityController,
                                           textInputType: TextInputType.number,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Please Enter Home Capacity'.tr;
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Home Capacity'
+                                                  .tr;
                                             }
                                             return null;
                                           },
@@ -197,14 +219,18 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                       ),
                                       _boxed(
                                         width: fieldMaxWidth,
-                                        label: "How many beds do you have available?",
+                                        label:
+                                            "How many beds do you have available?",
                                         child: textfield(
                                           labelText: "Beds Available".tr,
-                                          controller: addPropertiesController.propertyBedsController,
+                                          controller: addPropertiesController
+                                              .propertyBedsController,
                                           textInputType: TextInputType.number,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Please Enter Beds Available'.tr;
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Beds Available'
+                                                  .tr;
                                             }
                                             return null;
                                           },
@@ -217,26 +243,35 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                   _h2("Do you have private rooms available?"),
                                   SizedBox(height: 8),
                                   _binaryChoice(
-                                    value: addPropertiesController.privateRoomsAvailable,
+                                    value: addPropertiesController
+                                        .privateRoomsAvailable,
                                     onYes: () {
-                                      setState(() => addPropertiesController.privateRoomsAvailable = true);
+                                      setState(() => addPropertiesController
+                                          .privateRoomsAvailable = true);
                                     },
                                     onNo: () {
-                                      setState(() => addPropertiesController.privateRoomsAvailable = false);
+                                      setState(() => addPropertiesController
+                                          .privateRoomsAvailable = false);
                                     },
                                   ),
 
-                                  if (addPropertiesController.privateRoomsAvailable) ...[
+                                  if (addPropertiesController
+                                      .privateRoomsAvailable) ...[
                                     _boxed(
-                                      width: isPhone ? fieldMaxWidth : (maxContentWidth - 20) / 2,
-                                      label: "How many private rooms do you have available?",
+                                      width: isPhone
+                                          ? fieldMaxWidth
+                                          : (maxContentWidth - 20) / 2,
+                                      label:
+                                          "How many private rooms do you have available?",
                                       child: textfield(
                                         labelText: "Private Rooms Available".tr,
-                                        controller: addPropertiesController.noOfPrivateRoomsController,
+                                        controller: addPropertiesController
+                                            .noOfPrivateRoomsController,
                                         textInputType: TextInputType.number,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Please Enter No Of Private Rooms'.tr;
+                                            return 'Please Enter No Of Private Rooms'
+                                                .tr;
                                           }
                                           return null;
                                         },
@@ -246,12 +281,17 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                     _h2("Do the private rooms have their own bathrooms & toilets?"),
                                     SizedBox(height: 8),
                                     _binaryChoice(
-                                      value: addPropertiesController.privateRoomsHaveOwnBathroom,
+                                      value: addPropertiesController
+                                          .privateRoomsHaveOwnBathroom,
                                       onYes: () {
-                                        setState(() => addPropertiesController.privateRoomsHaveOwnBathroom = true);
+                                        setState(() => addPropertiesController
+                                                .privateRoomsHaveOwnBathroom =
+                                            true);
                                       },
                                       onNo: () {
-                                        setState(() => addPropertiesController.privateRoomsHaveOwnBathroom = false);
+                                        setState(() => addPropertiesController
+                                                .privateRoomsHaveOwnBathroom =
+                                            false);
                                       },
                                     ),
                                   ],
@@ -260,26 +300,35 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                   _h2("Do you have shared rooms available?"),
                                   SizedBox(height: 8),
                                   _binaryChoice(
-                                    value: addPropertiesController.sharedRoomsAvailable,
+                                    value: addPropertiesController
+                                        .sharedRoomsAvailable,
                                     onYes: () {
-                                      setState(() => addPropertiesController.sharedRoomsAvailable = true);
+                                      setState(() => addPropertiesController
+                                          .sharedRoomsAvailable = true);
                                     },
                                     onNo: () {
-                                      setState(() => addPropertiesController.sharedRoomsAvailable = false);
+                                      setState(() => addPropertiesController
+                                          .sharedRoomsAvailable = false);
                                     },
                                   ),
 
-                                  if (addPropertiesController.sharedRoomsAvailable)
+                                  if (addPropertiesController
+                                      .sharedRoomsAvailable)
                                     _boxed(
-                                      width: isPhone ? fieldMaxWidth : (maxContentWidth - 20) / 2,
-                                      label: "How many shared rooms do you have available?",
+                                      width: isPhone
+                                          ? fieldMaxWidth
+                                          : (maxContentWidth - 20) / 2,
+                                      label:
+                                          "How many shared rooms do you have available?",
                                       child: textfield(
                                         labelText: "Shared Rooms Available".tr,
-                                        controller: addPropertiesController.noOfSharedRoomsController,
+                                        controller: addPropertiesController
+                                            .noOfSharedRoomsController,
                                         textInputType: TextInputType.number,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Please Enter No Of Shared Rooms'.tr;
+                                            return 'Please Enter No Of Shared Rooms'
+                                                .tr;
                                           }
                                           return null;
                                         },
@@ -292,12 +341,14 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
 
                                   // ====== FEATURES GRID (responsive) ======
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
                                     child: GridView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: facilities.length,
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: featureCols,
                                         crossAxisSpacing: 12,
                                         mainAxisSpacing: 12,
@@ -305,28 +356,41 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                       ),
                                       itemBuilder: (context, index) {
                                         final f = facilities[index];
-                                        final selected = addPropertiesController.selectedFeaturesIndexes.contains(f.id);
+                                        final selected = addPropertiesController
+                                            .selectedFeaturesIndexes
+                                            .contains(f.id);
                                         return InkWell(
                                           onTap: () {
                                             final id = f.id;
                                             if (id == null) return;
                                             if (selected) {
-                                              addPropertiesController.selectedFeaturesIndexes.remove(id);
+                                              addPropertiesController
+                                                  .selectedFeaturesIndexes
+                                                  .remove(id);
                                             } else {
-                                              addPropertiesController.selectedFeaturesIndexes.add(id);
+                                              addPropertiesController
+                                                  .selectedFeaturesIndexes
+                                                  .add(id);
                                             }
                                             setState(() {});
                                           },
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               border: Border.all(
-                                                color: selected ? blueColor : notifire.getborderColor,
+                                                color: selected
+                                                    ? blueColor
+                                                    : notifire.getborderColor,
                                               ),
-                                              color: selected ? const Color(0xFFeef4ff) : notifire.getblackwhitecolor,
+                                              color: selected
+                                                  ? const Color(0xFFeef4ff)
+                                                  : notifire.getblackwhitecolor,
                                             ),
-                                            padding: EdgeInsets.symmetric(horizontal: 12),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12),
                                             child: Row(
                                               children: [
                                                 Checkbox(
@@ -335,36 +399,52 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                                     final id = f.id;
                                                     if (id == null) return;
                                                     if (selected) {
-                                                      addPropertiesController.selectedFeaturesIndexes.remove(id);
+                                                      addPropertiesController
+                                                          .selectedFeaturesIndexes
+                                                          .remove(id);
                                                     } else {
-                                                      addPropertiesController.selectedFeaturesIndexes.add(id);
+                                                      addPropertiesController
+                                                          .selectedFeaturesIndexes
+                                                          .add(id);
                                                     }
                                                     setState(() {});
                                                   },
-                                                  side: const BorderSide(color: Color(0xffC5CAD4)),
+                                                  side: const BorderSide(
+                                                      color: Color(0xffC5CAD4)),
                                                   activeColor: blueColor,
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
                                                 ),
                                                 Expanded(
                                                   child: Text(
                                                     f.title ?? "",
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: TextStyle(
-                                                      fontFamily: FontFamily.gilroyMedium,
+                                                      fontFamily: FontFamily
+                                                          .gilroyMedium,
                                                       fontSize: 15,
-                                                      color: notifire.getwhiteblackcolor,
+                                                      color: notifire
+                                                          .getwhiteblackcolor,
                                                     ),
                                                   ),
                                                 ),
                                                 SizedBox(width: 8),
                                                 CircleAvatar(
                                                   radius: 18,
-                                                  backgroundColor: const Color(0xFFeef4ff),
+                                                  backgroundColor:
+                                                      const Color(0xFFeef4ff),
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(6.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            6.0),
                                                     child: Image.network(
                                                       "${Config.imageUrl}${f.img ?? ""}",
-                                                      errorBuilder: (_, __, ___) => SizedBox.shrink(),
+                                                      errorBuilder:
+                                                          (_, __, ___) =>
+                                                              SizedBox.shrink(),
                                                     ),
                                                   ),
                                                 ),
@@ -379,7 +459,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                   SizedBox(height: 24),
                                   // ====== NEXT BUTTON ======
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: isPhone ? 24 : 35),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: isPhone ? 24 : 35),
                                     child: GestButton(
                                       Width: double.infinity,
                                       height: 55,
@@ -394,22 +475,37 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                       ),
                                       onclick: () {
                                         // Safe parsing
-                                        addPropertiesController.propertyCapacity =
-                                            int.tryParse(addPropertiesController.propertyCapacityController.text) ?? 0;
+                                        addPropertiesController
+                                            .propertyCapacity = int.tryParse(
+                                                addPropertiesController
+                                                    .propertyCapacityController
+                                                    .text) ??
+                                            0;
 
                                         addPropertiesController.propertyBeds =
-                                            int.tryParse(addPropertiesController.propertyBedsController.text) ?? 0;
+                                            int.tryParse(addPropertiesController
+                                                    .propertyBedsController
+                                                    .text) ??
+                                                0;
 
-                                        addPropertiesController.noOfPrivateRooms =
-                                            int.tryParse(addPropertiesController.noOfPrivateRoomsController.text) ?? 0;
+                                        addPropertiesController
+                                            .noOfPrivateRooms = int.tryParse(
+                                                addPropertiesController
+                                                    .noOfPrivateRoomsController
+                                                    .text) ??
+                                            0;
+                                        addPropertiesController
+                                            .noOfSharedRooms = int.tryParse(
+                                                addPropertiesController
+                                                    .noOfSharedRoomsController
+                                                    .text) ??
+                                            0;
 
-                                        addPropertiesController.noOfSharedRooms =
-                                            int.tryParse(addPropertiesController.noOfSharedRoomsController.text) ?? 0;
-
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen3,
-                                          arguments: {"add": manegeRoute},
-                                        );
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(
+                                        //   Routes.addPropertyScreen3,
+                                        //   arguments: {"add": manegeRoute},
+                                        // );
 
                                         // Keep your (optional) validation flow here if you want to enforce before navigation.
                                       },
@@ -435,42 +531,47 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
 
   // ---------- Headings & small helpers ----------
   Widget _h1(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 18,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 18,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _h2(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
-  Widget _step({required bool isAdd, required String stepAdd, required String stepEdit}) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      (isAdd ? stepAdd : stepEdit).tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+  Widget _step(
+          {required bool isAdd,
+          required String stepAdd,
+          required String stepEdit}) =>
+      Padding(
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          (isAdd ? stepAdd : stepEdit).tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
-  Widget _boxed({required double width, required String label, required Widget child}) {
+  Widget _boxed(
+      {required double width, required String label, required Widget child}) {
     return SizedBox(
       width: width,
       child: Column(
@@ -510,7 +611,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                 value: value,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onYes(),
               ),
             ),
@@ -537,7 +639,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                 value: !value,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onNo(),
               ),
             ),
@@ -557,7 +660,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
 
   // ---------- Image picker (unchanged) ----------
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
       setState(() {});
@@ -612,7 +716,8 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
         ),
         decoration: InputDecoration(
           hintText: labelText,
-          hintStyle: TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+          hintStyle: TextStyle(
+              color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: blueColor),
             borderRadius: BorderRadius.circular(15),
@@ -632,8 +737,6 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

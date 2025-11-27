@@ -79,7 +79,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
 
   // ✅ explicit double types; also replaces previous dynamic/parse crash
   Future<void> _onAddMarkerButtonPressed(double lat, double lng) async {
-    final iconBytes = await _loadMarkerBytes("assets/images/location_pin.png", 80);
+    final iconBytes =
+        await _loadMarkerBytes("assets/images/location_pin.png", 80);
     markers
       ..clear()
       ..add(Marker(
@@ -97,7 +98,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
     final placemarks = await placemarkFromCoordinates(latitude, longitude);
     final p = placemarks.first;
 
-    addHomecareController.agencyAddress = '${p.name}, ${p.locality}, ${p.country}';
+    addHomecareController.agencyAddress =
+        '${p.name}, ${p.locality}, ${p.country}';
     addHomecareController.agencyZipCode = p.postalCode ?? '';
     addHomecareController.agencyCountry = p.country ?? '';
     addHomecareController.agencyCity = p.locality ?? '';
@@ -114,7 +116,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
         addHomecareController.lat = addHomecareController.elat;
         addHomecareController.long = addHomecareController.elong;
         // Pre-fill display address (safe even if rev-geo fails later)
-        _reverseGeocodeAndSet(addHomecareController.elat, addHomecareController.elong);
+        _reverseGeocodeAndSet(
+            addHomecareController.elat, addHomecareController.elong);
       } catch (e, st) {
         // ignore but log
         // print("init error: $e\n$st");
@@ -131,9 +134,9 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
 
     final media = MediaQuery.of(context);
     final width = media.size.width;
-    final isWide = width >= 900;                 // desktop/tablet
-    final sidePad = isWide ? 24.0 : 10.0;        // larger gutters on web
-    final contentMaxWidth = 1100.0;              // center column width cap
+    final isWide = width >= 900; // desktop/tablet
+    final sidePad = isWide ? 24.0 : 10.0; // larger gutters on web
+    final contentMaxWidth = 1100.0; // center column width cap
     final cardPad = EdgeInsets.symmetric(horizontal: sidePad);
 
     final initialTarget = (manegeRoute == "Add")
@@ -151,7 +154,9 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          manegeRoute == "Add" ? "Add Homecare Agency".tr : "Edit Homecare Agency".tr,
+          manegeRoute == "Add"
+              ? "Add Homecare Agency".tr
+              : "Edit Homecare Agency".tr,
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -179,7 +184,9 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
                           const SizedBox(height: 12),
                           _title("Let's Start Your Client-Finding Journey".tr),
                           const SizedBox(height: 16),
-                          _subtitle(manegeRoute == "Add" ? "Step 1 of 8".tr : "Step 1 of 7".tr),
+                          _subtitle(manegeRoute == "Add"
+                              ? "Step 1 of 8".tr
+                              : "Step 1 of 7".tr),
                           const SizedBox(height: 8),
                           _sectionHeader("A Little About Your Agency".tr),
                           const SizedBox(height: 12),
@@ -189,10 +196,12 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
                           // Agency Name
                           _field(
                             label: "Agency Name".tr,
-                            controller: addHomecareController.agencyNameController,
+                            controller:
+                                addHomecareController.agencyNameController,
                             hint: "Agency Name".tr,
-                            validator: (v) =>
-                            (v == null || v.isEmpty) ? 'Please Enter Agency Name'.tr : null,
+                            validator: (v) => (v == null || v.isEmpty)
+                                ? 'Please Enter Agency Name'.tr
+                                : null,
                           ),
 
                           const SizedBox(height: 16),
@@ -212,7 +221,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
                                 borderRadius: BorderRadius.circular(15),
                                 child: GoogleMap(
                                   gestureRecognizers: {
-                                    Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
+                                    Factory<OneSequenceGestureRecognizer>(
+                                        () => EagerGestureRecognizer()),
                                   },
                                   initialCameraPosition: CameraPosition(
                                     target: initialTarget,
@@ -221,15 +231,18 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
                                   mapType: MapType.normal,
                                   markers: markers,
                                   onTap: (pos) async {
-                                    await _onAddMarkerButtonPressed(pos.latitude, pos.longitude);
-                                    await _reverseGeocodeAndSet(pos.latitude, pos.longitude);
+                                    await _onAddMarkerButtonPressed(
+                                        pos.latitude, pos.longitude);
+                                    await _reverseGeocodeAndSet(
+                                        pos.latitude, pos.longitude);
                                     addHomecareController.update();
                                   },
                                   myLocationEnabled: true,
                                   zoomGesturesEnabled: true,
                                   tiltGesturesEnabled: true,
                                   zoomControlsEnabled: true,
-                                  onMapCreated: (c) => setState(() => mapController1 = c),
+                                  onMapCreated: (c) =>
+                                      setState(() => mapController1 = c),
                                 ),
                               ),
                             ),
@@ -239,7 +252,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
 
                           // NEXT button (centered, responsive left/right padding)
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: isWide ? 160 : 35),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: isWide ? 160 : 35),
                             child: GestButton(
                               Width: double.infinity,
                               height: 55,
@@ -254,13 +268,15 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
                               ),
                               onclick: () {
                                 addHomecareController.agencyName =
-                                    addHomecareController.agencyNameController.text;
+                                    addHomecareController
+                                        .agencyNameController.text;
                                 // You can validate if you want:
                                 // if (!(_formKey.currentState?.validate() ?? false)) return;
-                                Get.toNamed(
-                                  Routes.addHomecareScreen2,
-                                  arguments: {"add": manegeRoute},
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   Routes.addHomecareScreen2,
+                                //   arguments: {"add": manegeRoute},
+                                // );
                               },
                             ),
                           ),
@@ -282,40 +298,40 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
   // ---------- Small UI helpers (clean & reusable) ----------
 
   Widget _title(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 20,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 20,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _subtitle(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _sectionHeader(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _field({
     required String label,
@@ -346,7 +362,10 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
             ),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: const TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+              hintStyle: const TextStyle(
+                  color: Colors.grey,
+                  fontFamily: "Gilroy Medium",
+                  fontSize: 16),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
                 borderRadius: BorderRadius.circular(15),
@@ -369,7 +388,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
 
   // (Kept for future: image picker if you add in step-1 later)
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
       final imageFile = File(pickedFile.path);
@@ -379,8 +399,6 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
     }
   }
 }
-
-
 
 // class AddHomeCareScreen1 extends StatefulWidget {
 //   const AddHomeCareScreen1({super.key});

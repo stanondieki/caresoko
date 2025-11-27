@@ -68,10 +68,11 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
             child: InkWell(
               borderRadius: BorderRadius.circular(999),
               onTap: () {
-                Get.toNamed(
-                  Routes.addExtraImageScreen,
-                  arguments: {"add": "Add"},
-                );
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(
+                //   Routes.addExtraImageScreen,
+                //   arguments: {"add": "Add"},
+                // );
               },
               child: Container(
                 height: 50,
@@ -134,7 +135,7 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                               notifire: notifire,
                               title: items[index].propertyTitle ?? "",
                               imageUrl:
-                              "${Config.imageUrl}${items[index].image ?? ""}",
+                                  "${Config.imageUrl}${items[index].image ?? ""}",
                               onEdit: () {
                                 controller.getEditExtraImage(
                                   img: items[index].image ?? "",
@@ -142,8 +143,9 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                                   selectPro: items[index].propertyTitle ?? "",
                                   pId: items[index].propertyId ?? "",
                                 );
-                                Get.toNamed(Routes.addExtraImageScreen,
-                                    arguments: {"add": "edit"});
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(Routes.addExtraImageScreen,
+                                //     arguments: {"add": "edit"});
                               },
                               // Sizes tuned for mobile
                               height: 90,
@@ -157,12 +159,12 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                         // Grid config responsive
                         // Target card width ~ 360px
                         final int crossAxisCount =
-                        (maxWidth / 360).floor().clamp(2, 6);
+                            (maxWidth / 360).floor().clamp(2, 6);
                         final double childAspectRatio = 3.6 / 1.2; // wide card
 
                         return GridView.builder(
                           gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: crossAxisCount,
                             mainAxisSpacing: 16,
                             crossAxisSpacing: 16,
@@ -173,15 +175,15 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                           itemBuilder: (context, index) {
                             // Scale card sizes a bit for larger screens
                             final double cardHeight =
-                            isDesktop ? 110 : (isTablet ? 100 : 90);
+                                isDesktop ? 110 : (isTablet ? 100 : 90);
                             final double thumbW =
-                            isDesktop ? 100 : (isTablet ? 90 : 80);
+                                isDesktop ? 100 : (isTablet ? 90 : 80);
 
                             return _ExtraImageTile(
                               notifire: notifire,
                               title: items[index].propertyTitle ?? "",
                               imageUrl:
-                              "${Config.imageUrl}${items[index].image ?? ""}",
+                                  "${Config.imageUrl}${items[index].image ?? ""}",
                               onEdit: () {
                                 controller.getEditExtraImage(
                                   img: items[index].image ?? "",
@@ -189,8 +191,9 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                                   selectPro: items[index].propertyTitle ?? "",
                                   pId: items[index].propertyId ?? "",
                                 );
-                                Get.toNamed(Routes.addExtraImageScreen,
-                                    arguments: {"add": "edit"});
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(Routes.addExtraImageScreen,
+                                //     arguments: {"add": "edit"});
                               },
                               height: cardHeight,
                               thumbWidth: thumbW,
@@ -242,7 +245,8 @@ class _EmptyState extends StatelessWidget {
             SizedBox(
               width: size.width * (isNarrow ? 0.85 : 0.60),
               child: Text(
-                "Sorry, there is no any nearby \n category or data not found".tr,
+                "Sorry, there is no any nearby \n category or data not found"
+                    .tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: notifire.getgreycolor,
@@ -306,12 +310,12 @@ class _ExtraImageTileState extends State<_ExtraImageTile> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: cardElevation > 0
             ? [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ]
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ]
             : null,
       ),
       child: Row(
@@ -400,7 +404,6 @@ class _ExtraImageTileState extends State<_ExtraImageTile> {
     return card;
   }
 }
-
 
 // // ignore_for_file: sort_child_properties_last, prefer_const_literals_to_create_immutables, prefer_const_constructors
 //

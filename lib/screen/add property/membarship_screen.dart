@@ -37,31 +37,38 @@ class MembershipScreen extends StatefulWidget {
 class _MembershipScreenState extends State<MembershipScreen> {
   // Controllers
   final DashBoardController dashBoardController = Get.find();
-  final ReviewlistController reviewlistController = Get.put(ReviewlistController());
+  final ReviewlistController reviewlistController =
+      Get.put(ReviewlistController());
   final MyEarningController myEarningController = Get.find();
   final ListOfPropertiController listOfPropertiController = Get.find();
-  final ListOfPropertyController listOfPropertyController = Get.put(ListOfPropertyController());
-  final ListOfAgenciesController listOfAgenciesController = Get.put(ListOfAgenciesController());
+  final ListOfPropertyController listOfPropertyController =
+      Get.put(ListOfPropertyController());
+  final ListOfAgenciesController listOfAgenciesController =
+      Get.put(ListOfAgenciesController());
   final ExtraImageController extraImageController = Get.find();
   final GalleryCategoryController galleryCategoryController = Get.find();
   final GalleryImageController galleryImageController = Get.find();
   final BookingController bookingController = Get.find();
   final EnquiryController enquiryController = Get.find();
 
+  // COMMENTED OUT: Advert functionality disabled
   // Routes
-  final List<String> routesList = [
-    Routes.listOfPropertyScreen,
-    Routes.listOfAgenciesScreen,
-    Routes.listOfPropartyScreen,
-    Routes.extraImageScreen,
-    Routes.galleryCategoryScreen,
-    Routes.galleryImageScreen,
-    Routes.bookingScreen,
-    Routes.myEarningsScreen,
-    Routes.enquiryScreen,
-    Routes.reviewlistScreen,
-    Routes.myPayoutScreen,
-  ];
+  // final List<String> routesList = [
+  //   Routes.listOfPropertyScreen,
+  //   Routes.listOfAgenciesScreen,
+  //   Routes.listOfPropartyScreen,
+  //   Routes.extraImageScreen,
+  //   Routes.galleryCategoryScreen,
+  //   Routes.galleryImageScreen,
+  //   Routes.bookingScreen,
+  //   Routes.myEarningsScreen,
+  //   Routes.enquiryScreen,
+  //   Routes.reviewlistScreen,
+  //   Routes.myPayoutScreen,
+  // ];
+
+  // Empty routes list as a placeholder
+  final List<String> routesList = [];
 
   late ColorNotifire notifire;
 
@@ -110,19 +117,19 @@ class _MembershipScreenState extends State<MembershipScreen> {
         ],
         leading: getData.read("userType") == "admin"
             ? GestureDetector(
-          onTap: () => logoutSheet(),
-          child: Image.asset(
-            "assets/images/Logout.png",
-            height: 20,
-            width: 30,
-            scale: 3,
-            color: notifire.getredcolor,
-          ),
-        )
+                onTap: () => logoutSheet(),
+                child: Image.asset(
+                  "assets/images/Logout.png",
+                  height: 20,
+                  width: 30,
+                  scale: 3,
+                  color: notifire.getredcolor,
+                ),
+              )
             : BackButton(
-          color: notifire.getwhiteblackcolor,
-          onPressed: () => Get.back(),
-        ),
+                color: notifire.getwhiteblackcolor,
+                onPressed: () => Get.back(),
+              ),
         title: Image.asset("assets/images/applogo.png", height: 30, width: 30),
       ),
 
@@ -163,14 +170,16 @@ class _MembershipScreenState extends State<MembershipScreen> {
                               vertical: 12,
                             ),
                             child: _ResponsiveDashboardGrid(
-                              data: dashBoardController.dashBoardInfo!.reportData,
+                              data:
+                                  dashBoardController.dashBoardInfo!.reportData,
                               isAdmin: getData.read("userType") == "admin",
                               currency: currency,
                               lCode: getData.read("lCode"),
                               onTap: (index) async {
                                 // Original navigation logic
                                 if (index == 9) {
-                                  final value = await reviewlistController.reviewlist();
+                                  final value =
+                                      await reviewlistController.reviewlist();
                                   if (value["Result"] == "true") {
                                     Get.toNamed(routesList[index]);
                                   } else {
@@ -192,10 +201,12 @@ class _MembershipScreenState extends State<MembershipScreen> {
                                   extraImageController.getExtraImageList();
                                   Get.toNamed(routesList[index]);
                                 } else if (index == 4) {
-                                  galleryCategoryController.getGalleryCategoryList();
+                                  galleryCategoryController
+                                      .getGalleryCategoryList();
                                   Get.toNamed(routesList[index]);
                                 } else if (index == 5) {
-                                  await galleryImageController.getGalleryImageList();
+                                  await galleryImageController
+                                      .getGalleryImageList();
                                   Get.toNamed(routesList[index]);
                                 } else if (index == 6) {
                                   bookingController.getBookingStatusWise();
@@ -284,7 +295,6 @@ class _MembershipScreenState extends State<MembershipScreen> {
                     ),
                   ),
                   SizedBox(height: isPhone ? 10 : 12),
-
                   if (isPhone) ...[
                     _SecondaryActionButton(
                       text: "Cancle".tr,
@@ -323,7 +333,8 @@ class _MembershipScreenState extends State<MembershipScreen> {
                           child: _PrimaryActionButton(
                             text: "Yes, Logout".tr,
                             onTap: () async {
-                              final prefs = await SharedPreferences.getInstance();
+                              final prefs =
+                                  await SharedPreferences.getInstance();
                               save('isLoginBack', true);
                               await prefs.remove('Firstuser');
                               getData.remove("UserLogin");
@@ -333,7 +344,8 @@ class _MembershipScreenState extends State<MembershipScreen> {
                               tokenemty();
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (_) => LoginScreen()),
+                                MaterialPageRoute(
+                                    builder: (_) => LoginScreen()),
                               );
                             },
                           ),
@@ -341,7 +353,6 @@ class _MembershipScreenState extends State<MembershipScreen> {
                       ],
                     ),
                   ],
-
                   SizedBox(height: isPhone ? 10 : 14),
                 ],
               ),
@@ -368,7 +379,6 @@ class _MembershipScreenState extends State<MembershipScreen> {
 
 // ========================= SUPPORTING WIDGETS =========================
 
-
 class _ResponsiveDashboardGrid extends StatelessWidget {
   final List<dynamic> data;
   final bool isAdmin;
@@ -386,13 +396,15 @@ class _ResponsiveDashboardGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorNotifire notifire = Provider.of<ColorNotifire>(context, listen: true);
+    final ColorNotifire notifire =
+        Provider.of<ColorNotifire>(context, listen: true);
 
     // Indices to hide from the management page
+    // 2  -> My Adverts (Disabled by user request)
     // 7  -> My Earnings
     // 8  -> My Enquiries
     // 10 -> My Payout
-    const hiddenIndices = <int>{7, 8, 10};
+    const hiddenIndices = <int>{2, 7, 8, 10};
 
     // Respect original logic: admin already hides last item (data.length - 1)
     final int baseLength = isAdmin ? data.length - 1 : data.length;
@@ -614,16 +626,19 @@ class _StatCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
               child: Column(
-                crossAxisAlignment: rtl ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    rtl ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
                   // Value – single line, shrink if needed
                   FittedBox(
                     fit: BoxFit.scaleDown,
-                    alignment: rtl ? Alignment.centerRight : Alignment.centerLeft,
+                    alignment:
+                        rtl ? Alignment.centerRight : Alignment.centerLeft,
                     child: Text(
                       value,
                       maxLines: 1,
-                      textDirection: rtl ? TextDirection.rtl : TextDirection.ltr,
+                      textDirection:
+                          rtl ? TextDirection.rtl : TextDirection.ltr,
                       style: TextStyle(
                         fontSize: 24,
                         fontFamily: FontFamily.gilroyExtraBold,
@@ -641,7 +656,8 @@ class _StatCard extends StatelessWidget {
                         title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        textDirection: rtl ? TextDirection.rtl : TextDirection.ltr,
+                        textDirection:
+                            rtl ? TextDirection.rtl : TextDirection.ltr,
                         style: TextStyle(
                           fontSize: 14.5,
                           fontFamily: FontFamily.gilroyBold,
@@ -656,7 +672,8 @@ class _StatCard extends StatelessWidget {
 
                   // Bottom chevron
                   Align(
-                    alignment: rtl ? Alignment.centerLeft : Alignment.centerRight,
+                    alignment:
+                        rtl ? Alignment.centerLeft : Alignment.centerRight,
                     child: Icon(
                       rtl ? Icons.chevron_left : Icons.chevron_right,
                       size: 20,
@@ -708,7 +725,8 @@ class _SecondaryActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final ColorNotifire notifire;
-  const _SecondaryActionButton({required this.text, required this.onTap, required this.notifire});
+  const _SecondaryActionButton(
+      {required this.text, required this.onTap, required this.notifire});
 
   @override
   Widget build(BuildContext context) {
@@ -736,8 +754,6 @@ class _SecondaryActionButton extends StatelessWidget {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, unnecessary_brace_in_string_interps, unnecessary_string_interpolations
 //

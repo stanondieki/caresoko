@@ -20,8 +20,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class AddHomeCareScreen3 extends StatefulWidget {
   const AddHomeCareScreen3({super.key});
 
@@ -77,8 +75,8 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
 
     final media = MediaQuery.of(context);
     final width = media.size.width;
-    final isWide = width >= 900;            // desktop/tablet breakpoint
-    final sidePad = isWide ? 24.0 : 10.0;   // nicer gutters on web
+    final isWide = width >= 900; // desktop/tablet breakpoint
+    final sidePad = isWide ? 24.0 : 10.0; // nicer gutters on web
     const contentMaxWidth = 1100.0;
 
     return Scaffold(
@@ -92,7 +90,9 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          manegeRoute == "Add" ? "Add Homecare Agency".tr : "Edit Homecare Agency".tr,
+          manegeRoute == "Add"
+              ? "Add Homecare Agency".tr
+              : "Edit Homecare Agency".tr,
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -120,43 +120,59 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
                           const SizedBox(height: 12),
                           _title("Staff Availability".tr),
                           const SizedBox(height: 16),
-                          _subtitle(manegeRoute == "Add" ? "Step 3 of 8".tr : "Step 3 of 7".tr),
+                          _subtitle(manegeRoute == "Add"
+                              ? "Step 3 of 8".tr
+                              : "Step 3 of 7".tr),
                           const SizedBox(height: 10),
-                          _sectionHeader("Your Hours, Weekend & Holiday Availability".tr),
+                          _sectionHeader(
+                              "Your Hours, Weekend & Holiday Availability".tr),
                           const SizedBox(height: 10),
                           Divider(height: 0.5, color: notifire.getgreycolor),
                           const SizedBox(height: 20),
 
-                          _sectionHeader("Staff Availability (Select all that apply)".tr),
+                          _sectionHeader(
+                              "Staff Availability (Select all that apply)".tr),
                           const SizedBox(height: 8),
 
                           // Availability options (multi-select)
                           _availabilityCheckbox(
                             label: "24/7",
-                            selected: addHomecareController.staffAvailability.contains("24/7"),
+                            selected: addHomecareController.staffAvailability
+                                .contains("24/7"),
                             onChanged: () {
-                              final set = addHomecareController.staffAvailability;
-                              set.contains("24/7") ? set.remove("24/7") : set.add("24/7");
+                              final set =
+                                  addHomecareController.staffAvailability;
+                              set.contains("24/7")
+                                  ? set.remove("24/7")
+                                  : set.add("24/7");
                               setState(() {});
                             },
                           ),
                           _dividerInset(),
                           _availabilityCheckbox(
                             label: "Part-time",
-                            selected: addHomecareController.staffAvailability.contains("Part-time"),
+                            selected: addHomecareController.staffAvailability
+                                .contains("Part-time"),
                             onChanged: () {
-                              final set = addHomecareController.staffAvailability;
-                              set.contains("Part-time") ? set.remove("Part-time") : set.add("Part-time");
+                              final set =
+                                  addHomecareController.staffAvailability;
+                              set.contains("Part-time")
+                                  ? set.remove("Part-time")
+                                  : set.add("Part-time");
                               setState(() {});
                             },
                           ),
                           _dividerInset(),
                           _availabilityCheckbox(
                             label: "Live-in",
-                            selected: addHomecareController.staffAvailability.contains("Live-in"),
+                            selected: addHomecareController.staffAvailability
+                                .contains("Live-in"),
                             onChanged: () {
-                              final set = addHomecareController.staffAvailability;
-                              set.contains("Live-in") ? set.remove("Live-in") : set.add("Live-in");
+                              final set =
+                                  addHomecareController.staffAvailability;
+                              set.contains("Live-in")
+                                  ? set.remove("Live-in")
+                                  : set.add("Live-in");
                               setState(() {});
                             },
                           ),
@@ -167,7 +183,8 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
                           _question("Do you provide care on weekends?".tr),
                           _yesNo(
                             value: addHomecareController.weekendCoverage,
-                            onChanged: (v) => setState(() => addHomecareController.weekendCoverage = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.weekendCoverage = v),
                           ),
                           const SizedBox(height: 14),
 
@@ -175,14 +192,16 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
                           _question("Do you operate on holidays?".tr),
                           _yesNo(
                             value: addHomecareController.holidayCoverage,
-                            onChanged: (v) => setState(() => addHomecareController.holidayCoverage = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.holidayCoverage = v),
                           ),
 
                           const SizedBox(height: 22),
 
                           // NEXT
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: isWide ? 160 : 35),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: isWide ? 160 : 35),
                             child: GestButton(
                               Width: double.infinity,
                               height: 55,
@@ -196,10 +215,11 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
                                 fontWeight: FontWeight.bold,
                               ),
                               onclick: () {
-                                Get.toNamed(
-                                  Routes.addHomecareScreen4,
-                                  arguments: {"add": manegeRoute},
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   Routes.addHomecareScreen4,
+                                //   arguments: {"add": manegeRoute},
+                                // );
                               },
                             ),
                           ),
@@ -221,52 +241,52 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
   // ---------- UI helpers (responsive-friendly) ----------
 
   Widget _title(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 20,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 20,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _subtitle(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _sectionHeader(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _question(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _availabilityCheckbox({
     required String label,
@@ -296,9 +316,9 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
   }
 
   Widget _dividerInset() => const Padding(
-    padding: EdgeInsets.symmetric(horizontal: 20),
-    child: Divider(thickness: 1),
-  );
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Divider(thickness: 1),
+      );
 
   /// Reusable Yes/No control that matches your styling
   Widget _yesNo({
@@ -314,7 +334,8 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
               value: value,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(true),
             ),
             Text(
@@ -335,7 +356,8 @@ class _AddHomeCareScreen3State extends State<AddHomeCareScreen3> {
               value: !value,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(false),
             ),
             Text(

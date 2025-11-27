@@ -162,9 +162,10 @@ class _BookingScreenState extends State<BookingScreen>
                                           ?.statuswise![index].bookId ??
                                       "",
                                 );
-                                Get.toNamed(
-                                  Routes.eReceiptProScreen,
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   Routes.eReceiptProScreen,
+                                // );
                               },
                               child: Container(
                                 height: 150,
@@ -582,9 +583,10 @@ class _BookingScreenState extends State<BookingScreen>
                                                         .bookId ??
                                                     "",
                                               );
-                                              Get.toNamed(
-                                                Routes.eReceiptProScreen,
-                                              );
+                                              // COMMENTED OUT: Advert functionality disabled
+                                              // Get.toNamed(
+                                              //   Routes.eReceiptProScreen,
+                                              // );
                                             },
                                             child: Container(
                                               height: 35,

@@ -24,14 +24,18 @@ class _BoardingScreenState extends State<BoardingPage> {
 
     _currentPage = 0;
 
-    _slides = [
-      Slide("assets/images/addintro1.png", "Go Primium",
-          "List your villa and host people from around \n the world."),
-      Slide("assets/images/addintro2.png", "List any type of property",
-          "Aepartments to villas and everything in \n betwwen can be listed."),
-      Slide("assets/images/addintro3.png", "Go live",
-          "Embrace yourself to host travelers form \n across the globe."),
-    ];
+    // COMMENTED OUT: Advert posting functionality disabled
+    // _slides = [
+    //   Slide("assets/images/addintro1.png", "Go Primium",
+    //       "List your villa and host people from around \n the world."),
+    //   Slide("assets/images/addintro2.png", "List any type of property",
+    //       "Aepartments to villas and everything in \n betwwen can be listed."),
+    //   Slide("assets/images/addintro3.png", "Go live",
+    //       "Embrace yourself to host travelers form \n across the globe."),
+    // ];
+
+    // Show empty slides instead
+    _slides = [];
     _pageController = PageController(initialPage: _currentPage);
     super.initState();
   }
@@ -52,9 +56,7 @@ class _BoardingScreenState extends State<BoardingPage> {
       backgroundColor: notifire.getbgcolor,
       body: Column(
         children: <Widget>[
-          SizedBox(
-              height: MediaQuery.of(context).size.height *
-                  0.04),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.04),
           Container(
             height: MediaQuery.of(context).size.height / 1.9,
             width: MediaQuery.of(context).size.width,
@@ -143,8 +145,7 @@ class _BoardingScreenState extends State<BoardingPage> {
               children: <Widget>[
                 _buildPageIndicator(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height *
-                      0.06,
+                  height: MediaQuery.of(context).size.height * 0.06,
                 ),
                 _currentPage == 2
                     ? Padding(

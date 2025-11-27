@@ -24,22 +24,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Responsive Utilities
 /// =======================
 class Responsive {
-  static double width(BuildContext context) => MediaQuery.of(context).size.width;
+  static double width(BuildContext context) =>
+      MediaQuery.of(context).size.width;
   static bool isMobile(BuildContext context) => width(context) < 600;
-  static bool isTablet(BuildContext context) => width(context) >= 600 && width(context) < 1024;
+  static bool isTablet(BuildContext context) =>
+      width(context) >= 600 && width(context) < 1024;
   static bool isDesktop(BuildContext context) => width(context) >= 1024;
 
-  static double hPadding(BuildContext context) =>
-      isDesktop(context) ? 32 : isTablet(context) ? 24 : 12;
+  static double hPadding(BuildContext context) => isDesktop(context)
+      ? 32
+      : isTablet(context)
+          ? 24
+          : 12;
 
-  static double vSpacing(BuildContext context) =>
-      isDesktop(context) ? 24 : isTablet(context) ? 20 : 16;
+  static double vSpacing(BuildContext context) => isDesktop(context)
+      ? 24
+      : isTablet(context)
+          ? 20
+          : 16;
 
-  static double maxContentWidth(BuildContext context) =>
-      isDesktop(context) ? 1000 : isTablet(context) ? 820 : width(context);
+  static double maxContentWidth(BuildContext context) => isDesktop(context)
+      ? 1000
+      : isTablet(context)
+          ? 820
+          : width(context);
 
-  static int languagesCols(BuildContext context) =>
-      isDesktop(context) ? 3 : isTablet(context) ? 2 : 1;
+  static int languagesCols(BuildContext context) => isDesktop(context)
+      ? 3
+      : isTablet(context)
+          ? 2
+          : 1;
 }
 
 /// Centers and constrains page content for web/desktop while allowing full-bleed on mobile.
@@ -71,7 +85,8 @@ class SectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Theme.of(context).dividerColor.withOpacity(0.6)),
+        border:
+            Border.all(color: Theme.of(context).dividerColor.withOpacity(0.6)),
       ),
       padding: padding ?? const EdgeInsets.all(16),
       child: child,
@@ -119,7 +134,8 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -132,7 +148,7 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
         addHomecareController.eLanguages!.split(","),
       );
       addHomecareController.whyTheyStandOutController.text =
-      addHomecareController.eWhyTheyStandOut!;
+          addHomecareController.eWhyTheyStandOut!;
       setState(() {});
     }
     getdarkmodepreviousstate();
@@ -178,7 +194,9 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
         backgroundColor: notifire.getblackwhitecolor,
         elevation: 0,
         title: Text(
-          manegeRoute == "Add" ? "Add Homecare Agency".tr : "Edit Homecare Agency".tr,
+          manegeRoute == "Add"
+              ? "Add Homecare Agency".tr
+              : "Edit Homecare Agency".tr,
           style: titleStyle,
         ),
         centerTitle: true,
@@ -210,7 +228,9 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
                         ),
                         if (!Responsive.isMobile(context))
                           Text(
-                            manegeRoute == "Add" ? "Step 7 of 8".tr : "Step 6 of 7".tr,
+                            manegeRoute == "Add"
+                                ? "Step 7 of 8".tr
+                                : "Step 6 of 7".tr,
                             style: captionStyle,
                           ),
                       ],
@@ -218,13 +238,16 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
                     if (Responsive.isMobile(context)) ...[
                       SizedBox(height: vs * 0.5),
                       Text(
-                        manegeRoute == "Add" ? "Step 7 of 8".tr : "Step 6 of 7".tr,
+                        manegeRoute == "Add"
+                            ? "Step 7 of 8".tr
+                            : "Step 6 of 7".tr,
                         style: captionStyle,
                       ),
                     ],
 
                     SizedBox(height: vs * 0.8),
-                    Text("Why Your Agency Stands Out From The Rest".tr, style: sectionTitle),
+                    Text("Why Your Agency Stands Out From The Rest".tr,
+                        style: sectionTitle),
                     SizedBox(height: 8),
                     Divider(height: 0.5, color: notifire.getgreycolor),
                     SizedBox(height: vs),
@@ -244,20 +267,24 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
                             decoration: BoxDecoration(
                               color: notifire.getblackwhitecolor,
                               borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: notifire.getborderColor),
+                              border:
+                                  Border.all(color: notifire.getborderColor),
                             ),
                             child: TextFormField(
-                              controller: addHomecareController.whyTheyStandOutController
-                                ..text = addHomecareController.whyTheyStandOutController.text
-                                // Replace both \\ and \ followed by n with real line breaks
+                              controller: addHomecareController
+                                  .whyTheyStandOutController
+                                ..text = addHomecareController
+                                    .whyTheyStandOutController.text
+                                    // Replace both \\ and \ followed by n with real line breaks
                                     .replaceAll(RegExp(r'\\+n'), '\n')
-                                // Also replace leftover single backslashes with spaces (optional cleanup)
+                                    // Also replace leftover single backslashes with spaces (optional cleanup)
                                     .replaceAll('\\', ''),
                               minLines: 6,
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
                               cursorColor: notifire.getwhiteblackcolor,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: blueColor),
@@ -332,7 +359,8 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
                           Text("Languages".tr, style: sectionTitle),
                           SizedBox(height: 8),
                           Text(
-                            "Select all languages your staff speaks fluently to accommodate diverse client needs".tr,
+                            "Select all languages your staff speaks fluently to accommodate diverse client needs"
+                                .tr,
                             style: bodyStyle,
                           ),
                           SizedBox(height: 12),
@@ -341,26 +369,34 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
                           GridView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: addHomecareController.languagesSpoken.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            itemCount:
+                                addHomecareController.languagesSpoken.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: Responsive.languagesCols(context),
                               crossAxisSpacing: 12,
                               mainAxisSpacing: 8,
                               // taller tiles for readability
-                              childAspectRatio: Responsive.isMobile(context) ? 6 : 5.5,
+                              childAspectRatio:
+                                  Responsive.isMobile(context) ? 6 : 5.5,
                             ),
                             itemBuilder: (context, index) {
-                              final lang = addHomecareController.languagesSpoken[index];
-                              final selected = addHomecareController.selectedLanguages.contains(lang);
+                              final lang =
+                                  addHomecareController.languagesSpoken[index];
+                              final selected = addHomecareController
+                                  .selectedLanguages
+                                  .contains(lang);
                               return _languageTile(
                                 context: context,
                                 label: lang,
                                 selected: selected,
                                 onChanged: () {
                                   if (selected) {
-                                    addHomecareController.selectedLanguages.remove(lang);
+                                    addHomecareController.selectedLanguages
+                                        .remove(lang);
                                   } else {
-                                    addHomecareController.selectedLanguages.add(lang);
+                                    addHomecareController.selectedLanguages
+                                        .add(lang);
                                   }
                                   setState(() {});
                                 },
@@ -394,15 +430,17 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
                               ),
                               onclick: () {
                                 addHomecareController.whyTheyStandOut =
-                                    addHomecareController.whyTheyStandOutController.text;
+                                    addHomecareController
+                                        .whyTheyStandOutController.text;
 
                                 // If you want to enforce validation before continuing, uncomment:
                                 // if (!(_formKey.currentState?.validate() ?? false)) return;
 
-                                Get.toNamed(
-                                  Routes.addHomecareScreen8,
-                                  arguments: {"add": manegeRoute},
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   Routes.addHomecareScreen8,
+                                //   arguments: {"add": manegeRoute},
+                                // );
                               },
                             ),
                           ),
@@ -438,7 +476,8 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
               value: selected,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(),
             ),
           ),
@@ -459,7 +498,8 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
   }
 
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
       setState(() {});
@@ -555,8 +595,6 @@ class _AddHomeCareScreen7State extends State<AddHomeCareScreen7> {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

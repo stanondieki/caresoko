@@ -23,7 +23,7 @@ class ListOfPropertyScreen extends StatefulWidget {
 
 class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
   final ListOfPropertiController listOfPropertiController =
-  Get.put(ListOfPropertiController());
+      Get.put(ListOfPropertiController());
   final AddPropertiesController addPropertiesController = Get.find();
 
   late ColorNotifire notifire;
@@ -38,7 +38,8 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
   void initState() {
     super.initState();
     // Delay to ensure Provider is ready
-    WidgetsBinding.instance.addPostFrameCallback((_) => getdarkmodepreviousstate());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => getdarkmodepreviousstate());
   }
 
   @override
@@ -59,7 +60,8 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
             final isDesktop = width >= 1100;
 
             // Content max width for large screens
-            final double maxContentWidth = isDesktop ? 1200 : (isTablet ? 900 : width);
+            final double maxContentWidth =
+                isDesktop ? 1200 : (isTablet ? 900 : width);
 
             // Grid columns and item height scale
             final int gridCount = isPhone ? 1 : (isTablet ? 2 : 3);
@@ -78,7 +80,8 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
                       return _buildLoading(notifire);
                     }
 
-                    final items = listOfPropertiController.propListInfo?.proplist ?? [];
+                    final items =
+                        listOfPropertiController.propListInfo?.proplist ?? [];
                     if (items.isEmpty) {
                       return _buildEmpty(notifire);
                     }
@@ -104,7 +107,8 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
                     // Grid layout for tablet/desktop
                     final double gutter = 16;
                     final double cardWidth =
-                        (maxContentWidth - (gutter * (gridCount + 1))) / gridCount;
+                        (maxContentWidth - (gutter * (gridCount + 1))) /
+                            gridCount;
                     // Keep roughly similar height/ratio but allow it to grow on wide screens
                     final double cardHeight = math.max(160, cardWidth * 0.5);
 
@@ -123,7 +127,7 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
                           notifire: notifire,
                           item: item,
                           denseText: isTablet, // tighten text a touch on 2-col
-                          expandLayout: true,   // roomier layout for grid
+                          expandLayout: true, // roomier layout for grid
                           imageAspectRatio: isDesktop ? 1.2 : 1.0,
                           onTap: () => _onEditTap(index),
                         );
@@ -165,13 +169,15 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
               },
               borderRadius: BorderRadius.circular(25),
               child: Container(
                 height: 50,
                 width: 50,
-                decoration: BoxDecoration(color: Color(0xff3D5BF6), shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                    color: Color(0xff3D5BF6), shape: BoxShape.circle),
                 child: Icon(Icons.add, color: WhiteColor),
               ),
             ),
@@ -206,15 +212,18 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
             SizedBox(
               width: math.min(Get.width * 0.80, 480),
               child: Text(
-                "Sorry, there is no any nearby \n category or data not found".tr,
+                "Sorry, there is no any nearby \n category or data not found"
+                    .tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: n.getgreycolor, fontFamily: FontFamily.gilroyBold),
+                style: TextStyle(
+                    color: n.getgreycolor, fontFamily: FontFamily.gilroyBold),
               ),
             ),
             SizedBox(height: 20),
             FilledButton(
               onPressed: () {
-                Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
               },
               child: Text("Add New Property".tr),
             ),
@@ -281,7 +290,8 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
       print("Edit mapping error: $e\n$st");
     }
 
-    Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "edit"});
+    // COMMENTED OUT: Advert functionality disabled
+    // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "edit"});
   }
 }
 
@@ -293,7 +303,8 @@ class _AddFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+        // COMMENTED OUT: Advert functionality disabled
+        // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
       },
       tooltip: 'Add property',
       backgroundColor: Color(0xff3D5BF6),
@@ -343,7 +354,9 @@ class _PropertyCardState extends State<_PropertyCard> {
       borderRadius: radius,
       child: AspectRatio(
         // Preserve a nice ratio on grids; fallback to fixed size on phones
-        aspectRatio: widget.expandLayout ? (widget.imageAspectRatio <= 0 ? 1 : widget.imageAspectRatio) : (imgWidth / imgHeight),
+        aspectRatio: widget.expandLayout
+            ? (widget.imageAspectRatio <= 0 ? 1 : widget.imageAspectRatio)
+            : (imgWidth / imgHeight),
         child: FadeInImage.assetNetwork(
           fadeInCurve: Curves.easeInCirc,
           placeholder: "assets/images/ezgif.com-crop.gif",
@@ -377,7 +390,8 @@ class _PropertyCardState extends State<_PropertyCard> {
             SizedBox(width: 4),
             Text(
               "${item.rate ?? ""}",
-              style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: blueColor),
+              style: TextStyle(
+                  fontFamily: FontFamily.gilroyMedium, color: blueColor),
             ),
           ],
         ),
@@ -428,7 +442,7 @@ class _PropertyCardState extends State<_PropertyCard> {
             child: image,
           )
         else
-        // In a grid card, place image at left with a comfortable width
+          // In a grid card, place image at left with a comfortable width
           Expanded(
             flex: 4,
             child: Padding(
@@ -470,13 +484,19 @@ class _PropertyCardState extends State<_PropertyCard> {
         border: Border.all(color: widget.notifire.getborderColor),
         borderRadius: radius,
         boxShadow: _hover
-            ? [BoxShadow(blurRadius: 18, spreadRadius: 0, offset: Offset(0, 8), color: Colors.black.withOpacity(0.08))]
+            ? [
+                BoxShadow(
+                    blurRadius: 18,
+                    spreadRadius: 0,
+                    offset: Offset(0, 8),
+                    color: Colors.black.withOpacity(0.08))
+              ]
             : [],
       ),
       child: Stack(
         children: [
           if (!widget.expandLayout)
-          // Phone/list: place rating on top of thumbnail
+            // Phone/list: place rating on top of thumbnail
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.all(0),
@@ -489,9 +509,15 @@ class _PropertyCardState extends State<_PropertyCard> {
                           height: 125,
                           width: 110,
                           margin: EdgeInsets.all(10),
-                          child: ClipRRect(borderRadius: BorderRadius.circular(15), child: image),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: image),
                         ),
-                        Positioned(top: 15, right: 20, child: _PhoneRatingBadge(value: "${item.rate ?? ""}")),
+                        Positioned(
+                            top: 15,
+                            right: 20,
+                            child:
+                                _PhoneRatingBadge(value: "${item.rate ?? ""}")),
                       ],
                     ),
                     Expanded(child: SizedBox.shrink()),
@@ -551,16 +577,14 @@ class _PhoneRatingBadge extends StatelessWidget {
           SizedBox(width: 4),
           Text(
             value,
-            style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: blueColor),
+            style: TextStyle(
+                fontFamily: FontFamily.gilroyMedium, color: blueColor),
           ),
         ],
       ),
     );
   }
 }
-
-
-
 
 // // ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, prefer_interpolation_to_compose_strings, avoid_print
 //

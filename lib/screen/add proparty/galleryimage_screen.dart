@@ -68,9 +68,10 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(Routes.addGalleryImageScreen, arguments: {
-                  "add": "Add",
-                });
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(Routes.addGalleryImageScreen, arguments: {
+                //   "add": "Add",
+                // });
               },
               child: Container(
                 height: 50,
@@ -99,7 +100,7 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
                       ? galleryImageController
                               .addGalleryInfo!.gallerylist.isNotEmpty
                           ? ListView.builder(
-                    padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 10),
                               itemCount: galleryImageController
                                   .addGalleryInfo?.gallerylist.length,
                               shrinkWrap: true,
@@ -124,14 +125,20 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
                                               child: FadeInImage.assetNetwork(
                                                 fadeInCurve: Curves.easeInCirc,
                                                 placeholder:
-                                                "assets/images/ezgif.com-crop.gif",
+                                                    "assets/images/ezgif.com-crop.gif",
                                                 height: 48,
                                                 width: 48,
-                                                imageErrorBuilder: (context, error, stackTrace) {
-                                                 return Image.asset("assets/images/ezgif.com-crop.gif",height: 48,width: 48,fit: BoxFit.cover,);
+                                                imageErrorBuilder: (context,
+                                                    error, stackTrace) {
+                                                  return Image.asset(
+                                                    "assets/images/ezgif.com-crop.gif",
+                                                    height: 48,
+                                                    width: 48,
+                                                    fit: BoxFit.cover,
+                                                  );
                                                 },
                                                 image:
-                                                "${Config.imageUrl}${galleryImageController.addGalleryInfo?.gallerylist[index].image ?? ""}",
+                                                    "${Config.imageUrl}${galleryImageController.addGalleryInfo?.gallerylist[index].image ?? ""}",
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -158,7 +165,8 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
                                                           FontFamily.gilroyBold,
                                                       fontSize: 16,
                                                     ),
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                   Text(
                                                     galleryImageController
@@ -169,8 +177,8 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
                                                     style: TextStyle(
                                                       color: notifire
                                                           .getwhiteblackcolor,
-                                                      fontFamily:
-                                                          FontFamily.gilroyMedium,
+                                                      fontFamily: FontFamily
+                                                          .gilroyMedium,
                                                     ),
                                                   ),
                                                 ],
@@ -225,13 +233,23 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
                                                         ?.gallerylist[index]
                                                         .categoryTitle ??
                                                     "";
-                                            galleryImageController.propertyWiseGalleryCat(proId: galleryImageController.addGalleryInfo?.gallerylist[index].id).then((value) {
-                                              Get.toNamed(
-                                                  Routes.addGalleryImageScreen,
-                                                  arguments: {
-                                                    "add": "edit",
-                                                  });
-                                            },);
+                                            galleryImageController
+                                                .propertyWiseGalleryCat(
+                                                    proId:
+                                                        galleryImageController
+                                                            .addGalleryInfo
+                                                            ?.gallerylist[index]
+                                                            .id)
+                                                .then(
+                                              (value) {
+                                                // COMMENTED OUT: Advert functionality disabled
+                                                // Get.toNamed(
+                                                //     Routes.addGalleryImageScreen,
+                                                //     arguments: {
+                                                //       "add": "edit",
+                                                //     });
+                                              },
+                                            );
                                           },
                                           child: Container(
                                             height: 35,

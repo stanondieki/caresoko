@@ -28,8 +28,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:gotocarefinder/Api/data_store.dart'; // for getData.read("UserLogin")
-import 'package:gotocarefinder/services/stripe_service.dart';
+// COMMENTED OUT: Advert functionality disabled
+// import 'package:http/http.dart' as http;
+// import 'package:gotocarefinder/Api/data_store.dart'; // for getData.read("UserLogin")
+// import 'package:gotocarefinder/services/stripe_service.dart';
 
 class AddPropertyScreen extends StatefulWidget {
   const AddPropertyScreen({super.key});
@@ -67,11 +69,11 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 
   /// Cross-platform toast (no plugins)
   Future<void> showToastMessage(
-      String message, {
-        String title = '',
-        bool error = false,
-        SnackPosition position = SnackPosition.BOTTOM,
-      }) async {
+    String message, {
+    String title = '',
+    bool error = false,
+    SnackPosition position = SnackPosition.BOTTOM,
+  }) async {
     if (Get.isSnackbarOpen) Get.back();
     Get.snackbar(
       title,
@@ -80,7 +82,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       margin: const EdgeInsets.all(12),
       borderRadius: 8,
       backgroundColor:
-      error ? const Color(0xFFE53935) : const Color(0xFF323232),
+          error ? const Color(0xFFE53935) : const Color(0xFF323232),
       colorText: Colors.white,
       duration: const Duration(seconds: 2),
     );
@@ -141,13 +143,13 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 
     if (!isEdit) {
       addPropertiesController.propertyAddress =
-      '${p.name}, ${p.locality}, ${p.country}';
+          '${p.name}, ${p.locality}, ${p.country}';
       addPropertiesController.propertyZipCode = p.postalCode ?? '';
       addPropertiesController.propertyCountry = p.country ?? '';
       addPropertiesController.propertyCity = p.locality ?? '';
     } else {
       addPropertiesController.ePropertyAddress =
-      '${p.name}, ${p.locality}, ${p.country}';
+          '${p.name}, ${p.locality}, ${p.country}';
       addPropertiesController.ePropertyZipCode = p.postalCode ?? '';
       addPropertiesController.ePropertyCountry = p.country ?? '';
       addPropertiesController.ePropertyCity = p.locality ?? '';
@@ -213,26 +215,28 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       for (var i = 0; i < fCsv.length; i++) {
         final csvTitle = fCsv[i].trim();
         final match =
-        facilities.firstWhereOrNull((f) => (f.title ?? '') == csvTitle);
+            facilities.firstWhereOrNull((f) => (f.title ?? '') == csvTitle);
         if (match != null) {
           addPropertiesController.selectedFacilities.add(match.id);
         }
       }
+
       ///
       ///
       propertyPurpose =
-      addPropertiesController.pbuySell == "2" ? "Sell" : "Rent Out";
+          addPropertiesController.pbuySell == "2" ? "Sell" : "Rent Out";
       selectProperty = addPropertiesController.pName;
-      selectCountry  = addPropertiesController.countryName;
+      selectCountry = addPropertiesController.countryName;
+
       ///
       selectProperty = addPropertiesController.pName;
       selectCountry = addPropertiesController.countryName;
 
       // property purpose + status
       propertyPurpose =
-      (addPropertiesController.pbuySell == "2") ? "Sell" : "Rent Out";
+          (addPropertiesController.pbuySell == "2") ? "Sell" : "Rent Out";
       slectStatus =
-      addPropertiesController.status == "1" ? "Publish" : "UnPublish";
+          addPropertiesController.status == "1" ? "Publish" : "UnPublish";
     } else {
       // ***** Only clear for Add mode *****
       addPropertiesController.emptyAllDetails();
@@ -344,7 +348,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             onChanged: (value) {
                               setState(() {
                                 addPropertiesController.pbuySell =
-                                (value == "Sell") ? "2" : "1";
+                                    (value == "Sell") ? "2" : "1";
                                 propertyPurpose = value ?? list.first;
                               });
                             },
@@ -357,10 +361,9 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             hint: "Select Property Type".tr,
                             items: dashBoardController.propartyTypeList,
                             onChanged: (value) {
-                              final types =
-                                  dashBoardController.propartyTypeInfo
-                                      ?.typelist ??
-                                      [];
+                              final types = dashBoardController
+                                      .propartyTypeInfo?.typelist ??
+                                  [];
                               for (final t in types) {
                                 if (value == t.title) {
                                   addPropertiesController.pType = t.id ?? "";
@@ -375,7 +378,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           _textfield(
                             type: "Property Name Or Title".tr,
                             controller:
-                            addPropertiesController.propertyTitleController,
+                                addPropertiesController.propertyTitleController,
                             labelText: "Property Name".tr,
                             validator: (v) => (v == null || v.isEmpty)
                                 ? 'Please Enter Property Title'.tr
@@ -399,19 +402,19 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 child: GoogleMap(
                                   gestureRecognizers: {
                                     Factory<OneSequenceGestureRecognizer>(
-                                            () => EagerGestureRecognizer())
+                                        () => EagerGestureRecognizer())
                                   },
                                   initialCameraPosition: CameraPosition(
                                     target: (!isEdit)
                                         ? const LatLng(47.751076, -120.740135)
                                         : LatLng(
-                                      _asDouble(
-                                          addPropertiesController.elat,
-                                          fallback: 0),
-                                      _asDouble(
-                                          addPropertiesController.elong,
-                                          fallback: 0),
-                                    ),
+                                            _asDouble(
+                                                addPropertiesController.elat,
+                                                fallback: 0),
+                                            _asDouble(
+                                                addPropertiesController.elong,
+                                                fallback: 0),
+                                          ),
                                     zoom: 13,
                                   ),
                                   mapType: MapType.normal,
@@ -431,7 +434,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                   tiltGesturesEnabled: true,
                                   zoomControlsEnabled: true,
                                   onMapCreated: (controller) => setState(
-                                          () => mapController1 = controller),
+                                      () => mapController1 = controller),
                                 ),
                               ),
                             ),
@@ -445,8 +448,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             controller: addPropertiesController
                                 .propertyDescriptionController,
                             hint:
-                            "Describe the property to your prospects. Highlight the living environment, available care services, key amenities, and any unique features that set it apart. Keep it clear and inviting to help prospects make an informed decision."
-                                .tr,
+                                "Describe the property to your prospects. Highlight the living environment, available care services, key amenities, and any unique features that set it apart. Keep it clear and inviting to help prospects make an informed decision."
+                                    .tr,
                             validator: (v) => (v == null || v.isEmpty)
                                 ? 'Please Enter Property Description'.tr
                                 : null,
@@ -456,7 +459,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           _textfield(
                             type: "How many beds does your property have?".tr,
                             controller:
-                            addPropertiesController.propertyBedsController,
+                                addPropertiesController.propertyBedsController,
                             labelText: "Number of beds".tr,
                             textInputType: TextInputType.number,
                             validator: (v) => (v == null || v.isEmpty)
@@ -478,11 +481,11 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             type: "Property Size (sq. ft.) - ".tr +
                                 (propertyPurpose == "Sell"
                                     ? "Enter the total square footage of the property to give potential buyers a sense of space"
-                                    .tr
+                                        .tr
                                     : "Enter the total square footage of the property to give potential tenants a sense of space"
-                                    .tr),
+                                        .tr),
                             controller:
-                            addPropertiesController.propertySizeController,
+                                addPropertiesController.propertySizeController,
                             labelText: "Property size".tr,
                             textInputType: TextInputType.number,
                             validator: (v) => (v == null || v.isEmpty)
@@ -496,7 +499,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           /// Facilities
                           GetBuilder<AddPropartiesController>(builder: (_) {
                             final fl = dashBoardController
-                                .propartyFacilityInfo?.facilitylist ??
+                                    .propartyFacilityInfo?.facilitylist ??
                                 [];
                             return ListView.separated(
                               itemCount: fl.length,
@@ -504,7 +507,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                               physics: const NeverScrollableScrollPhysics(),
                               separatorBuilder: (_, __) => Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 20),
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: Divider(thickness: 1),
                               ),
                               itemBuilder: (context, index) {
@@ -522,7 +525,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                       activeColor: blueColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(5)),
+                                              BorderRadius.circular(5)),
                                       onChanged: (_) {
                                         setState(() {
                                           if (selected) {
@@ -572,15 +575,15 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 ? "Selling Price".tr
                                 : "Property Rent".tr,
                             controller:
-                            addPropertiesController.propertyPriceController,
+                                addPropertiesController.propertyPriceController,
                             labelText: propertyPurpose == "Sell"
                                 ? "Price".tr
                                 : "Rent Amount".tr,
                             textInputType: TextInputType.number,
                             validator: (v) => (v == null || v.isEmpty)
                                 ? (propertyPurpose == "Sell"
-                                ? 'Please Enter The Selling Price'.tr
-                                : 'Please Enter The Rent Amount'.tr)
+                                    ? 'Please Enter The Selling Price'.tr
+                                    : 'Please Enter The Rent Amount'.tr)
                                 : null,
                           ),
 
@@ -588,10 +591,10 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           _textfield(
                             type: "Contact Number".tr,
                             controller:
-                            addPropertiesController.contactNumberController,
+                                addPropertiesController.contactNumberController,
                             labelText:
-                            "Enter a phone number prospects can contact you on"
-                                .tr,
+                                "Enter a phone number prospects can contact you on"
+                                    .tr,
                             textInputType: TextInputType.number,
                             validator: (v) => (v == null || v.isEmpty)
                                 ? 'Please Enter Mobile Number'.tr
@@ -634,8 +637,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     onChanged: (_) => setState(() =>
-                                    addPropertiesController.havePhotos =
-                                    true),
+                                        addPropertiesController.havePhotos =
+                                            true),
                                   ),
                                   Text(
                                     "Yes",
@@ -649,7 +652,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                               ),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 20),
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: Divider(thickness: 1),
                               ),
                               Row(
@@ -665,8 +668,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     onChanged: (_) => setState(() =>
-                                    addPropertiesController.havePhotos =
-                                    false),
+                                        addPropertiesController.havePhotos =
+                                            false),
                                   ),
                                   Expanded(
                                     child: Text(
@@ -686,7 +689,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 
                           SizedBox(
                             height:
-                            addPropertiesController.havePhotos ? 15 : 25,
+                                addPropertiesController.havePhotos ? 15 : 25,
                           ),
 
                           /// Booking photographers (if no photos)
@@ -719,24 +722,24 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       final TimeOfDay? selectedTime =
-                                      await Get.dialog(
+                                          await Get.dialog(
                                         Theme(
                                           data: Get.theme.copyWith(
                                             timePickerTheme:
-                                            TimePickerThemeData(
+                                                TimePickerThemeData(
                                               backgroundColor:
-                                              notifire.getblackwhitecolor,
+                                                  notifire.getblackwhitecolor,
                                               hourMinuteTextColor:
-                                              notifire.getwhiteblackcolor,
+                                                  notifire.getwhiteblackcolor,
                                               dialHandColor: blueColor,
                                               dialBackgroundColor: notifire
                                                   .getblackwhitecolor
                                                   .withOpacity(0.1),
                                               entryModeIconColor:
-                                              notifire.getwhiteblackcolor,
+                                                  notifire.getwhiteblackcolor,
                                             ),
                                             textButtonTheme:
-                                            TextButtonThemeData(
+                                                TextButtonThemeData(
                                               style: TextButton.styleFrom(
                                                   foregroundColor: blueColor),
                                             ),
@@ -756,7 +759,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                           selectedTime.minute,
                                         );
                                         final formattedTime =
-                                        DateFormat('hh:mm a').format(dt);
+                                            DateFormat('hh:mm a').format(dt);
                                         addPropertiesController
                                             .updateTime(formattedTime);
                                         setState(() {});
@@ -779,21 +782,21 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                           Expanded(
                                             child: Text(
                                               (addPropertiesController
-                                                  .propertyShootTime
-                                                  ?.isNotEmpty ??
-                                                  false)
+                                                          .propertyShootTime
+                                                          ?.isNotEmpty ??
+                                                      false)
                                                   ? addPropertiesController
-                                                  .propertyShootTime!
+                                                      .propertyShootTime!
                                                   : "Pick time".tr,
                                               style: TextStyle(
                                                 fontFamily:
-                                                FontFamily.gilroyMedium,
+                                                    FontFamily.gilroyMedium,
                                                 color: (addPropertiesController
-                                                    .propertyShootTime
-                                                    ?.isNotEmpty ??
-                                                    false)
+                                                            .propertyShootTime
+                                                            ?.isNotEmpty ??
+                                                        false)
                                                     ? notifire
-                                                    .getwhiteblackcolor
+                                                        .getwhiteblackcolor
                                                     : notifire.getgreycolor,
                                               ),
                                             ),
@@ -803,9 +806,9 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                             height: 25,
                                             width: 25,
                                             color: (addPropertiesController
-                                                .propertyShootTime
-                                                ?.isNotEmpty ??
-                                                false)
+                                                        .propertyShootTime
+                                                        ?.isNotEmpty ??
+                                                    false)
                                                 ? notifire.getwhiteblackcolor
                                                 : notifire.getgreycolor,
                                           ),
@@ -832,9 +835,9 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                   ),
                                   onChanged: (_) => setState(() {
                                     addPropertiesController
-                                        .consentToPhotographyTerms =
-                                    !addPropertiesController
-                                        .consentToPhotographyTerms;
+                                            .consentToPhotographyTerms =
+                                        !addPropertiesController
+                                            .consentToPhotographyTerms;
                                   }),
                                 ),
                                 Expanded(
@@ -886,7 +889,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 .propertyImagesPaths.isNotEmpty)
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 15),
+                                    const EdgeInsets.symmetric(horizontal: 15),
                                 child: SizedBox(
                                   height: 170,
                                   child: ListView.builder(
@@ -909,7 +912,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                                 right: 15),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(10),
+                                                  BorderRadius.circular(10),
                                               image: DecorationImage(
                                                 image: FileImage(File(path)),
                                                 fit: BoxFit.cover,
@@ -966,7 +969,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 addPropertiesController.status = "0";
                               }
                               setState(() =>
-                              slectStatus = value ?? propartyStatus.first);
+                                  slectStatus = value ?? propartyStatus.first);
                             },
                           ),
 
@@ -980,9 +983,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 height: 55,
                                 buttoncolor: blueColor,
                                 margin: const EdgeInsets.only(top: 5),
-                                buttontext: isEdit
-                                    ? "Update".tr
-                                    : "Create Advert".tr,
+                                buttontext:
+                                    isEdit ? "Update".tr : "Create Advert".tr,
                                 style: TextStyle(
                                   fontFamily: FontFamily.gilroyBold,
                                   color: WhiteColor,
@@ -991,232 +993,241 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 ),
 
                                 // IMPORTANT: GestButton uses `onclick`
+                                // COMMENTED OUT: Advert posting/updating functionality disabled
                                 onclick: () async {
-                                  if (!(_formKey.currentState?.validate() ??
-                                      false)) {
-                                    await showToastMessage(
-                                      "Please fill all required fields".tr,
-                                      error: true,
-                                    );
-                                    return;
-                                  }
-                                  if ((addPropertiesController.lat == null) ||
-                                      (addPropertiesController.long == null)) {
-                                    await showToastMessage(
-                                      "Please add your property location".tr,
-                                      error: true,
-                                    );
-                                    return;
-                                  }
+                                  await showToastMessage(
+                                    "Advert functionality is currently disabled"
+                                        .tr,
+                                    error: true,
+                                  );
+                                  return;
 
-                                  final user =
-                                      getData.read("UserLogin") ?? {};
-                                  final userId = user["id"].toString();
-
-                                  try {
-                                    if (isEdit) {
-                                      // --------- EDIT FLOW -> update-property.php ----------
-                                      final resp = await http.post(
-                                        Uri.parse(
-                                            "${baseUrl}update-property.php"),
-                                        headers: {
-                                          "Content-Type": "application/json"
-                                        },
-                                        body: jsonEncode({
-                                          "prop_id":
-                                          addPropertiesController.propId,
-                                          "uid": userId,
-                                          "status":
-                                          addPropertiesController.status,
-                                          "title": addPropertiesController
-                                              .propertyTitleController.text,
-                                          "price": addPropertiesController
-                                              .propertyPriceController.text,
-                                          "address": addPropertiesController
-                                              .propertyAddress,
-                                          "description":
-                                          addPropertiesController
-                                              .propertyDescriptionController
-                                              .text,
-                                          "ccount":
-                                          addPropertiesController
-                                              .propertyCity ??
-                                              "",
-                                          "ptype":
-                                          addPropertiesController.pType,
-                                          "facility": addPropertiesController
-                                              .selectedFacilities,
-                                          "beds": addPropertiesController
-                                              .propertyBedsController.text,
-                                          "bathroom":
-                                          addPropertiesController
-                                              .propertyBathroomsController
-                                              .text,
-                                          "sqft": addPropertiesController
-                                              .propertySizeController.text,
-                                          "rate": "0",
-                                          "latitude":
-                                          addPropertiesController.lat,
-                                          "longtitude":
-                                          addPropertiesController.long,
-                                          "mobile": addPropertiesController
-                                              .contactNumberController.text,
-                                          "plimit": "",
-                                          "country_id":
-                                          addPropertiesController
-                                              .countryId,
-                                          "pbuysell":
-                                          addPropertiesController.pbuySell,
-                                          "img": "0", // keep existing image
-                                        }),
-                                      );
-
-                                      print(
-                                          "update-property => ${resp.statusCode} ${resp.body}");
-
-                                      final data =
-                                      jsonDecode(resp.body.toString());
-
-                                      if (resp.statusCode != 200 ||
-                                          data["Result"] != "true") {
-                                        await showToastMessage(
-                                          data["ResponseMsg"] ??
-                                              "Could not update property",
-                                          error: true,
-                                        );
-                                        return;
-                                      }
-
-                                      await showToastMessage(
-                                          "Property updated successfully".tr);
-                                      Get.back(); // or refresh list
-                                    } else {
-                                      // --------- ADD FLOW -> create order + Stripe + finalize ----------
-                                      final orderResp = await http.post(
-                                        Uri.parse(
-                                            "${baseUrl}create-advert-order.php"),
-                                        headers: {
-                                          "Content-Type": "application/json"
-                                        },
-                                        body: jsonEncode({"uid": userId}),
-                                      );
-                                      print(
-                                          "create-advert-order => ${orderResp.statusCode} ${orderResp.body}");
-
-                                      final order =
-                                      jsonDecode(orderResp.body);
-                                      if (order["Result"] != "true") {
-                                        await showToastMessage(
-                                          order["ResponseMsg"] ??
-                                              "Could not create order",
-                                          error: true,
-                                        );
-                                        return;
-                                      }
-
-                                      final int orderId = int.parse(
-                                          order["order_id"].toString());
-                                      final int amount = int.parse(
-                                          order["amount"].toString());
-                                      final String currency =
-                                      (order["currency"] ?? "USD")
-                                          .toString();
-
-                                      final stripe = StripeService();
-                                      final bool paid =
-                                      await stripe.payOrder(
-                                          orderId, amount * 100, currency);
-
-                                      if (!paid) {
-                                        await showToastMessage("Payment Failed",
-                                            error: true);
-                                        return;
-                                      }
-
-                                      final advertResp = await http.post(
-                                        Uri.parse(
-                                            "${baseUrl}finalize-advert.php"),
-                                        headers: {
-                                          "Content-Type": "application/json"
-                                        },
-                                        body: jsonEncode({
-                                          "order_id": orderId,
-                                          "uid": userId,
-                                          "title": addPropertiesController
-                                              .propertyTitleController.text,
-                                          "price": addPropertiesController
-                                              .propertyPriceController.text,
-                                          "address": addPropertiesController
-                                              .propertyAddress,
-                                          "description":
-                                          addPropertiesController
-                                              .propertyDescriptionController
-                                              .text,
-                                          "ptype":
-                                          addPropertiesController.pType,
-                                          "facility": addPropertiesController
-                                              .selectedFacilities,
-                                          "beds": addPropertiesController
-                                              .propertyBedsController.text,
-                                          "bathroom":
-                                          addPropertiesController
-                                              .propertyBathroomsController
-                                              .text,
-                                          "sqft": addPropertiesController
-                                              .propertySizeController.text,
-                                          "pbuysell":
-                                          addPropertiesController.pbuySell,
-                                          "latitude":
-                                          addPropertiesController.lat,
-                                          "longtitude":
-                                          addPropertiesController.long,
-                                          "country_id":
-                                          addPropertiesController
-                                              .countryId,
-                                          "mobile": addPropertiesController
-                                              .contactNumberController.text,
-                                          "image": addPropertiesController
-                                                  .propertyImagesBase64.isNotEmpty
-                                              ? addPropertiesController
-                                                  .propertyImagesBase64.first
-                                              : "",
-                                        }),
-                                      );
-
-                                      print(
-                                          "finalize-advert => ${advertResp.statusCode} ${advertResp.body}");
-
-                                      if (advertResp.statusCode != 200) {
-                                        await showToastMessage(
-                                          "Server error while creating advert (code ${advertResp.statusCode})",
-                                          error: true,
-                                        );
-                                        return;
-                                      }
-
-                                      final adv =
-                                      jsonDecode(advertResp.body.toString());
-                                      if (adv["Result"] == "true") {
-                                        await showToastMessage(
-                                            "Advert created successfully".tr);
-                                        Get.offAllNamed("/success");
-                                      } else {
-                                        await showToastMessage(
-                                          adv["ResponseMsg"] ??
-                                              "Could not create advert",
-                                          error: true,
-                                        );
-                                      }
-                                    }
-                                  } catch (e) {
-                                    print(
-                                        "${isEdit ? "Update" : "Create"} advert error: $e");
-                                    await showToastMessage(
-                                      "Something went wrong while processing request"
-                                          .tr,
-                                      error: true,
-                                    );
-                                  }
+                                  // ORIGINAL CODE COMMENTED OUT BELOW:
+                                  // if (!(_formKey.currentState?.validate() ??
+                                  //     false)) {
+                                  //   await showToastMessage(
+                                  //     "Please fill all required fields".tr,
+                                  //     error: true,
+                                  //   );
+                                  //   return;
+                                  // }
+                                  // if ((addPropertiesController.lat == null) ||
+                                  //     (addPropertiesController.long == null)) {
+                                  //   await showToastMessage(
+                                  //     "Please add your property location".tr,
+                                  //     error: true,
+                                  //   );
+                                  //   return;
+                                  // }
+                                  //
+                                  // final user =
+                                  //     getData.read("UserLogin") ?? {};
+                                  // final userId = user["id"].toString();
+                                  //
+                                  // try {
+                                  //   if (isEdit) {
+                                  //     // --------- EDIT FLOW -> update-property.php ----------
+                                  //     final resp = await http.post(
+                                  //       Uri.parse(
+                                  //           "${baseUrl}update-property.php"),
+                                  //       headers: {
+                                  //         "Content-Type": "application/json"
+                                  //       },
+                                  //       body: jsonEncode({
+                                  //         "prop_id":
+                                  //         addPropertiesController.propId,
+                                  //         "uid": userId,
+                                  //         "status":
+                                  //         addPropertiesController.status,
+                                  //         "title": addPropertiesController
+                                  //             .propertyTitleController.text,
+                                  //         "price": addPropertiesController
+                                  //             .propertyPriceController.text,
+                                  //         "address": addPropertiesController
+                                  //             .propertyAddress,
+                                  //         "description":
+                                  //         addPropertiesController
+                                  //             .propertyDescriptionController
+                                  //             .text,
+                                  //         "ccount":
+                                  //         addPropertiesController
+                                  //             .propertyCity ??
+                                  //             "",
+                                  //         "ptype":
+                                  //         addPropertiesController.pType,
+                                  //         "facility": addPropertiesController
+                                  //             .selectedFacilities,
+                                  //         "beds": addPropertiesController
+                                  //             .propertyBedsController.text,
+                                  //         "bathroom":
+                                  //         addPropertiesController
+                                  //             .propertyBathroomsController
+                                  //             .text,
+                                  //         "sqft": addPropertiesController
+                                  //             .propertySizeController.text,
+                                  //         "rate": "0",
+                                  //         "latitude":
+                                  //         addPropertiesController.lat,
+                                  //         "longtitude":
+                                  //         addPropertiesController.long,
+                                  //         "mobile": addPropertiesController
+                                  //             .contactNumberController.text,
+                                  //         "plimit": "",
+                                  //         "country_id":
+                                  //         addPropertiesController
+                                  //             .countryId,
+                                  //         "pbuysell":
+                                  //         addPropertiesController.pbuySell,
+                                  //         "img": "0", // keep existing image
+                                  //       }),
+                                  //     );
+                                  //
+                                  //     print(
+                                  //         "update-property => ${resp.statusCode} ${resp.body}");
+                                  //
+                                  //     final data =
+                                  //     jsonDecode(resp.body.toString());
+                                  //
+                                  //     if (resp.statusCode != 200 ||
+                                  //         data["Result"] != "true") {
+                                  //       await showToastMessage(
+                                  //         data["ResponseMsg"] ??
+                                  //             "Could not update property",
+                                  //         error: true,
+                                  //       );
+                                  //       return;
+                                  //     }
+                                  //
+                                  //     await showToastMessage(
+                                  //         "Property updated successfully".tr);
+                                  //     Get.back(); // or refresh list
+                                  //   } else {
+                                  //     // --------- ADD FLOW -> create order + Stripe + finalize ----------
+                                  //     final orderResp = await http.post(
+                                  //       Uri.parse(
+                                  //           "${baseUrl}create-advert-order.php"),
+                                  //       headers: {
+                                  //         "Content-Type": "application/json"
+                                  //       },
+                                  //       body: jsonEncode({"uid": userId}),
+                                  //     );
+                                  //     print(
+                                  //         "create-advert-order => ${orderResp.statusCode} ${orderResp.body}");
+                                  //
+                                  //     final order =
+                                  //     jsonDecode(orderResp.body);
+                                  //     if (order["Result"] != "true") {
+                                  //       await showToastMessage(
+                                  //         order["ResponseMsg"] ??
+                                  //             "Could not create order",
+                                  //         error: true,
+                                  //       );
+                                  //       return;
+                                  //     }
+                                  //
+                                  //     final int orderId = int.parse(
+                                  //         order["order_id"].toString());
+                                  //     final int amount = int.parse(
+                                  //         order["amount"].toString());
+                                  //     final String currency =
+                                  //     (order["currency"] ?? "USD")
+                                  //         .toString();
+                                  //
+                                  //     final stripe = StripeService();
+                                  //     final bool paid =
+                                  //     await stripe.payOrder(
+                                  //         orderId, amount * 100, currency);
+                                  //
+                                  //     if (!paid) {
+                                  //       await showToastMessage("Payment Failed",
+                                  //           error: true);
+                                  //       return;
+                                  //     }
+                                  //
+                                  //     final advertResp = await http.post(
+                                  //       Uri.parse(
+                                  //           "${baseUrl}finalize-advert.php"),
+                                  //       headers: {
+                                  //         "Content-Type": "application/json"
+                                  //       },
+                                  //       body: jsonEncode({
+                                  //         "order_id": orderId,
+                                  //         "uid": userId,
+                                  //         "title": addPropertiesController
+                                  //             .propertyTitleController.text,
+                                  //         "price": addPropertiesController
+                                  //             .propertyPriceController.text,
+                                  //         "address": addPropertiesController
+                                  //             .propertyAddress,
+                                  //         "description":
+                                  //         addPropertiesController
+                                  //             .propertyDescriptionController
+                                  //             .text,
+                                  //         "ptype":
+                                  //         addPropertiesController.pType,
+                                  //         "facility": addPropertiesController
+                                  //             .selectedFacilities,
+                                  //         "beds": addPropertiesController
+                                  //             .propertyBedsController.text,
+                                  //         "bathroom":
+                                  //         addPropertiesController
+                                  //             .propertyBathroomsController
+                                  //             .text,
+                                  //         "sqft": addPropertiesController
+                                  //             .propertySizeController.text,
+                                  //         "pbuysell":
+                                  //         addPropertiesController.pbuySell,
+                                  //         "latitude":
+                                  //         addPropertiesController.lat,
+                                  //         "longtitude":
+                                  //         addPropertiesController.long,
+                                  //         "country_id":
+                                  //         addPropertiesController
+                                  //             .countryId,
+                                  //         "mobile": addPropertiesController
+                                  //             .contactNumberController.text,
+                                  //         "image": addPropertiesController
+                                  //                 .propertyImagesBase64.isNotEmpty
+                                  //             ? addPropertiesController
+                                  //                 .propertyImagesBase64.first
+                                  //             : "",
+                                  //       }),
+                                  //     );
+                                  //
+                                  //     print(
+                                  //         "finalize-advert => ${advertResp.statusCode} ${advertResp.body}");
+                                  //
+                                  //     if (advertResp.statusCode != 200) {
+                                  //       await showToastMessage(
+                                  //         "Server error while creating advert (code ${advertResp.statusCode})",
+                                  //         error: true,
+                                  //       );
+                                  //       return;
+                                  //     }
+                                  //
+                                  //     final adv =
+                                  //     jsonDecode(advertResp.body.toString());
+                                  //     if (adv["Result"] == "true") {
+                                  //       await showToastMessage(
+                                  //           "Advert created successfully".tr);
+                                  //       Get.offAllNamed("/success");
+                                  //     } else {
+                                  //       await showToastMessage(
+                                  //         adv["ResponseMsg"] ??
+                                  //             "Could not create advert",
+                                  //         error: true,
+                                  //       );
+                                  //     }
+                                  //   }
+                                  // } catch (e) {
+                                  //   print(
+                                  //       "${isEdit ? "Update" : "Create"} advert error: $e");
+                                  //   await showToastMessage(
+                                  //     "Something went wrong while processing request"
+                                  //         .tr,
+                                  //     error: true,
+                                  //   );
+                                  // }
                                 },
                               ),
                             ),
@@ -1238,16 +1249,16 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
   // ---------------------- UI helpers ----------------------
 
   Widget _label(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15, top: 6, bottom: 6),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15, top: 6, bottom: 6),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _dropdown<T>({
     required T? value,
@@ -1270,9 +1281,9 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
         hint: hint == null
             ? null
             : Text(
-          hint,
-          style: const TextStyle(color: Colors.grey),
-        ),
+                hint,
+                style: const TextStyle(color: Colors.grey),
+              ),
         dropdownColor: notifire.getbgcolor,
         icon: Image.asset(
           'assets/images/Arrow - Down.png',
@@ -1285,17 +1296,17 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
         items: items
             .map(
               (e) => DropdownMenuItem<T>(
-            value: e,
-            child: Text(
-              e.toString(),
-              style: TextStyle(
-                fontFamily: FontFamily.gilroyMedium,
-                color: notifire.getwhiteblackcolor,
-                fontSize: 14,
+                value: e,
+                child: Text(
+                  e.toString(),
+                  style: TextStyle(
+                    fontFamily: FontFamily.gilroyMedium,
+                    color: notifire.getwhiteblackcolor,
+                    fontSize: 14,
+                  ),
+                ),
               ),
-            ),
-          ),
-        )
+            )
             .toList(),
         onChanged: onChanged,
       ),
@@ -1433,7 +1444,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
               ),
               suffixIcon: isDatePicker
                   ? Icon(Icons.calendar_today,
-                  color: notifire.getwhiteblackcolor)
+                      color: notifire.getwhiteblackcolor)
                   : null,
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
@@ -1456,7 +1467,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 
   Future<void> _openGallery(BuildContext context) async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
       addPropertiesController.propertyImagesPaths.add(pickedFile.path);

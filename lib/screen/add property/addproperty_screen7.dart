@@ -56,7 +56,8 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -84,7 +85,9 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
         backgroundColor: notifire.getblackwhitecolor,
         elevation: 0,
         title: Text(
-          manegeRoute == "Add" ? "Add Home Or Facility".tr : "Edit Home Or Facility".tr,
+          manegeRoute == "Add"
+              ? "Add Home Or Facility".tr
+              : "Edit Home Or Facility".tr,
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -101,7 +104,8 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
             final bool isTablet = w >= 700 && w < 1100;
             final bool isDesktop = w >= 1100;
 
-            final double maxContentWidth = isDesktop ? 900 : (isTablet ? 800 : w);
+            final double maxContentWidth =
+                isDesktop ? 900 : (isTablet ? 800 : w);
             final EdgeInsets pagePadding = EdgeInsets.symmetric(
               horizontal: isPhone ? 12 : 20,
               vertical: isPhone ? 0 : 8,
@@ -123,45 +127,58 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Container(
-                              decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                              decoration: BoxDecoration(
+                                  color: notifire.getblackwhitecolor),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 10),
                                   _h1("Paint The Picture"),
                                   const SizedBox(height: 25),
-                                  _stepText(manegeRoute == "Add" ? "Step 7 of 8" : "Step 6 of 7"),
+                                  _stepText(manegeRoute == "Add"
+                                      ? "Step 7 of 8"
+                                      : "Step 6 of 7"),
                                   const SizedBox(height: 10),
                                   _h2("A Resident's Typical Day At Your Home"),
                                   const SizedBox(height: 10),
-                                  Divider(height: 0.5, color: notifire.getgreycolor),
+                                  Divider(
+                                      height: 0.5,
+                                      color: notifire.getgreycolor),
                                   const SizedBox(height: 20),
                                   _h2("Describe a resident's day in your care (Optional, but advised)"),
                                   const SizedBox(height: 8),
 
                                   // Text Area
                                   Container(
-                                    margin: EdgeInsets.only(top: 5, left: 15, right: 15),
+                                    margin: EdgeInsets.only(
+                                        top: 5, left: 15, right: 15),
                                     decoration: BoxDecoration(
                                       color: notifire.getblackwhitecolor,
                                       borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(color: notifire.getborderColor),
+                                      border: Border.all(
+                                          color: notifire.getborderColor),
                                     ),
                                     child: TextFormField(
-                                      controller: addPropertiesController.propertyTypicalDayController,
+                                      controller: addPropertiesController
+                                          .propertyTypicalDayController,
                                       minLines: minLines,
                                       maxLines: null,
                                       keyboardType: TextInputType.multiline,
                                       cursorColor: notifire.getwhiteblackcolor,
-                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: InputDecoration(
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: blueColor),
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderSide:
+                                              BorderSide(color: blueColor),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                         ),
                                         contentPadding: EdgeInsets.all(12),
                                         border: InputBorder.none,
-                                        hintText: "A Day In The Life Of A Resident".tr,
+                                        hintText:
+                                            "A Day In The Life Of A Resident"
+                                                .tr,
                                         hintStyle: TextStyle(
                                           fontFamily: FontFamily.gilroyMedium,
                                           fontSize: 15,
@@ -174,7 +191,8 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please Describe A Typical Day In Your Care'.tr;
+                                          return 'Please Describe A Typical Day In Your Care'
+                                              .tr;
                                         }
                                         return null;
                                       },
@@ -185,7 +203,8 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
 
                                   // Next Button
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: isPhone ? 24 : 35),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: isPhone ? 24 : 35),
                                     child: GestButton(
                                       Width: double.infinity,
                                       height: 55,
@@ -199,13 +218,17 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       onclick: () {
-                                        addPropertiesController.propertyTypicalDay =
-                                            addPropertiesController.propertyTypicalDayController.text;
+                                        addPropertiesController
+                                                .propertyTypicalDay =
+                                            addPropertiesController
+                                                .propertyTypicalDayController
+                                                .text;
 
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen8,
-                                          arguments: {"add": manegeRoute},
-                                        );
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(
+                                        //   Routes.addPropertyScreen8,
+                                        //   arguments: {"add": manegeRoute},
+                                        // );
                                       },
                                     ),
                                   ),
@@ -230,44 +253,45 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
 
   // ---------- Small helpers ----------
   Widget _h1(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 18,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 18,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _h2(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _stepText(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   // Kept from your original file (not used here, but left for parity)
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
       setState(() {});
@@ -336,7 +360,10 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
             ),
             decoration: InputDecoration(
               hintText: labelText,
-              hintStyle: TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+              hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: "Gilroy Medium",
+                  fontSize: 16),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
                 borderRadius: BorderRadius.circular(15),
@@ -357,9 +384,6 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
     );
   }
 }
-
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

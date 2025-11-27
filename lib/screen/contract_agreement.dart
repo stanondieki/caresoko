@@ -154,62 +154,59 @@ class _ContractAgreementState extends State<ContractAgreement> {
           _buildSectionTitle("Signature"),
           SizedBox(height: 10),
           //SIGNATURE CANVAS
-                Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Signature(
-                          key: const Key('signature'),
-                          controller: _controller,
-                          height: 250,
-                          backgroundColor: Colors.grey[300]!,
-                        ),
-                      ),
-                Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.undo),
-                            color: Colors.blue,
-                            onPressed: () {
-                              setState(() => _controller.undo());
-                            },
-                            tooltip: 'Undo',
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.redo),
-                            color: Colors.blue,
-                            onPressed: () {
-                              setState(() => _controller.redo());
-                            },
-                            tooltip: 'Redo',
-                          ),
-                          //CLEAR CANVAS
-                          IconButton(
-                            key: const Key('clear'),
-                            icon: const Icon(Icons.clear),
-                            color: Colors.blue,
-                            onPressed: () {
-                              setState(() => _controller.clear());
-                            },
-                            tooltip: 'Clear',
-                          ),
-                          // STOP Edit
-                          IconButton(
-                            key: const Key('stop'),
-                            icon: Icon(
-                              _controller.disabled
-                                  ? Icons.pause
-                                  : Icons.play_arrow,
-                            ),
-                            color: Colors.blue,
-                            onPressed: () {
-                              setState(() =>
-                                  _controller.disabled = !_controller.disabled);
-                            },
-                            tooltip: _controller.disabled ? 'Pause' : 'Play',
-                          ),
-                        ],
-                      ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Signature(
+              key: const Key('signature'),
+              controller: _controller,
+              height: 250,
+              backgroundColor: Colors.grey[300]!,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.undo),
+                color: Colors.blue,
+                onPressed: () {
+                  setState(() => _controller.undo());
+                },
+                tooltip: 'Undo',
+              ),
+              IconButton(
+                icon: const Icon(Icons.redo),
+                color: Colors.blue,
+                onPressed: () {
+                  setState(() => _controller.redo());
+                },
+                tooltip: 'Redo',
+              ),
+              //CLEAR CANVAS
+              IconButton(
+                key: const Key('clear'),
+                icon: const Icon(Icons.clear),
+                color: Colors.blue,
+                onPressed: () {
+                  setState(() => _controller.clear());
+                },
+                tooltip: 'Clear',
+              ),
+              // STOP Edit
+              IconButton(
+                key: const Key('stop'),
+                icon: Icon(
+                  _controller.disabled ? Icons.pause : Icons.play_arrow,
+                ),
+                color: Colors.blue,
+                onPressed: () {
+                  setState(() => _controller.disabled = !_controller.disabled);
+                },
+                tooltip: _controller.disabled ? 'Pause' : 'Play',
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -368,31 +365,32 @@ class _ContractAgreementState extends State<ContractAgreement> {
               _buildSignatureSection(),
               SizedBox(height: Get.height / 20),
               Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: GestureDetector(
-                          onTap: _controller.isEmpty
-                                ? null
-                                : () {
-                                  Get.toNamed(Routes.subscribeScreen);
-                                },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: notifier.getdarkbluecolor,
-                                borderRadius: BorderRadius.circular(50)),
-                            height: 50,
-                            width: double.infinity,
-                            child: Center(
-                              child: Text(
-                                "Get Started".tr,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontFamily: "Gilroy Bold"),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: GestureDetector(
+                  onTap: _controller.isEmpty
+                      ? null
+                      : () {
+                          // COMMENTED OUT: Advert functionality disabled
+                          // Get.toNamed(Routes.subscribeScreen);
+                        },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: notifier.getdarkbluecolor,
+                        borderRadius: BorderRadius.circular(50)),
+                    height: 50,
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "Get Started".tr,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: "Gilroy Bold"),
+                      ),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

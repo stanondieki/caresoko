@@ -20,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
+
 class AddHomeCareScreen2 extends StatefulWidget {
   const AddHomeCareScreen2({super.key});
 
@@ -57,8 +58,7 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
             addHomecareController.eActivitiesOfDailyLiving ?? false;
         addHomecareController.mealPreparation =
             addHomecareController.eMealPreparation ?? false;
-        addHomecareController.laundry =
-            addHomecareController.eLaundry ?? false;
+        addHomecareController.laundry = addHomecareController.eLaundry ?? false;
         addHomecareController.lightHousekeeping =
             addHomecareController.eLightHousekeeping ?? false;
         addHomecareController.mobilityAssistance =
@@ -88,8 +88,8 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
 
     final media = MediaQuery.of(context);
     final width = media.size.width;
-    final isWide = width >= 900;            // desktop/tablet
-    final sidePad = isWide ? 24.0 : 10.0;   // nicer gutters on web
+    final isWide = width >= 900; // desktop/tablet
+    final sidePad = isWide ? 24.0 : 10.0; // nicer gutters on web
     const contentMaxWidth = 1100.0;
 
     return Scaffold(
@@ -103,7 +103,9 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          manegeRoute == "Add" ? "Add Homecare Agency".tr : "Edit Homecare Agency".tr,
+          manegeRoute == "Add"
+              ? "Add Homecare Agency".tr
+              : "Edit Homecare Agency".tr,
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -131,97 +133,136 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
                           const SizedBox(height: 12),
                           _title("Care Services".tr),
                           const SizedBox(height: 16),
-                          _subtitle(manegeRoute == "Add" ? "Step 2 of 8".tr : "Step 2 of 7".tr),
+                          _subtitle(manegeRoute == "Add"
+                              ? "Step 2 of 8".tr
+                              : "Step 2 of 7".tr),
                           const SizedBox(height: 10),
-                          _sectionHeader("How You Meet Clients’ Daily Living Needs".tr),
+                          _sectionHeader(
+                              "How You Meet Clients’ Daily Living Needs".tr),
                           const SizedBox(height: 10),
                           Divider(height: 0.5, color: notifire.getgreycolor),
                           const SizedBox(height: 18),
 
                           // ---- Daily living needs (Yes/No rows) ----
-                          _question("Do you assist clients with activities of daily living (ADL)?".tr),
+                          _question(
+                              "Do you assist clients with activities of daily living (ADL)?"
+                                  .tr),
                           _yesNo(
-                            value: addHomecareController.activitiesOfDailyLiving,
-                            onChanged: (v) => setState(() => addHomecareController.activitiesOfDailyLiving = v),
+                            value:
+                                addHomecareController.activitiesOfDailyLiving,
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.activitiesOfDailyLiving =
+                                    v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you provide meal planning and preparation tailored to dietary needs?".tr),
+                          _question(
+                              "Do you provide meal planning and preparation tailored to dietary needs?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.mealPreparation,
-                            onChanged: (v) => setState(() => addHomecareController.mealPreparation = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.mealPreparation = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you assist with washing and folding laundry for clients?".tr),
+                          _question(
+                              "Do you assist with washing and folding laundry for clients?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.laundry,
-                            onChanged: (v) => setState(() => addHomecareController.laundry = v),
+                            onChanged: (v) => setState(
+                                () => addHomecareController.laundry = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you offer light housekeeping (basic cleaning, like dusting and vacuuming)?".tr),
+                          _question(
+                              "Do you offer light housekeeping (basic cleaning, like dusting and vacuuming)?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.lightHousekeeping,
-                            onChanged: (v) => setState(() => addHomecareController.lightHousekeeping = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.lightHousekeeping = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you help clients move safely, including transfers and fall prevention (mobility assistance)?".tr),
+                          _question(
+                              "Do you help clients move safely, including transfers and fall prevention (mobility assistance)?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.mobilityAssistance,
-                            onChanged: (v) => setState(() => addHomecareController.mobilityAssistance = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.mobilityAssistance = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you offer rides to appointments, errands, or social activities?".tr),
+                          _question(
+                              "Do you offer rides to appointments, errands, or social activities?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.transportation,
-                            onChanged: (v) => setState(() => addHomecareController.transportation = v),
+                            onChanged: (v) => setState(
+                                () => addHomecareController.transportation = v),
                           ),
                           const SizedBox(height: 22),
 
                           _sectionHeader("Specialized Services".tr),
                           const SizedBox(height: 12),
 
-                          _question("Do you cater to memory care clients (Alzheimer's & Dementia)?".tr),
+                          _question(
+                              "Do you cater to memory care clients (Alzheimer's & Dementia)?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.memoryCare,
-                            onChanged: (v) => setState(() => addHomecareController.memoryCare = v),
+                            onChanged: (v) => setState(
+                                () => addHomecareController.memoryCare = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you cater to palliative care clients?".tr),
+                          _question(
+                              "Do you cater to palliative care clients?".tr),
                           _yesNo(
                             value: addHomecareController.palliativeCare,
-                            onChanged: (v) => setState(() => addHomecareController.palliativeCare = v),
+                            onChanged: (v) => setState(
+                                () => addHomecareController.palliativeCare = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you help clients manage chronic health conditions like diabetes or hypertension?".tr),
+                          _question(
+                              "Do you help clients manage chronic health conditions like diabetes or hypertension?"
+                                  .tr),
                           _yesNo(
-                            value: addHomecareController.chronicConditionManagement,
-                            onChanged: (v) => setState(() => addHomecareController.chronicConditionManagement = v),
+                            value: addHomecareController
+                                .chronicConditionManagement,
+                            onChanged: (v) => setState(() =>
+                                addHomecareController
+                                    .chronicConditionManagement = v),
                           ),
                           const SizedBox(height: 14),
 
-                          _question("Do you offer post - hospitalization care?".tr),
+                          _question(
+                              "Do you offer post - hospitalization care?".tr),
                           _yesNo(
-                            value: addHomecareController.postHospitalizationCare,
-                            onChanged: (v) => setState(() => addHomecareController.postHospitalizationCare = v),
+                            value:
+                                addHomecareController.postHospitalizationCare,
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.postHospitalizationCare =
+                                    v),
                           ),
                           const SizedBox(height: 14),
 
                           _question("Do you offer respite care?".tr),
                           _yesNo(
                             value: addHomecareController.respiteCare,
-                            onChanged: (v) => setState(() => addHomecareController.respiteCare = v),
+                            onChanged: (v) => setState(
+                                () => addHomecareController.respiteCare = v),
                           ),
                           const SizedBox(height: 24),
 
                           // NEXT
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: isWide ? 160 : 35),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: isWide ? 160 : 35),
                             child: GestButton(
                               Width: double.infinity,
                               height: 55,
@@ -235,10 +276,11 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
                                 fontWeight: FontWeight.bold,
                               ),
                               onclick: () {
-                                Get.toNamed(
-                                  Routes.addHomecareScreen3,
-                                  arguments: {"add": manegeRoute},
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   Routes.addHomecareScreen3,
+                                //   arguments: {"add": manegeRoute},
+                                // );
                               },
                             ),
                           ),
@@ -260,52 +302,52 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
   // ---------- UI helpers ----------
 
   Widget _title(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 20,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 20,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _subtitle(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _sectionHeader(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _question(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   /// Reusable Yes/No control that matches your styling
   Widget _yesNo({
@@ -321,7 +363,8 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
               value: value,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(true),
             ),
             Text(
@@ -345,7 +388,8 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
               value: !value,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(false),
             ),
             Text(
@@ -362,8 +406,6 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
     );
   }
 }
-
-
 
 // class AddHomeCareScreen2 extends StatefulWidget {
 //   const AddHomeCareScreen2({super.key});

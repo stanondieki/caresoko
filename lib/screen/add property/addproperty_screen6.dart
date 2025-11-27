@@ -52,7 +52,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -60,9 +61,12 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
     super.initState();
 
     if (manegeRoute == "edit") {
-      addPropertiesController.pricingReady = addPropertiesController.ePricingReady ?? false;
-      addPropertiesController.propertyPricingController.text = addPropertiesController.ePropertyPricing ?? "";
-      addPropertiesController.propertyLicenseNoController.text = addPropertiesController.ePropertyLicenseNo ?? "";
+      addPropertiesController.pricingReady =
+          addPropertiesController.ePricingReady ?? false;
+      addPropertiesController.propertyPricingController.text =
+          addPropertiesController.ePropertyPricing ?? "";
+      addPropertiesController.propertyLicenseNoController.text =
+          addPropertiesController.ePropertyLicenseNo ?? "";
       setState(() {});
     }
 
@@ -83,7 +87,9 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
         backgroundColor: notifire.getblackwhitecolor,
         elevation: 0,
         title: Text(
-          manegeRoute == "Add" ? "Add Home Or Facility".tr : "Edit Home Or Facility".tr,
+          manegeRoute == "Add"
+              ? "Add Home Or Facility".tr
+              : "Edit Home Or Facility".tr,
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -100,7 +106,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
             final bool isTablet = w >= 700 && w < 1100;
             final bool isDesktop = w >= 1100;
 
-            final double maxContentWidth = isDesktop ? 1000 : (isTablet ? 900 : w);
+            final double maxContentWidth =
+                isDesktop ? 1000 : (isTablet ? 900 : w);
             final EdgeInsets pagePadding = EdgeInsets.symmetric(
               horizontal: isPhone ? 12 : 20,
               vertical: isPhone ? 0 : 8,
@@ -119,18 +126,23 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Container(
-                              decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                              decoration: BoxDecoration(
+                                  color: notifire.getblackwhitecolor),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 10),
                                   _h1("Just A Few More Things"),
                                   const SizedBox(height: 25),
-                                  _stepText(manegeRoute == "Add" ? "Step 6 of 8" : "Step 5 of 7"),
+                                  _stepText(manegeRoute == "Add"
+                                      ? "Step 6 of 8"
+                                      : "Step 5 of 7"),
                                   const SizedBox(height: 10),
                                   _h2("Licensing And Pricing"),
                                   const SizedBox(height: 10),
-                                  Divider(height: 0.5, color: notifire.getgreycolor),
+                                  Divider(
+                                      height: 0.5,
+                                      color: notifire.getgreycolor),
                                   const SizedBox(height: 20),
 
                                   // Do you have ready pricing?
@@ -147,12 +159,19 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
                                   ),
                                   const SizedBox(height: 8),
                                   _ynBlock(
-                                    yesChecked: addPropertiesController.pricingReady,
+                                    yesChecked:
+                                        addPropertiesController.pricingReady,
                                     yesLabel: "Yes",
-                                    noChecked: !addPropertiesController.pricingReady,
-                                    noLabel: "Our pricing is based on care plan assessment",
-                                    onYes: () => setState(() => addPropertiesController.pricingReady = true),
-                                    onNo: () => setState(() => addPropertiesController.pricingReady = false),
+                                    noChecked:
+                                        !addPropertiesController.pricingReady,
+                                    noLabel:
+                                        "Our pricing is based on care plan assessment",
+                                    onYes: () => setState(() =>
+                                        addPropertiesController.pricingReady =
+                                            true),
+                                    onNo: () => setState(() =>
+                                        addPropertiesController.pricingReady =
+                                            false),
                                   ),
                                   const SizedBox(height: 10),
 
@@ -167,7 +186,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
 
                                   // Next button
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: isPhone ? 24 : 35),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: isPhone ? 24 : 35),
                                     child: GestButton(
                                       Width: double.infinity,
                                       height: 55,
@@ -181,15 +201,21 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       onclick: () {
-                                        addPropertiesController.propertyLicenseNo =
-                                            addPropertiesController.propertyLicenseNoController.text;
-                                        addPropertiesController.propertyPricing =
-                                            addPropertiesController.propertyPricingController.text;
+                                        addPropertiesController
+                                                .propertyLicenseNo =
+                                            addPropertiesController
+                                                .propertyLicenseNoController
+                                                .text;
+                                        addPropertiesController
+                                                .propertyPricing =
+                                            addPropertiesController
+                                                .propertyPricingController.text;
 
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen7,
-                                          arguments: {"add": manegeRoute},
-                                        );
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(
+                                        //   Routes.addPropertyScreen7,
+                                        //   arguments: {"add": manegeRoute},
+                                        // );
                                       },
                                     ),
                                   ),
@@ -269,9 +295,10 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
               contentPadding: EdgeInsets.all(12),
               border: InputBorder.none,
               hintText:
-              "Pricing breakdown (per day/week/month) with different service packages (e.g., full care, partial care, day-only)."
-                  .tr,
-              hintStyle: TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 15),
+                  "Pricing breakdown (per day/week/month) with different service packages (e.g., full care, partial care, day-only)."
+                      .tr,
+              hintStyle:
+                  TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 15),
             ),
             style: TextStyle(
               fontFamily: FontFamily.gilroyMedium,
@@ -324,7 +351,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
           contentPadding: EdgeInsets.all(12),
           border: InputBorder.none,
           hintText: "License Number".tr,
-          hintStyle: TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 15),
+          hintStyle:
+              TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 15),
         ),
         style: TextStyle(
           fontFamily: FontFamily.gilroyMedium,
@@ -344,40 +372,40 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
   // ---------- Shared small helpers from earlier screens ----------
 
   Widget _h1(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 18,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 18,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _h2(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _stepText(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _ynBlock({
     required bool yesChecked,
@@ -398,7 +426,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
                 value: yesChecked,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onYes(),
               ),
             ),
@@ -425,7 +454,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
                 value: noChecked,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onNo(),
               ),
             ),
@@ -448,7 +478,8 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
 
   // Kept for parity with your codebase (not used here but preserved)
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
       setState(() {});
@@ -518,7 +549,10 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
             ),
             decoration: InputDecoration(
               hintText: labelText,
-              hintStyle: TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+              hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: "Gilroy Medium",
+                  fontSize: 16),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
                 borderRadius: BorderRadius.circular(15),
@@ -539,8 +573,6 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

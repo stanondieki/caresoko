@@ -310,10 +310,11 @@ class _AddPropertyScreen3State extends State<AddPropertyScreen3> {
                                         // addPropertiesController.recreationalActivities =
                                         //     addPropertiesController.selectedRecreationalFacilities.join(',');
 
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen4,
-                                          arguments: {"add": manegeRoute},
-                                        );
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(
+                                        //   Routes.addPropertyScreen4,
+                                        //   arguments: {"add": manegeRoute},
+                                        // );
                                       },
                                     ),
                                   ),
@@ -514,7 +515,9 @@ class _AddPropertyScreen3State extends State<AddPropertyScreen3> {
             decoration: InputDecoration(
               hintText: labelText,
               hintStyle: TextStyle(
-                  color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+                  color: Colors.grey,
+                  fontFamily: "Gilroy Medium",
+                  fontSize: 16),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
                 borderRadius: BorderRadius.circular(15),
@@ -535,6 +538,7 @@ class _AddPropertyScreen3State extends State<AddPropertyScreen3> {
       ],
     );
   }
+
   // ---------- Image picker (unchanged) ----------
   void _openGallery(BuildContext context) async {
     final pickedFile =

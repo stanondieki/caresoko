@@ -318,12 +318,13 @@ class _AddPropertyScreen4State extends State<AddPropertyScreen4> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       onclick: () {
-                                        Get.toNamed(
-                                          manegeRoute == "Add"
-                                              ? Routes.addPropertyScreen5
-                                              : Routes.addPropertyScreen6,
-                                          arguments: {"add": manegeRoute},
-                                        );
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(
+                                        //   manegeRoute == "Add"
+                                        //       ? Routes.addPropertyScreen5
+                                        //       : Routes.addPropertyScreen6,
+                                        //   arguments: {"add": manegeRoute},
+                                        // );
                                       },
                                     ),
                                   ),

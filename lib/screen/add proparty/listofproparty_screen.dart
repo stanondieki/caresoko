@@ -22,8 +22,10 @@ class ListOfPropartyScreen extends StatefulWidget {
 }
 
 class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
-  final ListOfPropertyController listOfPropertiController = Get.put(ListOfPropertyController());
-  final AddPropartiesController addPropertiesController = Get.put(AddPropartiesController());
+  final ListOfPropertyController listOfPropertiController =
+      Get.put(ListOfPropertyController());
+  final AddPropartiesController addPropertiesController =
+      Get.put(AddPropartiesController());
   late ColorNotifire notifire;
 
   Future<void> getdarkmodepreviousstate() async {
@@ -65,7 +67,8 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
             child: InkWell(
               onTap: () {
                 addPropertiesController.buyOrRent = "";
-                Get.toNamed(Routes.addPropertyScreen, arguments: {"add": "Add"});
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(Routes.addPropertyScreen, arguments: {"add": "Add"});
               },
               child: Container(
                 height: 50,
@@ -84,10 +87,8 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final width = constraints.maxWidth;
-            final isGrid = width >= 700;            // switch to grid on tablets/web
-            final crossAxisCount = width >= 1200
-                ? 3
-                : (width >= 900 ? 2 : 1);
+            final isGrid = width >= 700; // switch to grid on tablets/web
+            final crossAxisCount = width >= 1200 ? 3 : (width >= 900 ? 2 : 1);
             final horizontalPadding = width >= 900 ? 24.0 : 10.0;
             final gridSpacing = width >= 900 ? 18.0 : 12.0;
 
@@ -96,9 +97,11 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
                 constraints: const BoxConstraints(maxWidth: 1200),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: GetBuilder<ListOfPropertyController>(builder: (controller) {
+                  child: GetBuilder<ListOfPropertyController>(
+                      builder: (controller) {
                     final isLoaded = listOfPropertiController.isLodding;
-                    final list = listOfPropertiController.propListInfo?.proplist ?? [];
+                    final list =
+                        listOfPropertiController.propListInfo?.proplist ?? [];
 
                     if (!isLoaded) {
                       return const Center(child: CircularProgressIndicator());
@@ -112,32 +115,36 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
                       thumbVisibility: isGrid,
                       child: isGrid
                           ? GridView.builder(
-                        padding: const EdgeInsets.only(top: 12, bottom: 12),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: gridSpacing,
-                          crossAxisSpacing: gridSpacing,
-                          childAspectRatio: 3.2, // wide tile
-                        ),
-                        itemCount: list.length,
-                        itemBuilder: (_, index) => _PropertyTile(
-                          notifire: notifire,
-                          item: list[index],
-                          onTap: () => _openEdit(index),
-                          onEdit: () => _openEdit(index),
-                        ),
-                      )
+                              padding:
+                                  const EdgeInsets.only(top: 12, bottom: 12),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: crossAxisCount,
+                                mainAxisSpacing: gridSpacing,
+                                crossAxisSpacing: gridSpacing,
+                                childAspectRatio: 3.2, // wide tile
+                              ),
+                              itemCount: list.length,
+                              itemBuilder: (_, index) => _PropertyTile(
+                                notifire: notifire,
+                                item: list[index],
+                                onTap: () => _openEdit(index),
+                                onEdit: () => _openEdit(index),
+                              ),
+                            )
                           : ListView.separated(
-                        padding: const EdgeInsets.only(top: 10, bottom: 12),
-                        itemCount: list.length,
-                        separatorBuilder: (_, __) => SizedBox(height: gridSpacing),
-                        itemBuilder: (_, index) => _PropertyTile(
-                          notifire: notifire,
-                          item: list[index],
-                          onTap: () => _openEdit(index),
-                          onEdit: () => _openEdit(index),
-                        ),
-                      ),
+                              padding:
+                                  const EdgeInsets.only(top: 10, bottom: 12),
+                              itemCount: list.length,
+                              separatorBuilder: (_, __) =>
+                                  SizedBox(height: gridSpacing),
+                              itemBuilder: (_, index) => _PropertyTile(
+                                notifire: notifire,
+                                item: list[index],
+                                onTap: () => _openEdit(index),
+                                onEdit: () => _openEdit(index),
+                              ),
+                            ),
                     );
                   }),
                 ),
@@ -167,7 +174,8 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
             SizedBox(
               width: 480,
               child: Text(
-                "Sorry, there is no any nearby \n category or data not found".tr,
+                "Sorry, there is no any nearby \n category or data not found"
+                    .tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: notifire.getgreycolor,
@@ -185,33 +193,34 @@ class _ListOfPropartyScreenState extends State<ListOfPropartyScreen> {
     final p = listOfPropertiController.propListInfo!.proplist![index];
 
     addPropertiesController.getEditDetails(
-      eTitle1:           p.title,
-      eNumber1:          p.mobile,
-      eAddress1:         p.address,
-      ePrice1:           p.price,
-      ePropertyAddress1: p.address,        // real address
-      eTotalBeds1:       p.beds,
-      eTotalBathroom1:   p.bathroom,
-      eSqft1:            p.sqrft,
-      eRating1:          p.rate,
-      eCityAndCountry1:  p.city,
-      eDescription1:     p.description,    // <-- description now mapped correctly
-      lat1:              p.latitude,
-      long1:             p.longtitude,
-      propId1:           p.id,
-      eImage1:           p.image,
-      eGest1:            p.plimit ?? "",
-      ebuyorRent:        p.buyorrent ?? "",
-      isShell:           p.isSell ?? "0",
-      id:                p.id ?? "",
-      facelity1:         p.facilitySelect ?? "",
-      pID:               p.propertyTypeId ?? "",
-      proName1:          p.propertyType ?? "",
-      countryId1:        p.countryId ?? "",
-      countryName1:      p.countryTitle ?? "",
+      eTitle1: p.title,
+      eNumber1: p.mobile,
+      eAddress1: p.address,
+      ePrice1: p.price,
+      ePropertyAddress1: p.address, // real address
+      eTotalBeds1: p.beds,
+      eTotalBathroom1: p.bathroom,
+      eSqft1: p.sqrft,
+      eRating1: p.rate,
+      eCityAndCountry1: p.city,
+      eDescription1: p.description, // <-- description now mapped correctly
+      lat1: p.latitude,
+      long1: p.longtitude,
+      propId1: p.id,
+      eImage1: p.image,
+      eGest1: p.plimit ?? "",
+      ebuyorRent: p.buyorrent ?? "",
+      isShell: p.isSell ?? "0",
+      id: p.id ?? "",
+      facelity1: p.facilitySelect ?? "",
+      pID: p.propertyTypeId ?? "",
+      proName1: p.propertyType ?? "",
+      countryId1: p.countryId ?? "",
+      countryName1: p.countryTitle ?? "",
     );
 
-    Get.toNamed(Routes.addPropertyScreen, arguments: {"add": "edit"});
+    // COMMENTED OUT: Advert functionality disabled
+    // Get.toNamed(Routes.addPropertyScreen, arguments: {"add": "edit"});
   }
 }
 
@@ -232,7 +241,8 @@ class _PropertyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showSoldPill = (item.isSell ?? "0") != "0";
-    final forSalePill = (item.isSell ?? "0") == "0" && (item.buyorrent ?? "") != "1";
+    final forSalePill =
+        (item.isSell ?? "0") == "0" && (item.buyorrent ?? "") != "1";
     final showRate = (item.buyorrent ?? "") == "1";
 
     return InkWell(
@@ -260,7 +270,8 @@ class _PropertyTile extends StatelessWidget {
                         image: "${Config.imageUrl}${item.image ?? ""}",
                         fit: BoxFit.cover,
                         imageErrorBuilder: (context, error, stack) =>
-                            Image.asset("assets/images/ezgif.com-crop.gif", fit: BoxFit.cover),
+                            Image.asset("assets/images/ezgif.com-crop.gif",
+                                fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -337,11 +348,14 @@ class _PropertyTile extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset("assets/images/Rating.png", height: 12, width: 12),
+                        Image.asset("assets/images/Rating.png",
+                            height: 12, width: 12),
                         const SizedBox(width: 4),
                         Text(
                           "${item.rate ?? ''}",
-                          style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: blueColor),
+                          style: TextStyle(
+                              fontFamily: FontFamily.gilroyMedium,
+                              color: blueColor),
                         ),
                       ],
                     ),
@@ -350,7 +364,8 @@ class _PropertyTile extends StatelessWidget {
                   _pill(
                     width: 78,
                     child: Text("FOR SALE".tr,
-                        style: TextStyle(color: blueColor, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            color: blueColor, fontWeight: FontWeight.w500)),
                   ),
                 if (showSoldPill)
                   _pill(
@@ -359,7 +374,9 @@ class _PropertyTile extends StatelessWidget {
                       "SOLD".tr,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Color(0xFFEA1E61), fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                          color: Color(0xFFEA1E61),
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
               ],
@@ -405,7 +422,6 @@ class _PropertyTile extends StatelessWidget {
     );
   }
 }
-
 
 // // ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, prefer_interpolation_to_compose_strings, avoid_print
 //

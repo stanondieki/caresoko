@@ -67,10 +67,11 @@ class _GalleryCategoryScreenState extends State<GalleryCategoryScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(
-                  Routes.addGalleryCategoryScreen,
-                  arguments: {"add": "Add"},
-                );
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(
+                //   Routes.addGalleryCategoryScreen,
+                //   arguments: {"add": "Add"},
+                // );
               },
               child: Container(
                 height: 50,
@@ -99,7 +100,7 @@ class _GalleryCategoryScreenState extends State<GalleryCategoryScreen> {
                       ? galleryCategoryController
                               .galleryCatInfo!.galcatlist.isNotEmpty
                           ? ListView.builder(
-                    padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 10),
                               itemCount: galleryCategoryController
                                   .galleryCatInfo?.galcatlist.length,
                               shrinkWrap: true,
@@ -118,9 +119,9 @@ class _GalleryCategoryScreenState extends State<GalleryCategoryScreen> {
                                             SizedBox(
                                               width: 10,
                                             ),
-
                                             ClipRRect(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                               child: Image.asset(
                                                 "assets/images/Image (2).png",
                                                 height: 48,
@@ -210,10 +211,11 @@ class _GalleryCategoryScreenState extends State<GalleryCategoryScreen> {
                                                       .propertyId ??
                                                   "",
                                             );
-                                            Get.toNamed(
-                                              Routes.addGalleryCategoryScreen,
-                                              arguments: {"add": "edit"},
-                                            );
+                                            // COMMENTED OUT: Advert functionality disabled
+                                            // Get.toNamed(
+                                            //   Routes.addGalleryCategoryScreen,
+                                            //   arguments: {"add": "edit"},
+                                            // );
                                           },
                                           child: Container(
                                             height: 35,

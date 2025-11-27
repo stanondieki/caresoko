@@ -370,8 +370,6 @@ class _BottoBarScreenState extends State<BottoBarScreen>
   }
 
   void _onAddPressed() {
-
-    print('helli');
     dashBoardController.getDashBoardData().then((value) {
       if (isLogin != null) {
         if (dashBoardController.dashBoardInfo?.isSubscribe == 1) {

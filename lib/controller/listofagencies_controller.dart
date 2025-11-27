@@ -19,7 +19,7 @@ class ListOfAgenciesController extends GetxController implements GetxService {
   }
   Future getAgencyList() async {
     print(
-        "LIST  OF  UID > < > <> <> <> <> <> <><   ${getData.read("UserLogin")["id"]}");
+        "LIST  OF  UID >))))))))))))))))) < > <> <> <> <> <> <><   ${getData.read("UserLogin")["id"]}");
     try {
       isLodding = false;
       Map map = {

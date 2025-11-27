@@ -1,41 +1,44 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:get/route_manager.dart';
-import 'package:gotocarefinder/screen/add%20proparty/listofproparty_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/listofagencies_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/addextraimage_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/addgallerycategory_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/addgalleryimage_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/booking_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/e-receiptpro_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/enquiry_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/extraimage_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/gallerycategory_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/galleryimage_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/listofproperty_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/membarship_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/membarshipdetails_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/myearnings_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/mypayout_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/reviewlistscreen.dart';
-import 'package:gotocarefinder/screen/add%20property/subscribe_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen1.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen2.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen3.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen4.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen5.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen6.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen7.dart';
-import 'package:gotocarefinder/screen/add%20property/addproperty_screen8.dart';
-import 'package:gotocarefinder/screen/add%20proparty/addproperty_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen1.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen2.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen3.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen4.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen5.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen6.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen7.dart';
-import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen8.dart';
+
+// COMMENTED OUT: Advert functionality disabled
+// import 'package:gotocarefinder/screen/add%20proparty/listofproparty_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/listofagencies_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/addextraimage_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/addgallerycategory_screen.dart';
+import 'package:gotocarefinder/screen/add property/addgalleryimage_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/booking_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/e-receiptpro_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/enquiry_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/extraimage_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/gallerycategory_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/galleryimage_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/listofproperty_screen.dart';
+import 'package:gotocarefinder/screen/add property/membarship_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/membarshipdetails_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/myearnings_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/mypayout_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/reviewlistscreen.dart';
+// import 'package:gotocarefinder/screen/add%20property/subscribe_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen1.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen2.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen3.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen4.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen5.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen6.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen7.dart';
+// import 'package:gotocarefinder/screen/add%20property/addproperty_screen8.dart';
+// import 'package:gotocarefinder/screen/add%20proparty/addproperty_screen.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen1.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen2.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen3.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen4.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen5.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen6.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen7.dart';
+// import 'package:gotocarefinder/screen/add%20property/add_homecare/add_homecare_screen8.dart';
+
 import 'package:gotocarefinder/screen/addwallet/addwallet_screen.dart';
 import 'package:gotocarefinder/screen/addwallet/referfriend_screen.dart';
 import 'package:gotocarefinder/screen/addwallet/wallet_screen.dart';
@@ -107,41 +110,43 @@ class Routes {
   static String featuredScreen = "/featuredScreen";
   static String membershipScreen = "/membershipScreen";
   static String selectCountryScreen = "/selectCountryScreen";
-  static String listOfPropertyScreen = "/listOfPropertyScreen";
-  static String listOfAgenciesScreen = "/listOfAgenciesScreen";
-  static String listOfPropartyScreen = "/listOfPropartyScreen";
-  static String addPropertyScreen1 = "/addPropertyScreen1";
-  static String addPropertyScreen2 = "/addPropertyScreen2";
-  static String addPropertyScreen3 = "/addPropertyScreen3";
-  static String addPropertyScreen4 = "/addPropertyScreen4";
-  static String addPropertyScreen5 = "/addPropertyScreen5";
-  static String addPropertyScreen6 = "/addPropertyScreen6";
-  static String addPropertyScreen7 = "/addPropertyScreen7";
-  static String addPropertyScreen8 = "/addPropertyScreen8";
-  static String addHomecareScreen1 = "/addHomecareScreen1";
-  static String addHomecareScreen2 = "/addHomecareScreen2";
-  static String addHomecareScreen3 = "/addHomecareScreen3";
-  static String addHomecareScreen4 = "/addHomecareScreen4";
-  static String addHomecareScreen5 = "/addHomecareScreen5";
-  static String addHomecareScreen6 = "/addHomecareScreen6";
-  static String addHomecareScreen7 = "/addHomecareScreen7";
-  static String addHomecareScreen8 = "/addHomecareScreen8";
-  static String addPropertyScreen = "/addPropertyScreen";
+
+  // COMMENTED OUT: Advert functionality disabled
+  // static String listOfPropertyScreen = "/listOfPropertyScreen";
+  // static String listOfAgenciesScreen = "/listOfAgenciesScreen";
+  // static String listOfPropartyScreen = "/listOfPropartyScreen";
+  // static String addPropertyScreen1 = "/addPropertyScreen1";
+  // static String addPropertyScreen2 = "/addPropertyScreen2";
+  // static String addPropertyScreen3 = "/addPropertyScreen3";
+  // static String addPropertyScreen4 = "/addPropertyScreen4";
+  // static String addPropertyScreen5 = "/addPropertyScreen5";
+  // static String addPropertyScreen6 = "/addPropertyScreen6";
+  // static String addPropertyScreen7 = "/addPropertyScreen7";
+  // static String addPropertyScreen8 = "/addPropertyScreen8";
+  // static String addHomecareScreen1 = "/addHomecareScreen1";
+  // static String addHomecareScreen2 = "/addHomecareScreen2";
+  // static String addHomecareScreen3 = "/addHomecareScreen3";
+  // static String addHomecareScreen4 = "/addHomecareScreen4";
+  // static String addHomecareScreen5 = "/addHomecareScreen5";
+  // static String addHomecareScreen6 = "/addHomecareScreen6";
+  // static String addHomecareScreen7 = "/addHomecareScreen7";
+  // static String addHomecareScreen8 = "/addHomecareScreen8";
+  // static String addPropertyScreen = "/addPropertyScreen";
   static String homeProfileScreen = "/homeProfileScreen";
-  static String extraImageScreen = "/extraImageScreen";
-  static String addExtraImageScreen = "/addExtraImageScreen";
-  static String galleryCategoryScreen = "/galleryCategoryScreen";
-  static String addGalleryCategoryScreen = "/addGalleryCategoryScrren";
-  static String galleryImageScreen = "/galleryImageScreen";
+  // static String extraImageScreen = "/extraImageScreen";
+  // static String addExtraImageScreen = "/addExtraImageScreen";
+  // static String galleryCategoryScreen = "/galleryCategoryScreen";
+  // static String addGalleryCategoryScreen = "/addGalleryCategoryScrren";
+  // static String galleryImageScreen = "/galleryImageScreen";
   static String addGalleryImageScreen = "/addGalleryImageScreen";
-  static String subscribeScreen = "/subscribeScreen";
-  static String bookingScreen = "/bookingScreen";
-  static String memberShipDetails = "/memberShipDetails";
-  static String myEarningsScreen = "/myEarningsScreen";
-  static String eReceiptProScreen = "/eReceiptProScreen";
-  static String myPayoutScreen = "/myPayoutScreen";
-  static String enquiryScreen = "/enquiryScreen";
-  static String reviewlistScreen = "/reviewlistScreen";
+  // static String subscribeScreen = "/subscribeScreen";
+  // static String bookingScreen = "/bookingScreen";
+  // static String memberShipDetails = "/memberShipDetails";
+  // static String myEarningsScreen = "/myEarningsScreen";
+  // static String eReceiptProScreen = "/eReceiptProScreen";
+  // static String myPayoutScreen = "/myPayoutScreen";
+  // static String enquiryScreen = "/enquiryScreen";
+  // static String reviewlistScreen = "/reviewlistScreen";
   static String imageViewerSreen = "/ImageViewerSreen";
 }
 
@@ -282,146 +287,147 @@ final getPages = [
     name: Routes.selectCountryScreen,
     page: () => SelectCountryScreen(),
   ),
-  GetPage(
-    name: Routes.listOfPropertyScreen,
-    page: () => ListOfPropertyScreen(),
-  ),
-  GetPage(
-    name: Routes.listOfAgenciesScreen,
-    page: () => ListOfAgenciesScreen(),
-  ),
-  GetPage(
-    name: Routes.listOfPropartyScreen,
-    page: () => ListOfPropartyScreen(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen1,
-    page: () => AddPropertyScreen1(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen2,
-    page: () => AddPropertyScreen2(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen3,
-    page: () => AddPropertyScreen3(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen4,
-    page: () => AddPropertyScreen4(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen5,
-    page: () => AddPropertyScreen5(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen6,
-    page: () => AddPropertyScreen6(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen7,
-    page: () => AddPropertyScreen7(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen8,
-    page: () => AddPropertyScreen8(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen1,
-    page: () => AddHomeCareScreen1(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen2,
-    page: () => AddHomeCareScreen2(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen3,
-    page: () => AddHomeCareScreen3(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen4,
-    page: () => AddHomeCareScreen4(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen5,
-    page: () => AddHomeCareScreen5(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen6,
-    page: () => AddHomeCareScreen6(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen7,
-    page: () => AddHomeCareScreen7(),
-  ),
-  GetPage(
-    name: Routes.addHomecareScreen8,
-    page: () => AddHomeCareScreen8(),
-  ),
-  GetPage(
-    name: Routes.addPropertyScreen,
-    page: () => AddPropertyScreen(),
-  ),
+  // COMMENTED OUT: Advert functionality disabled
+  // GetPage(
+  //   name: Routes.listOfPropertyScreen,
+  //   page: () => ListOfPropertyScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.listOfAgenciesScreen,
+  //   page: () => ListOfAgenciesScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.listOfPropartyScreen,
+  //   page: () => ListOfPropartyScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen1,
+  //   page: () => AddPropertyScreen1(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen2,
+  //   page: () => AddPropertyScreen2(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen3,
+  //   page: () => AddPropertyScreen3(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen4,
+  //   page: () => AddPropertyScreen4(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen5,
+  //   page: () => AddPropertyScreen5(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen6,
+  //   page: () => AddPropertyScreen6(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen7,
+  //   page: () => AddPropertyScreen7(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen8,
+  //   page: () => AddPropertyScreen8(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen1,
+  //   page: () => AddHomeCareScreen1(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen2,
+  //   page: () => AddHomeCareScreen2(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen3,
+  //   page: () => AddHomeCareScreen3(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen4,
+  //   page: () => AddHomeCareScreen4(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen5,
+  //   page: () => AddHomeCareScreen5(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen6,
+  //   page: () => AddHomeCareScreen6(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen7,
+  //   page: () => AddHomeCareScreen7(),
+  // ),
+  // GetPage(
+  //   name: Routes.addHomecareScreen8,
+  //   page: () => AddHomeCareScreen8(),
+  // ),
+  // GetPage(
+  //   name: Routes.addPropertyScreen,
+  //   page: () => AddPropertyScreen(),
+  // ),
   GetPage(
     name: Routes.homeProfileScreen,
     page: () => HomeProfileScreen(),
   ),
-  GetPage(
-    name: Routes.extraImageScreen,
-    page: () => ExtraImageScreen(),
-  ),
-  GetPage(
-    name: Routes.addExtraImageScreen,
-    page: () => AddExtraImageScreen(),
-  ),
-  GetPage(
-    name: Routes.galleryCategoryScreen,
-    page: () => GalleryCategoryScreen(),
-  ),
-  GetPage(
-    name: Routes.addGalleryCategoryScreen,
-    page: () => AddGalleryCategoryScreen(),
-  ),
-  GetPage(
-    name: Routes.galleryImageScreen,
-    page: () => GallertImageScreen(),
-  ),
+  // GetPage(
+  //   name: Routes.extraImageScreen,
+  //   page: () => ExtraImageScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.addExtraImageScreen,
+  //   page: () => AddExtraImageScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.galleryCategoryScreen,
+  //   page: () => GalleryCategoryScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.addGalleryCategoryScreen,
+  //   page: () => AddGalleryCategoryScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.galleryImageScreen,
+  //   page: () => GallertImageScreen(),
+  // ),
   GetPage(
     name: Routes.addGalleryImageScreen,
     page: () => AddGalleryImageScreen(),
   ),
-  GetPage(
-    name: Routes.subscribeScreen,
-    page: () => SubscribeScreen(),
-  ),
-  GetPage(
-    name: Routes.bookingScreen,
-    page: () => BookingScreen(),
-  ),
-  GetPage(
-    name: Routes.memberShipDetails,
-    page: () => MemberShipDetails(),
-  ),
-  GetPage(
-    name: Routes.myEarningsScreen,
-    page: () => MyEarningsScreen(),
-  ),
-  GetPage(
-    name: Routes.eReceiptProScreen,
-    page: () => EReceiptProScreen(),
-  ),
-  GetPage(
-    name: Routes.myPayoutScreen,
-    page: () => MyPayoutScreen(),
-  ),
-  GetPage(
-    name: Routes.enquiryScreen,
-    page: () => EnquiryScreen(),
-  ),
-  GetPage(
-    name: Routes.reviewlistScreen,
-    page: () => ReviewlistScreen(),
-  ),
+  // GetPage(
+  //   name: Routes.subscribeScreen,
+  //   page: () => SubscribeScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.bookingScreen,
+  //   page: () => BookingScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.memberShipDetails,
+  //   page: () => MemberShipDetails(),
+  // ),
+  // GetPage(
+  //   name: Routes.myEarningsScreen,
+  //   page: () => MyEarningsScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.eReceiptProScreen,
+  //   page: () => EReceiptProScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.myPayoutScreen,
+  //   page: () => MyPayoutScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.enquiryScreen,
+  //   page: () => EnquiryScreen(),
+  // ),
+  // GetPage(
+  //   name: Routes.reviewlistScreen,
+  //   page: () => ReviewlistScreen(),
+  // ),
   GetPage(
     name: Routes.imageViewerSreen,
     page: () => ImageViewerSreen(),

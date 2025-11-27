@@ -148,8 +148,9 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                           const SizedBox(height: 12),
                           _title("Photos Of Your Agency".tr),
                           const SizedBox(height: 16),
-                          _subtitle(
-                              manegeRoute == "Add" ? "Step 5 of 8".tr : "Step 5 of 7".tr),
+                          _subtitle(manegeRoute == "Add"
+                              ? "Step 5 of 8".tr
+                              : "Step 5 of 7".tr),
                           const SizedBox(height: 10),
                           _sectionHeader("A Visual Preview Of Your Agency".tr),
                           const SizedBox(height: 10),
@@ -178,12 +179,14 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                   const SizedBox(width: 10),
                                   Checkbox(
                                     value: addHomecareController.havePhotos,
-                                    side: const BorderSide(color: Color(0xffC5CAD4)),
+                                    side: const BorderSide(
+                                        color: Color(0xffC5CAD4)),
                                     activeColor: blueColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
                                     onChanged: (_) {
-                                      setState(() => addHomecareController.havePhotos = true);
+                                      setState(() => addHomecareController
+                                          .havePhotos = true);
                                     },
                                   ),
                                   Text(
@@ -205,12 +208,14 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                   const SizedBox(width: 10),
                                   Checkbox(
                                     value: !addHomecareController.havePhotos,
-                                    side: const BorderSide(color: Color(0xffC5CAD4)),
+                                    side: const BorderSide(
+                                        color: Color(0xffC5CAD4)),
                                     activeColor: blueColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
                                     onChanged: (_) {
-                                      setState(() => addHomecareController.havePhotos = false);
+                                      setState(() => addHomecareController
+                                          .havePhotos = false);
                                     },
                                   ),
                                   Expanded(
@@ -229,23 +234,24 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                             ],
                           ),
 
-                          SizedBox(height: addHomecareController.havePhotos ? 15 : 25),
+                          SizedBox(
+                              height:
+                                  addHomecareController.havePhotos ? 15 : 25),
 
                           // --------- Booking block (responsive) ---------
                           if (!addHomecareController.havePhotos) ...[
-                            _sectionHeader("Book Our Professional Photographers".tr),
+                            _sectionHeader(
+                                "Book Our Professional Photographers".tr),
                             const SizedBox(height: 12),
-
                             dateTextField(
                               type: "When would you like to have the shoot?",
                               labelText: "Select Date",
-                              controller:
-                              addHomecareController.propertyShootDateController,
+                              controller: addHomecareController
+                                  .propertyShootDateController,
                               isDatePicker: true,
                               onDateSelected: (DateTime? _) {},
                             ),
                             const SizedBox(height: 12),
-
                             Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text(
@@ -258,24 +264,30 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                               ),
                             ),
                             const SizedBox(height: 10),
-
                             Row(
                               children: [
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () async {
-                                      final TimeOfDay? selectedTime = await Get.dialog(
+                                      final TimeOfDay? selectedTime =
+                                          await Get.dialog(
                                         Theme(
                                           data: Get.theme.copyWith(
-                                            timePickerTheme: TimePickerThemeData(
-                                              backgroundColor: notifire.getblackwhitecolor,
-                                              hourMinuteTextColor: notifire.getwhiteblackcolor,
+                                            timePickerTheme:
+                                                TimePickerThemeData(
+                                              backgroundColor:
+                                                  notifire.getblackwhitecolor,
+                                              hourMinuteTextColor:
+                                                  notifire.getwhiteblackcolor,
                                               dialHandColor: blueColor,
-                                              dialBackgroundColor:
-                                              notifire.getblackwhitecolor.withOpacity(0.1),
-                                              entryModeIconColor: notifire.getwhiteblackcolor,
+                                              dialBackgroundColor: notifire
+                                                  .getblackwhitecolor
+                                                  .withOpacity(0.1),
+                                              entryModeIconColor:
+                                                  notifire.getwhiteblackcolor,
                                             ),
-                                            textButtonTheme: TextButtonThemeData(
+                                            textButtonTheme:
+                                                TextButtonThemeData(
                                               style: TextButton.styleFrom(
                                                 foregroundColor: blueColor,
                                               ),
@@ -297,8 +309,9 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                           selectedTime.minute,
                                         );
                                         final formattedTime =
-                                        DateFormat('hh:mm a').format(dt);
-                                        addHomecareController.updateTime(formattedTime);
+                                            DateFormat('hh:mm a').format(dt);
+                                        addHomecareController
+                                            .updateTime(formattedTime);
                                         setState(() {});
                                       }
                                     },
@@ -306,23 +319,34 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                       height: 55,
                                       margin: const EdgeInsets.all(8),
                                       alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
                                       decoration: BoxDecoration(
                                         color: notifire.getblackwhitecolor,
                                         borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(color: notifire.getborderColor),
+                                        border: Border.all(
+                                            color: notifire.getborderColor),
                                       ),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              (addHomecareController.agencyShootTime?.isNotEmpty ?? false)
-                                                  ? addHomecareController.agencyShootTime!
+                                              (addHomecareController
+                                                          .agencyShootTime
+                                                          ?.isNotEmpty ??
+                                                      false)
+                                                  ? addHomecareController
+                                                      .agencyShootTime!
                                                   : "Pick time".tr,
                                               style: TextStyle(
-                                                fontFamily: FontFamily.gilroyMedium,
-                                                color: (addHomecareController.agencyShootTime?.isNotEmpty ?? false)
-                                                    ? notifire.getwhiteblackcolor
+                                                fontFamily:
+                                                    FontFamily.gilroyMedium,
+                                                color: (addHomecareController
+                                                            .agencyShootTime
+                                                            ?.isNotEmpty ??
+                                                        false)
+                                                    ? notifire
+                                                        .getwhiteblackcolor
                                                     : notifire.getgreycolor,
                                               ),
                                             ),
@@ -331,7 +355,10 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                             "assets/images/Calendar.png",
                                             height: 25,
                                             width: 25,
-                                            color: (addHomecareController.agencyShootTime?.isNotEmpty ?? false)
+                                            color: (addHomecareController
+                                                        .agencyShootTime
+                                                        ?.isNotEmpty ??
+                                                    false)
                                                 ? notifire.getwhiteblackcolor
                                                 : notifire.getgreycolor,
                                           ),
@@ -342,24 +369,26 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                 ),
                               ],
                             ),
-
                             _sectionHeader("Terms Of Service".tr),
                             const SizedBox(height: 8),
-
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(width: 10),
                                 Checkbox(
-                                  value: addHomecareController.consentToPhotographyTerms,
-                                  side: const BorderSide(color: Color(0xffC5CAD4)),
+                                  value: addHomecareController
+                                      .consentToPhotographyTerms,
+                                  side: const BorderSide(
+                                      color: Color(0xffC5CAD4)),
                                   activeColor: blueColor,
-                                  shape:
-                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
                                   onChanged: (_) {
                                     setState(() {
-                                      addHomecareController.consentToPhotographyTerms =
-                                      !addHomecareController.consentToPhotographyTerms;
+                                      addHomecareController
+                                              .consentToPhotographyTerms =
+                                          !addHomecareController
+                                              .consentToPhotographyTerms;
                                     });
                                   },
                                 ),
@@ -384,7 +413,8 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                             _sectionHeader("Upload Photos".tr),
                             const SizedBox(height: 8),
                             Padding(
-                              padding: const EdgeInsets.only(left: 15, bottom: 7, right: 15),
+                              padding: const EdgeInsets.only(
+                                  left: 15, bottom: 7, right: 15),
                               child: Text(
                                 "Showcase photos of your caregivers / team together or in action. A welcoming and professional presentation can make a lasting impression"
                                     .tr,
@@ -402,7 +432,8 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                   width: media.size.width - 20,
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xff3D5BF6)),
+                                    border: Border.all(
+                                        color: const Color(0xff3D5BF6)),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Center(
@@ -419,10 +450,11 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                               ),
                             ),
                             const SizedBox(height: 10),
-
-                            if (addHomecareController.agencyImagesPaths.isNotEmpty)
+                            if (addHomecareController
+                                .agencyImagesPaths.isNotEmpty)
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
                                 child: SizedBox(
                                   height: 170,
                                   child: ListView.builder(
@@ -430,19 +462,22 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     padding: const EdgeInsets.only(bottom: 10),
-                                    itemCount:
-                                    addHomecareController.agencyImagesPaths.length,
+                                    itemCount: addHomecareController
+                                        .agencyImagesPaths.length,
                                     itemBuilder: (context, index) {
-                                      final path = addHomecareController.agencyImagesPaths[index];
+                                      final path = addHomecareController
+                                          .agencyImagesPaths[index];
                                       return Stack(
                                         clipBehavior: Clip.none,
                                         children: [
                                           Container(
                                             height: 300,
                                             width: 150,
-                                            margin: const EdgeInsets.only(right: 15),
+                                            margin: const EdgeInsets.only(
+                                                right: 15),
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                               image: DecorationImage(
                                                 image: FileImage(File(path)),
                                                 fit: BoxFit.cover,
@@ -454,9 +489,11 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                             top: -8,
                                             child: GestureDetector(
                                               onTap: () {
-                                                addHomecareController.agencyImagesBase64
+                                                addHomecareController
+                                                    .agencyImagesBase64
                                                     .removeAt(index);
-                                                addHomecareController.agencyImagesPaths
+                                                addHomecareController
+                                                    .agencyImagesPaths
                                                     .removeAt(index);
                                                 setState(() {});
                                               },
@@ -489,15 +526,17 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
 
                           // --------- NEXT button (centered on wide) ---------
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: isWide ? 160 : 35),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: isWide ? 160 : 35),
                             child: GestButton(
                               Width: double.infinity,
                               height: 55,
                               buttoncolor: addHomecareController.havePhotos
                                   ? blueColor
-                                  : (addHomecareController.consentToPhotographyTerms
-                                  ? blueColor
-                                  : greyColor),
+                                  : (addHomecareController
+                                          .consentToPhotographyTerms
+                                      ? blueColor
+                                      : greyColor),
                               margin: const EdgeInsets.only(top: 5),
                               buttontext: "Next".tr,
                               style: TextStyle(
@@ -508,19 +547,22 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                               ),
                               onclick: addHomecareController.havePhotos
                                   ? () {
-                                Get.toNamed(
-                                  Routes.addHomecareScreen6,
-                                  arguments: {"add": manegeRoute},
-                                );
-                              }
-                                  : (addHomecareController.consentToPhotographyTerms
-                                  ? () {
-                                Get.toNamed(
-                                  Routes.addPropertyScreen5,
-                                  arguments: {"add": "Add"},
-                                );
-                              }
-                                  : null),
+                                      // COMMENTED OUT: Advert functionality disabled
+                                      // Get.toNamed(
+                                      //   Routes.addHomecareScreen6,
+                                      //   arguments: {"add": manegeRoute},
+                                      // );
+                                    }
+                                  : (addHomecareController
+                                          .consentToPhotographyTerms
+                                      ? () {
+                                          // COMMENTED OUT: Advert functionality disabled
+                                          // Get.toNamed(
+                                          //   Routes.addPropertyScreen5,
+                                          //   arguments: {"add": "Add"},
+                                          // );
+                                        }
+                                      : null),
                             ),
                           ),
 
@@ -541,44 +583,45 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
   // ---------- UI helpers ----------
 
   Widget _title(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 20,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 20,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _subtitle(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _sectionHeader(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   // (unchanged) gallery helper
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
       addHomecareController.agencyImagesPaths.add(addHomecareController.path!);
@@ -586,7 +629,8 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
       final imageFile = File(addHomecareController.path.toString());
       final imageBytes = imageFile.readAsBytesSync();
       addHomecareController.base64Image = base64Encode(imageBytes);
-      addHomecareController.agencyImagesBase64.add(addHomecareController.base64Image!);
+      addHomecareController.agencyImagesBase64
+          .add(addHomecareController.base64Image!);
       setState(() {});
     }
   }
@@ -743,7 +787,8 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                 fontSize: 16,
               ),
               suffixIcon: isDatePicker == true
-                  ? Icon(Icons.calendar_today, color: notifire.getwhiteblackcolor)
+                  ? Icon(Icons.calendar_today,
+                      color: notifire.getwhiteblackcolor)
                   : suffix,
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
@@ -765,8 +810,6 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

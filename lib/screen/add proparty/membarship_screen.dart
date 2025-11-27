@@ -43,17 +43,19 @@ class _MembershipScreenState extends State<MembershipScreen> {
   BookingController bookingController = Get.find();
   EnquiryController enquiryController = Get.find();
 
-  List<String> routesList = [
-    Routes.listOfPropertyScreen,
-    Routes.extraImageScreen,
-    Routes.galleryCategoryScreen,
-    Routes.galleryImageScreen,
-    Routes.bookingScreen,
-    Routes.myEarningsScreen,
-    Routes.enquiryScreen,
-    Routes.reviewlistScreen,
-    Routes.myPayoutScreen,
-  ];
+  // COMMENTED OUT: Advert functionality disabled
+  List<String> routesList = [];
+  // List<String> routesList = [
+  //   Routes.listOfPropertyScreen,
+  //   Routes.extraImageScreen,
+  //   Routes.galleryCategoryScreen,
+  //   Routes.galleryImageScreen,
+  //   Routes.bookingScreen,
+  //   Routes.myEarningsScreen,
+  //   Routes.enquiryScreen,
+  //   Routes.reviewlistScreen,
+  //   Routes.myPayoutScreen,
+  // ];
 
   @override
   void initState() {
@@ -105,23 +107,25 @@ class _MembershipScreenState extends State<MembershipScreen> {
             ),
           ),
         ],
-        leading: getData.read("userType") == "admin" ? GestureDetector(
-          onTap: () {
-            logoutSheet();
-          },
-          child: Image.asset(
-            "assets/images/Logout.png",
-            height: 20,
-            width: 30,
-            scale: 3,
-            color: notifire.getredcolor,
-          ),
-        ) : BackButton(
-          color: notifire.getwhiteblackcolor,
-          onPressed: () {
-            Get.back();
-          },
-        ),
+        leading: getData.read("userType") == "admin"
+            ? GestureDetector(
+                onTap: () {
+                  logoutSheet();
+                },
+                child: Image.asset(
+                  "assets/images/Logout.png",
+                  height: 20,
+                  width: 30,
+                  scale: 3,
+                  color: notifire.getredcolor,
+                ),
+              )
+            : BackButton(
+                color: notifire.getwhiteblackcolor,
+                onPressed: () {
+                  Get.back();
+                },
+              ),
         title: Image.asset(
           "assets/images/applogo.png",
           height: 30,
@@ -146,109 +150,123 @@ class _MembershipScreenState extends State<MembershipScreen> {
                     physics: BouncingScrollPhysics(),
                     child: Column(
                       children: [
-                        getData.read("userType") == "admin" ? SizedBox() : Column(
-                          children: [
-                            Center(
-                              child: InkWell(
-                                onTap: () {
-                                  dashBoardController.getSubScribeDetails();
-                                  Get.toNamed(Routes.memberShipDetails);
-                                },
-                                child: Container(
-                                  height: 50,
-                                  margin: EdgeInsets.symmetric(horizontal: 12),
-                                  // width: 295,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/verified_user.png",
-                                        height: 25,
-                                        width: 25,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            dashBoardController.membershipData[0],
-                                            style: TextStyle(
-                                              fontFamily: FontFamily.gilroyBold,
-                                              fontSize: 16,
-                                              color: Color(0xff3D5BF6),
+                        getData.read("userType") == "admin"
+                            ? SizedBox()
+                            : Column(
+                                children: [
+                                  Center(
+                                    child: InkWell(
+                                      onTap: () {
+                                        dashBoardController
+                                            .getSubScribeDetails();
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(Routes.memberShipDetails);
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        // width: 295,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/verified_user.png",
+                                              height: 25,
+                                              width: 25,
+                                              fit: BoxFit.cover,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 7,
-                                          ),
-                                          Text(
-                                            "Membership".tr,
-                                            style: TextStyle(
-                                              fontFamily: FontFamily.gilroyBold,
-                                              fontSize: 16,
-                                              color: notifire.getwhiteblackcolor,
+                                            SizedBox(
+                                              width: 10,
                                             ),
-                                          ),
-                                        ],
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  dashBoardController
+                                                      .membershipData[0],
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        FontFamily.gilroyBold,
+                                                    fontSize: 16,
+                                                    color: Color(0xff3D5BF6),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Text(
+                                                  "Membership".tr,
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        FontFamily.gilroyBold,
+                                                    fontSize: 16,
+                                                    color: notifire
+                                                        .getwhiteblackcolor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Container(
+                                              height: 25,
+                                              width: 70,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "ACTIVE".tr,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: WhiteColor,
+                                                  fontFamily:
+                                                      FontFamily.gilroyMedium,
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                color: Color(0xff3D5BF6),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: notifire.getborderColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
                                       ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      Container(
-                                        height: 25,
-                                        width: 70,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "ACTIVE".tr,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Valid Till: ".tr,
                                           style: TextStyle(
-                                            fontSize: 12,
-                                            color: WhiteColor,
+                                            color: notifire.getwhiteblackcolor,
                                             fontFamily: FontFamily.gilroyMedium,
                                           ),
                                         ),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          color: Color(0xff3D5BF6),
+                                        Text(
+                                          dashBoardController.membershipData[1],
+                                          style: TextStyle(
+                                            color: Color(0xff3D5BF6),
+                                            fontFamily: FontFamily.gilroyMedium,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: notifire.getborderColor),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Valid Till: ".tr,
-                                    style: TextStyle(
-                                      color: notifire.getwhiteblackcolor,
-                                      fontFamily: FontFamily.gilroyMedium,
-                                    ),
-                                  ),
-                                  Text(
-                                    dashBoardController.membershipData[1],
-                                    style: TextStyle(
-                                      color: Color(0xff3D5BF6),
-                                      fontFamily: FontFamily.gilroyMedium,
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -256,7 +274,12 @@ class _MembershipScreenState extends State<MembershipScreen> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: GridView.builder(
-                              itemCount: getData.read("userType") == "admin" ? dashBoardController.dashBoardInfo!.reportData.length - 1 : dashBoardController.dashBoardInfo!.reportData.length,
+                              itemCount: getData.read("userType") == "admin"
+                                  ? dashBoardController
+                                          .dashBoardInfo!.reportData.length -
+                                      1
+                                  : dashBoardController
+                                      .dashBoardInfo!.reportData.length,
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
@@ -270,35 +293,47 @@ class _MembershipScreenState extends State<MembershipScreen> {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {
-                                    if(index == 7){
-                                      reviewlistController.reviewlist().then((value) {
-                                        if(value["Result"] == "true") {
+                                    if (index == 7) {
+                                      reviewlistController.reviewlist().then(
+                                        (value) {
+                                          if (value["Result"] == "true") {
+                                            Get.toNamed(routesList[index]);
+                                          } else {
+                                            showToastMessage("No Review");
+                                          }
+                                        },
+                                      );
+                                    } else if (index == 5) {
+                                      myEarningController
+                                          .getEarningsData()
+                                          .then(
+                                        (value) {
                                           Get.toNamed(routesList[index]);
-                                        } else {
-                                          showToastMessage("No Review");
-                                        }
-                                      },);
-                                    } else if(index == 5){
-                                      myEarningController.getEarningsData().then((value) {
-                                        Get.toNamed(routesList[index]);
-                                      },);
-                                   } else if(index == 0){
-                                      listOfPropertiController.getPropertiList();
+                                        },
+                                      );
+                                    } else if (index == 0) {
+                                      listOfPropertiController
+                                          .getPropertiList();
                                       Get.toNamed(routesList[index]);
-                                    } else if(index == 1){
+                                    } else if (index == 1) {
                                       extraImageController.getExtraImageList();
                                       Get.toNamed(routesList[index]);
-                                    } else if(index == 2){
-                                      galleryCategoryController.getGalleryCategoryList();
+                                    } else if (index == 2) {
+                                      galleryCategoryController
+                                          .getGalleryCategoryList();
                                       Get.toNamed(routesList[index]);
-                                    } else if(index == 3){
-                                      galleryImageController.getGalleryImageList().then((value) {
-                                        Get.toNamed(routesList[index]);
-                                      },);
-                                    } else if(index == 4){
+                                    } else if (index == 3) {
+                                      galleryImageController
+                                          .getGalleryImageList()
+                                          .then(
+                                        (value) {
+                                          Get.toNamed(routesList[index]);
+                                        },
+                                      );
+                                    } else if (index == 4) {
                                       bookingController.getBookingStatusWise();
                                       Get.toNamed(routesList[index]);
-                                    } else if(index == 6){
+                                    } else if (index == 6) {
                                       enquiryController.enquiryListApi();
                                       Get.toNamed(routesList[index]);
                                     } else {
@@ -421,7 +456,6 @@ class _MembershipScreenState extends State<MembershipScreen> {
                             ),
                           ),
                         ),
-
                         Container(
                           margin: EdgeInsets.only(
                               top: 20, left: 10, right: 10, bottom: 10),
@@ -523,21 +557,22 @@ class _MembershipScreenState extends State<MembershipScreen> {
                     onTap: () async {
                       final prefs = await SharedPreferences.getInstance();
                       setState(() async {
-                        isUserLogOut(getData.read("UserLogin")["id"]).then((value) async {
-                          save('isLoginBack', true);
-                          await prefs.remove('Firstuser');
-                          getData.remove("UserLogin");
-                          getData.remove("countryId");
-                          getData.remove("countryName");
-                          getData.remove("currentIndex");
-                          tokenemty();
+                        isUserLogOut(getData.read("UserLogin")["id"]).then(
+                          (value) async {
+                            save('isLoginBack', true);
+                            await prefs.remove('Firstuser');
+                            getData.remove("UserLogin");
+                            getData.remove("countryId");
+                            getData.remove("countryName");
+                            getData.remove("currentIndex");
+                            tokenemty();
 
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        },);
-
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                        );
                       });
                     },
                     child: Container(
@@ -581,5 +616,4 @@ class _MembershipScreenState extends State<MembershipScreen> {
     //     .doc(getData.read("UserLogin")["id"])
     //     .update({"token": ""});
   }
-
 }

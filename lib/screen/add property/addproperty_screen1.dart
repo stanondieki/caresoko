@@ -61,7 +61,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   // Map
@@ -75,12 +76,16 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
       targetHeight: width,
     );
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   Future<void> _onAddMarkerButtonPressed(double? lat, dynamic long) async {
-    final Uint8List markIcon = await getImages("assets/images/location_pin.png", 80);
-    final position = LatLng(double.parse(lat.toString()), double.parse(long.toString()));
+    final Uint8List markIcon =
+        await getImages("assets/images/location_pin.png", 80);
+    final position =
+        LatLng(double.parse(lat.toString()), double.parse(long.toString()));
     markers
       ..clear()
       ..add(Marker(
@@ -100,13 +105,13 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
     if (manegeRoute == "Add") {
       addPropertiesController.propertyAddress =
-      '${first.name}, ${first.locality}, ${first.country}';
+          '${first.name}, ${first.locality}, ${first.country}';
       addPropertiesController.propertyZipCode = first.postalCode ?? '';
       addPropertiesController.propertyCountry = first.country ?? '';
       addPropertiesController.propertyCity = first.locality ?? '';
     } else {
       addPropertiesController.ePropertyAddress =
-      '${first.name}, ${first.locality}, ${first.country}';
+          '${first.name}, ${first.locality}, ${first.country}';
       addPropertiesController.ePropertyZipCode = first.postalCode ?? '';
       addPropertiesController.ePropertyCountry = first.country ?? '';
       addPropertiesController.ePropertyCity = first.locality ?? '';
@@ -119,7 +124,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
     if (manegeRoute == "edit") {
       try {
-        getCurrentLatAndLong(addPropertiesController.elat, addPropertiesController.elong);
+        getCurrentLatAndLong(
+            addPropertiesController.elat, addPropertiesController.elong);
         addPropertiesController.emptyAllDetails();
         addPropertiesController.propertyTitleController.text =
             addPropertiesController.ePropertyName ?? '';
@@ -136,7 +142,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
       setState(() {});
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => getdarkmodepreviousstate());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => getdarkmodepreviousstate());
   }
 
   @override
@@ -157,7 +164,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
             final bool isDesktop = width >= 1100;
 
             // Max content width for big screens
-            final double maxContentWidth = isDesktop ? 1100 : (isTablet ? 900 : width);
+            final double maxContentWidth =
+                isDesktop ? 1100 : (isTablet ? 900 : width);
 
             // Side padding
             final EdgeInsets pagePadding = EdgeInsets.symmetric(
@@ -169,7 +177,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
             final double mapHeight = isPhone ? 220 : (isTablet ? 320 : 420);
 
             // Field width in a Wrap (two columns on wide screens)
-            final double fieldMaxWidth = isPhone ? width - 24 : (maxContentWidth - 20) / 2;
+            final double fieldMaxWidth =
+                isPhone ? width - 24 : (maxContentWidth - 20) / 2;
 
             return Center(
               child: ConstrainedBox(
@@ -184,18 +193,23 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Container(
-                              decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                              decoration: BoxDecoration(
+                                  color: notifire.getblackwhitecolor),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: 14),
                                   _h1("Let's Start Your Client-Finding Journey"),
                                   SizedBox(height: 20),
-                                  _stepText(manegeRoute == "Add" ? "Step 1 of 8" : "Step 1 of 7"),
+                                  _stepText(manegeRoute == "Add"
+                                      ? "Step 1 of 8"
+                                      : "Step 1 of 7"),
                                   SizedBox(height: 10),
                                   _h2("A Little About Your Home or Facility"),
                                   SizedBox(height: 10),
-                                  Divider(height: 0.5, color: notifire.getgreycolor),
+                                  Divider(
+                                      height: 0.5,
+                                      color: notifire.getgreycolor),
                                   SizedBox(height: 16),
 
                                   // ====== FORM GRID (Wrap -> 1 col on phone, 2 cols on tablet/desktop) ======
@@ -216,10 +230,13 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                                         child: textfield(
                                           type: null,
                                           labelText: "Home Name".tr,
-                                          controller: addPropertiesController.propertyTitleController,
+                                          controller: addPropertiesController
+                                              .propertyTitleController,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Please Enter Home Name'.tr;
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Home Name'
+                                                  .tr;
                                             }
                                             return null;
                                           },
@@ -229,44 +246,61 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
                                       // Description (full width on phone; on large screens, make it span two columns)
                                       _boxed(
-                                        width: isPhone ? fieldMaxWidth : (maxContentWidth - 20),
+                                        width: isPhone
+                                            ? fieldMaxWidth
+                                            : (maxContentWidth - 20),
                                         child: Container(
-                                          margin: EdgeInsets.only(top: 5, left: 3, right: 3),
+                                          margin: EdgeInsets.only(
+                                              top: 5, left: 3, right: 3),
                                           decoration: BoxDecoration(
                                             color: notifire.getblackwhitecolor,
-                                            borderRadius: BorderRadius.circular(15),
-                                            border: Border.all(color: notifire.getborderColor),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            border: Border.all(
+                                                color: notifire.getborderColor),
                                           ),
                                           child: TextFormField(
-                                            controller: addPropertiesController.propertyDescriptionController,
+                                            controller: addPropertiesController
+                                                .propertyDescriptionController,
                                             minLines: 5,
                                             maxLines: null,
-                                            keyboardType: TextInputType.multiline,
-                                            cursorColor: notifire.getwhiteblackcolor,
-                                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            cursorColor:
+                                                notifire.getwhiteblackcolor,
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
                                             decoration: InputDecoration(
                                               focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: blueColor),
-                                                borderRadius: BorderRadius.circular(15),
+                                                borderSide: BorderSide(
+                                                    color: blueColor),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
                                               ),
-                                              contentPadding: EdgeInsets.all(10),
+                                              contentPadding:
+                                                  EdgeInsets.all(10),
                                               border: InputBorder.none,
                                               hintText:
-                                              "Briefly describe your home or facility, including amenities, caregiver qualifications, accreditations, and the unique care services you offer"
-                                                  .tr,
+                                                  "Briefly describe your home or facility, including amenities, caregiver qualifications, accreditations, and the unique care services you offer"
+                                                      .tr,
                                               hintStyle: TextStyle(
-                                                fontFamily: FontFamily.gilroyMedium,
+                                                fontFamily:
+                                                    FontFamily.gilroyMedium,
                                                 fontSize: 15,
                                               ),
                                             ),
                                             style: TextStyle(
-                                              fontFamily: FontFamily.gilroyMedium,
+                                              fontFamily:
+                                                  FontFamily.gilroyMedium,
                                               fontSize: 16,
-                                              color: notifire.getwhiteblackcolor,
+                                              color:
+                                                  notifire.getwhiteblackcolor,
                                             ),
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                return 'Please Enter Home Description'.tr;
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please Enter Home Description'
+                                                    .tr;
                                               }
                                               return null;
                                             },
@@ -283,7 +317,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
                                   // ====== MAP (responsive height) ======
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
                                     child: Container(
                                       height: mapHeight,
                                       width: double.infinity,
@@ -295,21 +330,31 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                                         borderRadius: BorderRadius.circular(15),
                                         child: GoogleMap(
                                           gestureRecognizers: {
-                                            Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer())
+                                            Factory<OneSequenceGestureRecognizer>(
+                                                () => EagerGestureRecognizer())
                                           },
                                           initialCameraPosition: CameraPosition(
                                             target: manegeRoute == "Add"
-                                                ? const LatLng(47.751076, -120.740135)
-                                                : LatLng(addPropertiesController.elat, addPropertiesController.elong),
+                                                ? const LatLng(
+                                                    47.751076, -120.740135)
+                                                : LatLng(
+                                                    addPropertiesController
+                                                        .elat,
+                                                    addPropertiesController
+                                                        .elong),
                                             zoom: 13,
                                           ),
                                           mapType: MapType.normal,
                                           markers: markers,
                                           onTap: (argument) async {
                                             setState(() {});
-                                            await _onAddMarkerButtonPressed(argument.latitude, argument.longitude);
-                                            addPropertiesController.lat = argument.latitude;
-                                            addPropertiesController.long = argument.longitude;
+                                            await _onAddMarkerButtonPressed(
+                                                argument.latitude,
+                                                argument.longitude);
+                                            addPropertiesController.lat =
+                                                argument.latitude;
+                                            addPropertiesController.long =
+                                                argument.longitude;
 
                                             await getCurrentLatAndLong(
                                               addPropertiesController.lat,
@@ -323,7 +368,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                                           tiltGesturesEnabled: true,
                                           zoomControlsEnabled: true,
                                           onMapCreated: (controller) {
-                                            setState(() => mapController1 = controller);
+                                            setState(() =>
+                                                mapController1 = controller);
                                           },
                                         ),
                                       ),
@@ -350,14 +396,19 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                                       ),
                                       onclick: () {
                                         addPropertiesController.propertyTitle =
-                                            addPropertiesController.propertyTitleController.text;
-                                        addPropertiesController.propertyDescription =
-                                            addPropertiesController.propertyDescriptionController.text;
+                                            addPropertiesController
+                                                .propertyTitleController.text;
+                                        addPropertiesController
+                                                .propertyDescription =
+                                            addPropertiesController
+                                                .propertyDescriptionController
+                                                .text;
 
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen2,
-                                          arguments: {"add": manegeRoute},
-                                        );
+                                        // COMMENTED OUT: Advert functionality disabled
+                                        // Get.toNamed(
+                                        //   Routes.addPropertyScreen2,
+                                        //   arguments: {"add": manegeRoute},
+                                        // );
 
                                         // Keep your validation flow here if you want to enforce before navigation.
                                       },
@@ -390,7 +441,9 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
       backgroundColor: notifire.getblackwhitecolor,
       elevation: 0,
       title: Text(
-        manegeRoute == "Add" ? "Add Home Or Facility".tr : "Edit Home Or Facility".tr,
+        manegeRoute == "Add"
+            ? "Add Home Or Facility".tr
+            : "Edit Home Or Facility".tr,
         style: TextStyle(
           color: notifire.getwhiteblackcolor,
           fontFamily: FontFamily.gilroyBold,
@@ -403,42 +456,43 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
   // ---------- Helpers: Headings & Boxes ----------
   Widget _h1(String text) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 18,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 18,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _h2(String text) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _stepText(String text) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
-  Widget _boxed({required double width, required Widget child, required String label}) {
+  Widget _boxed(
+      {required double width, required Widget child, required String label}) {
     return SizedBox(
       width: width,
       child: Column(
@@ -489,7 +543,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
         ),
         underline: SizedBox.shrink(),
         isExpanded: true,
-        items: dashBoardController.typeList.map<DropdownMenuItem<String>>((String value) {
+        items: dashBoardController.typeList
+            .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
@@ -503,9 +558,12 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
           );
         }).toList(),
         onChanged: (value) {
-          for (var i = 0; i < (dashBoardController.proTypeInfo?.typelist?.length ?? 0); i++) {
+          for (var i = 0;
+              i < (dashBoardController.proTypeInfo?.typelist?.length ?? 0);
+              i++) {
             if (value == dashBoardController.proTypeInfo?.typelist![i].title) {
-              addPropertiesController.pType = dashBoardController.proTypeInfo?.typelist![i].id ?? "";
+              addPropertiesController.pType =
+                  dashBoardController.proTypeInfo?.typelist![i].id ?? "";
               print(addPropertiesController.pType);
             }
           }
@@ -517,7 +575,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
   // ---------- Opening gallery (unchanged) ----------
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
       setState(() {});
@@ -572,7 +631,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
         ),
         decoration: InputDecoration(
           hintText: labelText,
-          hintStyle: TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+          hintStyle: TextStyle(
+              color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: blueColor),
             borderRadius: BorderRadius.circular(15),
@@ -592,8 +652,6 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

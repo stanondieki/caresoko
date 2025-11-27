@@ -67,10 +67,11 @@ class _GalleryCategoryScreenState extends State<GalleryCategoryScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(
-                  Routes.addGalleryCategoryScreen,
-                  arguments: {"add": "Add"},
-                );
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(
+                //   Routes.addGalleryCategoryScreen,
+                //   arguments: {"add": "Add"},
+                // );
               },
               child: Container(
                 height: 50,
@@ -210,10 +211,11 @@ class _GalleryCategoryScreenState extends State<GalleryCategoryScreen> {
                                                       .propertyId ??
                                                   "",
                                             );
-                                            Get.toNamed(
-                                              Routes.addGalleryCategoryScreen,
-                                              arguments: {"add": "edit"},
-                                            );
+                                            // COMMENTED OUT: Advert functionality disabled
+                                            // Get.toNamed(
+                                            //   Routes.addGalleryCategoryScreen,
+                                            //   arguments: {"add": "edit"},
+                                            // );
                                           },
                                           child: Container(
                                             height: 35,

@@ -68,12 +68,13 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(
-                  Routes.addExtraImageScreen,
-                  arguments: {
-                    "add": "Add",
-                  },
-                );
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(
+                //   Routes.addExtraImageScreen,
+                //   arguments: {
+                //     "add": "Add",
+                //   },
+                // );
               },
               child: Container(
                 height: 50,
@@ -99,7 +100,8 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: extraImageController.isLoading
-                      ? extraImageController.extraListInfo!.extralist!.isNotEmpty
+                      ? extraImageController
+                              .extraListInfo!.extralist!.isNotEmpty
                           ? ListView.builder(
                               padding: EdgeInsets.only(top: 10),
                               itemCount: extraImageController
@@ -124,13 +126,19 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                                               child: FadeInImage.assetNetwork(
                                                 fadeInCurve: Curves.easeInCirc,
                                                 placeholder:
-                                                "assets/images/ezgif.com-crop.gif",
+                                                    "assets/images/ezgif.com-crop.gif",
                                                 height: 90,
-                                                imageErrorBuilder: (context, error, stackTrace) {
-                                                  return Image.asset("assets/images/ezgif.com-crop.gif",height: 48,width: 48,fit: BoxFit.cover,);
+                                                imageErrorBuilder: (context,
+                                                    error, stackTrace) {
+                                                  return Image.asset(
+                                                    "assets/images/ezgif.com-crop.gif",
+                                                    height: 48,
+                                                    width: 48,
+                                                    fit: BoxFit.cover,
+                                                  );
                                                 },
                                                 image:
-                                                "${Config.imageUrl}${extraImageController.extraListInfo?.extralist![index].image ?? ""}",
+                                                    "${Config.imageUrl}${extraImageController.extraListInfo?.extralist![index].image ?? ""}",
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -209,7 +217,8 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                                                   selectPro:
                                                       extraImageController
                                                               .extraListInfo
-                                                              ?.extralist![index]
+                                                              ?.extralist![
+                                                                  index]
                                                               .propertyTitle ??
                                                           "",
                                                   pId: extraImageController
@@ -217,11 +226,12 @@ class _ExtraImageScreenState extends State<ExtraImageScreen> {
                                                           ?.extralist![index]
                                                           .propertyId ??
                                                       "");
-                                          Get.toNamed(
-                                              Routes.addExtraImageScreen,
-                                              arguments: {
-                                                "add": "edit",
-                                              });
+                                          // COMMENTED OUT: Advert functionality disabled
+                                          // Get.toNamed(
+                                          //     Routes.addExtraImageScreen,
+                                          //     arguments: {
+                                          //       "add": "edit",
+                                          //     });
                                         },
                                         child: Container(
                                           height: 40,

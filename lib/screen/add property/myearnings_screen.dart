@@ -89,8 +89,8 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
 
             double gridAspectFor(int count) {
               // < 1 => taller than wide (prevents bottom overflow)
-              if (count == 3) return 0.95;   // desktop: a bit tall
-              if (count == 2) return 0.90;   // tablet: taller
+              if (count == 3) return 0.95; // desktop: a bit tall
+              if (count == 2) return 0.90; // tablet: taller
               return 1.0; // unused in list mode
             }
 
@@ -105,59 +105,61 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
                       vertical: 10,
                     ),
                     sliver: crossAxisCount == 1
-                    // ===== PHONE: NATURAL-HEIGHT LIST WITH HORIZONTAL TILE =====
+                        // ===== PHONE: NATURAL-HEIGHT LIST WITH HORIZONTAL TILE =====
                         ? SliverList.builder(
-                      itemCount: list.length,
-                      itemBuilder: (_, index) {
-                        final item = list[index];
-                        return _EarningTile(
-                          notifire: notifire,
-                          title: item.propTitle ?? "",
-                          imageUrl:
-                          "${Config.imageUrl}${item.propImg ?? ""}",
-                          ratingText: item.rate ?? "",
-                          pricePerDay: item.propPrice,
-                          totalDays: item.totalDay,
-                          vertical: false, // Row layout on phones
-                          onTapReceipt: () async {
-                            await bookingController.getBookingDetails(
-                              bookId: item.bookId ?? "",
-                            );
-                            Get.toNamed(Routes.eReceiptProScreen);
-                          },
-                        );
-                      },
-                    )
-                    // ===== TABLET/DESKTOP: GRID WITH VERTICAL CARD =====
+                            itemCount: list.length,
+                            itemBuilder: (_, index) {
+                              final item = list[index];
+                              return _EarningTile(
+                                notifire: notifire,
+                                title: item.propTitle ?? "",
+                                imageUrl:
+                                    "${Config.imageUrl}${item.propImg ?? ""}",
+                                ratingText: item.rate ?? "",
+                                pricePerDay: item.propPrice,
+                                totalDays: item.totalDay,
+                                vertical: false, // Row layout on phones
+                                onTapReceipt: () async {
+                                  await bookingController.getBookingDetails(
+                                    bookId: item.bookId ?? "",
+                                  );
+                                  // COMMENTED OUT: Advert functionality disabled
+                                  // Get.toNamed(Routes.eReceiptProScreen);
+                                },
+                              );
+                            },
+                          )
+                        // ===== TABLET/DESKTOP: GRID WITH VERTICAL CARD =====
                         : SliverGrid.builder(
-                      itemCount: list.length,
-                      gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 14,
-                        mainAxisSpacing: 14,
-                        childAspectRatio: gridAspectFor(crossAxisCount),
-                      ),
-                      itemBuilder: (_, index) {
-                        final item = list[index];
-                        return _EarningTile(
-                          notifire: notifire,
-                          title: item.propTitle ?? "",
-                          imageUrl:
-                          "${Config.imageUrl}${item.propImg ?? ""}",
-                          ratingText: item.rate ?? "",
-                          pricePerDay: item.propPrice,
-                          totalDays: item.totalDay,
-                          vertical: true, // Column layout in grid
-                          onTapReceipt: () async {
-                            await bookingController.getBookingDetails(
-                              bookId: item.bookId ?? "",
-                            );
-                            Get.toNamed(Routes.eReceiptProScreen);
-                          },
-                        );
-                      },
-                    ),
+                            itemCount: list.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 14,
+                              mainAxisSpacing: 14,
+                              childAspectRatio: gridAspectFor(crossAxisCount),
+                            ),
+                            itemBuilder: (_, index) {
+                              final item = list[index];
+                              return _EarningTile(
+                                notifire: notifire,
+                                title: item.propTitle ?? "",
+                                imageUrl:
+                                    "${Config.imageUrl}${item.propImg ?? ""}",
+                                ratingText: item.rate ?? "",
+                                pricePerDay: item.propPrice,
+                                totalDays: item.totalDay,
+                                vertical: true, // Column layout in grid
+                                onTapReceipt: () async {
+                                  await bookingController.getBookingDetails(
+                                    bookId: item.bookId ?? "",
+                                  );
+                                  // COMMENTED OUT: Advert functionality disabled
+                                  // Get.toNamed(Routes.eReceiptProScreen);
+                                },
+                              );
+                            },
+                          ),
                   ),
                 ],
               ),
@@ -175,8 +177,8 @@ class _EarningTile extends StatelessWidget {
   final String imageUrl;
   final String ratingText;
   final dynamic pricePerDay; // could be String/num/null in API
-  final dynamic totalDays;   // could be String/num/null in API
-  final bool vertical;       // true: Column layout (grid), false: Row layout (list)
+  final dynamic totalDays; // could be String/num/null in API
+  final bool vertical; // true: Column layout (grid), false: Row layout (list)
   final VoidCallback onTapReceipt;
 
   const _EarningTile({
@@ -215,7 +217,9 @@ class _EarningTile extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       clipBehavior: Clip.antiAlias,
-      child: vertical ? _buildVertical(context, total, days) : _buildHorizontal(context, total, days),
+      child: vertical
+          ? _buildVertical(context, total, days)
+          : _buildHorizontal(context, total, days),
     );
   }
 
@@ -506,8 +510,6 @@ class _EmptyState extends StatelessWidget {
     );
   }
 }
-
-
 
 // // ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, sort_child_properties_last
 //

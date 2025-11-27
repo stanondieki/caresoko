@@ -52,7 +52,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
   }
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -121,7 +122,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
             final bool isTablet = w >= 700 && w < 1100;
             final bool isDesktop = w >= 1100;
 
-            final double maxContentWidth = isDesktop ? 1100 : (isTablet ? 900 : w);
+            final double maxContentWidth =
+                isDesktop ? 1100 : (isTablet ? 900 : w);
             final EdgeInsets pagePadding = EdgeInsets.symmetric(
               horizontal: isPhone ? 12 : 20,
               vertical: isPhone ? 0 : 8,
@@ -145,7 +147,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Container(
-                              decoration: BoxDecoration(color: notifire.getblackwhitecolor),
+                              decoration: BoxDecoration(
+                                  color: notifire.getblackwhitecolor),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -156,14 +159,18 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                   SizedBox(height: 10),
                                   _h2("High-Quality Photos To Showcase Your Home"),
                                   SizedBox(height: 10),
-                                  Divider(height: 0.5, color: notifire.getgreycolor),
+                                  Divider(
+                                      height: 0.5,
+                                      color: notifire.getgreycolor),
                                   SizedBox(height: 18),
 
                                   // ===== Do you have photos? =====
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
                                     child: Text(
-                                      "Do you have high quality photos of your home or facility? (If not, you can book our professional photographers to take compliant photos of your home or facility)".tr,
+                                      "Do you have high quality photos of your home or facility? (If not, you can book our professional photographers to take compliant photos of your home or facility)"
+                                          .tr,
                                       style: TextStyle(
                                         fontFamily: FontFamily.gilroyBold,
                                         fontSize: 16,
@@ -173,16 +180,19 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                   ),
                                   SizedBox(height: 8),
                                   _ynBlock(
-                                    yesChecked: addPropertiesController.havePhotos,
+                                    yesChecked:
+                                        addPropertiesController.havePhotos,
                                     yesLabel: "Yes",
-                                    noChecked: !addPropertiesController.havePhotos,
+                                    noChecked:
+                                        !addPropertiesController.havePhotos,
                                     noLabel:
-                                    "No, and I would like to book your professional photographers",
+                                        "No, and I would like to book your professional photographers",
                                     onYes: () => setState(() {
                                       addPropertiesController.havePhotos = true;
                                     }),
                                     onNo: () => setState(() {
-                                      addPropertiesController.havePhotos = false;
+                                      addPropertiesController.havePhotos =
+                                          false;
                                     }),
                                   ),
 
@@ -203,7 +213,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       onTap: () => _pickFor("Dining Areas"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.diningImagesPaths,
+                                      paths: addPropertiesController
+                                          .diningImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Dining Areas",
                                         index: i,
@@ -213,13 +224,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
                                       label: "Bedrooms (Upload Multiple)",
                                       onTap: () => _pickFor("Bedrooms"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.bedroomsImagesPaths,
+                                      paths: addPropertiesController
+                                          .bedroomsImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Bedrooms",
                                         index: i,
@@ -229,13 +240,15 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
-                                      label: "Common Living Areas (Upload Multiple)",
-                                      onTap: () => _pickFor("Common Living Areas"),
+                                      label:
+                                          "Common Living Areas (Upload Multiple)",
+                                      onTap: () =>
+                                          _pickFor("Common Living Areas"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.commonLivingImagesPaths,
+                                      paths: addPropertiesController
+                                          .commonLivingImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Common Living Areas",
                                         index: i,
@@ -245,13 +258,15 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
-                                      label: "Recreational Spaces (Upload Multiple)",
-                                      onTap: () => _pickFor("Recreational Spaces"),
+                                      label:
+                                          "Recreational Spaces (Upload Multiple)",
+                                      onTap: () =>
+                                          _pickFor("Recreational Spaces"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.recreationalSpacesImagesPaths,
+                                      paths: addPropertiesController
+                                          .recreationalSpacesImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Recreational Spaces",
                                         index: i,
@@ -261,13 +276,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
                                       label: "Outdoor Areas (Upload Multiple)",
                                       onTap: () => _pickFor("Outdoor Areas"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.outdoorImagesPaths,
+                                      paths: addPropertiesController
+                                          .outdoorImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Outdoor Areas",
                                         index: i,
@@ -277,13 +292,15 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
-                                      label: "Accessible Facilities (Eg Bathrooms, Ramps)",
-                                      onTap: () => _pickFor("Accessible Facilities"),
+                                      label:
+                                          "Accessible Facilities (Eg Bathrooms, Ramps)",
+                                      onTap: () =>
+                                          _pickFor("Accessible Facilities"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.accessibleFacilitiesImagesPaths,
+                                      paths: addPropertiesController
+                                          .accessibleFacilitiesImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Accessible Facilities",
                                         index: i,
@@ -293,13 +310,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
                                       label: "Staff Quarters (Optional)",
                                       onTap: () => _pickFor("Staff Quarters"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.staffQuartersImagesPaths,
+                                      paths: addPropertiesController
+                                          .staffQuartersImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Staff Quarters",
                                         index: i,
@@ -309,13 +326,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       spacing: gridSpacing,
                                     ),
                                     SizedBox(height: 10),
-
                                     _uploadTile(
                                       label: "Others (Optional)",
                                       onTap: () => _pickFor("Others"),
                                     ),
                                     _gallery(
-                                      paths: addPropertiesController.othersImagesPaths,
+                                      paths: addPropertiesController
+                                          .othersImagesPaths,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Others",
                                         index: i,
@@ -328,15 +345,18 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
 
                                   SizedBox(height: 22),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: isPhone ? 24 : 35),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: isPhone ? 24 : 35),
                                     child: GestButton(
                                       Width: double.infinity,
                                       height: 55,
-                                      buttoncolor: addPropertiesController.havePhotos
-                                          ? blueColor
-                                          : (addPropertiesController.consentToPhotographyTerms
-                                          ? blueColor
-                                          : greyColor),
+                                      buttoncolor:
+                                          addPropertiesController.havePhotos
+                                              ? blueColor
+                                              : (addPropertiesController
+                                                      .consentToPhotographyTerms
+                                                  ? blueColor
+                                                  : greyColor),
                                       margin: EdgeInsets.zero,
                                       buttontext: "Next".tr,
                                       style: TextStyle(
@@ -345,22 +365,26 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      onclick: addPropertiesController.havePhotos
-                                          ? () {
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen6,
-                                          arguments: {"add": "Add"},
-                                        );
-                                      }
-                                          : (addPropertiesController.consentToPhotographyTerms
-                                          ? () {
-                                        // After booking consent, you might want to move to confirmation or same step.
-                                        Get.toNamed(
-                                          Routes.addPropertyScreen5,
-                                          arguments: {"add": "Add"},
-                                        );
-                                      }
-                                          : null),
+                                      onclick:
+                                          addPropertiesController.havePhotos
+                                              ? () {
+                                                  // COMMENTED OUT: Advert functionality disabled
+                                                  // Get.toNamed(
+                                                  //   Routes.addPropertyScreen6,
+                                                  //   arguments: {"add": "Add"},
+                                                  // );
+                                                }
+                                              : (addPropertiesController
+                                                      .consentToPhotographyTerms
+                                                  ? () {
+                                                      // After booking consent, you might want to move to confirmation or same step.
+                                                      // COMMENTED OUT: Advert functionality disabled
+                                                      // Get.toNamed(
+                                                      //   Routes.addPropertyScreen5,
+                                                      //   arguments: {"add": "Add"},
+                                                      // );
+                                                    }
+                                                  : null),
                                     ),
                                   ),
                                   SizedBox(height: 28),
@@ -384,40 +408,40 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
   // =============== Reusable UI helpers ===============
 
   Widget _h1(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 18,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 18,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _h2(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _stepText(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text.tr,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text.tr,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _ynBlock({
     required bool yesChecked,
@@ -438,7 +462,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                 value: yesChecked,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onYes(),
               ),
             ),
@@ -465,7 +490,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                 value: noChecked,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) => onNo(),
               ),
             ),
@@ -526,11 +552,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                           backgroundColor: notifire.getblackwhitecolor,
                           hourMinuteTextColor: notifire.getwhiteblackcolor,
                           dialHandColor: blueColor,
-                          dialBackgroundColor: notifire.getblackwhitecolor.withOpacity(0.1),
+                          dialBackgroundColor:
+                              notifire.getblackwhitecolor.withOpacity(0.1),
                           entryModeIconColor: notifire.getwhiteblackcolor,
                         ),
                         textButtonTheme: TextButtonThemeData(
-                          style: TextButton.styleFrom(foregroundColor: blueColor),
+                          style:
+                              TextButton.styleFrom(foregroundColor: blueColor),
                         ),
                       ),
                       child: TimePickerDialog(initialTime: TimeOfDay.now()),
@@ -539,7 +567,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
 
                   if (selectedTime != null) {
                     final now = DateTime.now();
-                    final dt = DateTime(now.year, now.month, now.day, selectedTime.hour, selectedTime.minute);
+                    final dt = DateTime(now.year, now.month, now.day,
+                        selectedTime.hour, selectedTime.minute);
                     final formattedTime = DateFormat('hh:mm a').format(dt);
                     addPropertiesController.updateTime(formattedTime);
                     setState(() {});
@@ -558,12 +587,15 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                     children: [
                       SizedBox(width: 15),
                       Text(
-                        addPropertiesController.propertyShootTime?.isNotEmpty == true
+                        addPropertiesController.propertyShootTime?.isNotEmpty ==
+                                true
                             ? addPropertiesController.propertyShootTime!
                             : "Pick time".tr,
                         style: TextStyle(
                           fontFamily: FontFamily.gilroyMedium,
-                          color: addPropertiesController.propertyShootTime?.isNotEmpty == true
+                          color: addPropertiesController
+                                      .propertyShootTime?.isNotEmpty ==
+                                  true
                               ? notifire.getwhiteblackcolor
                               : notifire.getgreycolor,
                         ),
@@ -573,7 +605,9 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                         "assets/images/Calendar.png",
                         height: 25,
                         width: 25,
-                        color: addPropertiesController.propertyShootTime?.isNotEmpty == true
+                        color: addPropertiesController
+                                    .propertyShootTime?.isNotEmpty ==
+                                true
                             ? notifire.getwhiteblackcolor
                             : notifire.getgreycolor,
                       ),
@@ -602,10 +636,11 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                 value: addPropertiesController.consentToPhotographyTerms,
                 side: const BorderSide(color: Color(0xffC5CAD4)),
                 activeColor: blueColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onChanged: (_) {
                   addPropertiesController.consentToPhotographyTerms =
-                  !addPropertiesController.consentToPhotographyTerms;
+                      !addPropertiesController.consentToPhotographyTerms;
                   setState(() {});
                 },
               ),
@@ -716,7 +751,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
       child: LayoutBuilder(
         builder: (context, box) {
-          final tileWidth = (box.maxWidth - spacing * (gridCols - 1)) / gridCols;
+          final tileWidth =
+              (box.maxWidth - spacing * (gridCols - 1)) / gridCols;
           final tileHeight = 150.0;
           return Wrap(
             spacing: spacing,
@@ -743,7 +779,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
           height: 150,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(image: FileImage(File(path)), fit: BoxFit.cover),
+            image: DecorationImage(
+                image: FileImage(File(path)), fit: BoxFit.cover),
           ),
         ),
         Positioned(
@@ -802,10 +839,10 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
         addPropertiesController.commonLivingImagesBase64.removeAt(index);
         break;
       case "Recreational Spaces":
-        addPropertiesController.propertyImagesPaths
-            .remove(addPropertiesController.recreationalSpacesImagesPaths[index]);
-        addPropertiesController.propertyImagesBase64
-            .remove(addPropertiesController.recreationalSpacesImagesBase64[index]);
+        addPropertiesController.propertyImagesPaths.remove(
+            addPropertiesController.recreationalSpacesImagesPaths[index]);
+        addPropertiesController.propertyImagesBase64.remove(
+            addPropertiesController.recreationalSpacesImagesBase64[index]);
         addPropertiesController.recreationalSpacesImagesPaths.removeAt(index);
         addPropertiesController.recreationalSpacesImagesBase64.removeAt(index);
         break;
@@ -818,12 +855,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
         addPropertiesController.outdoorImagesBase64.removeAt(index);
         break;
       case "Accessible Facilities":
-        addPropertiesController.propertyImagesPaths
-            .remove(addPropertiesController.accessibleFacilitiesImagesPaths[index]);
-        addPropertiesController.propertyImagesBase64
-            .remove(addPropertiesController.accessibleFacilitiesImagesBase64[index]);
+        addPropertiesController.propertyImagesPaths.remove(
+            addPropertiesController.accessibleFacilitiesImagesPaths[index]);
+        addPropertiesController.propertyImagesBase64.remove(
+            addPropertiesController.accessibleFacilitiesImagesBase64[index]);
         addPropertiesController.accessibleFacilitiesImagesPaths.removeAt(index);
-        addPropertiesController.accessibleFacilitiesImagesBase64.removeAt(index);
+        addPropertiesController.accessibleFacilitiesImagesBase64
+            .removeAt(index);
         break;
       case "Staff Quarters":
         addPropertiesController.propertyImagesPaths
@@ -846,48 +884,67 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
   }
 
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
-      addPropertiesController.propertyImagesPaths.add(addPropertiesController.path!);
+      addPropertiesController.propertyImagesPaths
+          .add(addPropertiesController.path!);
 
       File imageFile = File(addPropertiesController.path.toString());
       List<int> imageBytes = imageFile.readAsBytesSync();
       addPropertiesController.base64Image = base64Encode(imageBytes);
-      addPropertiesController.propertyImagesBase64.add(addPropertiesController.base64Image!);
+      addPropertiesController.propertyImagesBase64
+          .add(addPropertiesController.base64Image!);
 
       switch (addPropertiesController.photosBeingAdded) {
         case "Dining Areas":
-          addPropertiesController.diningImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.diningImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.diningImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.diningImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Bedrooms":
-          addPropertiesController.bedroomsImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.bedroomsImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.bedroomsImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.bedroomsImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Common Living Areas":
-          addPropertiesController.commonLivingImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.commonLivingImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.commonLivingImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.commonLivingImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Recreational Spaces":
-          addPropertiesController.recreationalSpacesImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.recreationalSpacesImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.recreationalSpacesImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.recreationalSpacesImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Outdoor Areas":
-          addPropertiesController.outdoorImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.outdoorImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.outdoorImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.outdoorImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Accessible Facilities":
-          addPropertiesController.accessibleFacilitiesImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.accessibleFacilitiesImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.accessibleFacilitiesImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.accessibleFacilitiesImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Staff Quarters":
-          addPropertiesController.staffQuartersImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.staffQuartersImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.staffQuartersImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.staffQuartersImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
         case "Others":
-          addPropertiesController.othersImagesPaths.add(addPropertiesController.path!);
-          addPropertiesController.othersImagesBase64.add(addPropertiesController.base64Image!);
+          addPropertiesController.othersImagesPaths
+              .add(addPropertiesController.path!);
+          addPropertiesController.othersImagesBase64
+              .add(addPropertiesController.base64Image!);
           break;
       }
       setState(() {});
@@ -953,7 +1010,10 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
             ),
             decoration: InputDecoration(
               hintText: labelText,
-              hintStyle: TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+              hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: "Gilroy Medium",
+                  fontSize: 16),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
                 borderRadius: BorderRadius.circular(15),
@@ -1035,9 +1095,13 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
             ),
             decoration: InputDecoration(
               hintText: labelText,
-              hintStyle: TextStyle(color: Colors.grey, fontFamily: "Gilroy Medium", fontSize: 16),
+              hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: "Gilroy Medium",
+                  fontSize: 16),
               suffixIcon: isDatePicker == true
-                  ? Icon(Icons.calendar_today, color: notifire.getwhiteblackcolor)
+                  ? Icon(Icons.calendar_today,
+                      color: notifire.getwhiteblackcolor)
                   : suffix,
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: blueColor),
@@ -1073,7 +1137,6 @@ extension _Below on Widget {
     );
   }
 }
-
 
 // // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 //

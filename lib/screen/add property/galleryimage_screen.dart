@@ -68,9 +68,10 @@ class _GallertImageScreenState extends State<GallertImageScreen> {
             padding: const EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                Get.toNamed(Routes.addGalleryImageScreen, arguments: {
-                  "add": "Add",
-                });
+                // COMMENTED OUT: Advert functionality disabled
+                // Get.toNamed(Routes.addGalleryImageScreen, arguments: {
+                //   "add": "Add",
+                // });
               },
               child: Container(
                 height: 50,

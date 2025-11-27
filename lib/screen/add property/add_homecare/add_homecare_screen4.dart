@@ -58,24 +58,35 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
       // restore selectable lists
       addHomecareController.selectedCertifications
         ..clear()
-        ..addAll((addHomecareController.eCertifications ?? "").split(",").where((e) => e.trim().isNotEmpty));
+        ..addAll((addHomecareController.eCertifications ?? "")
+            .split(",")
+            .where((e) => e.trim().isNotEmpty));
 
       addHomecareController.selectedSpecializedCertifications
         ..clear()
-        ..addAll((addHomecareController.eSpecializedCertifications ?? "").split(",").where((e) => e.trim().isNotEmpty));
+        ..addAll((addHomecareController.eSpecializedCertifications ?? "")
+            .split(",")
+            .where((e) => e.trim().isNotEmpty));
 
       addHomecareController.selectedAccreditations
         ..clear()
-        ..addAll((addHomecareController.eAccreditations ?? "").split(",").where((e) => e.trim().isNotEmpty));
+        ..addAll((addHomecareController.eAccreditations ?? "")
+            .split(",")
+            .where((e) => e.trim().isNotEmpty));
 
       addHomecareController.selectedMemberships
         ..clear()
-        ..addAll((addHomecareController.eMemberships ?? "").split(",").where((e) => e.trim().isNotEmpty));
+        ..addAll((addHomecareController.eMemberships ?? "")
+            .split(",")
+            .where((e) => e.trim().isNotEmpty));
 
       // toggles
-      addHomecareController.backgroundChecks = addHomecareController.eBackgroundChecks ?? false;
-      addHomecareController.drugTesting = addHomecareController.eDrugTesting ?? false;
-      addHomecareController.referenceVerification = addHomecareController.eReferenceVerification ?? false;
+      addHomecareController.backgroundChecks =
+          addHomecareController.eBackgroundChecks ?? false;
+      addHomecareController.drugTesting =
+          addHomecareController.eDrugTesting ?? false;
+      addHomecareController.referenceVerification =
+          addHomecareController.eReferenceVerification ?? false;
     }
 
     getdarkmodepreviousstate();
@@ -86,8 +97,8 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
     notifire = Provider.of<ColorNotifire>(context, listen: true);
 
     final media = MediaQuery.of(context);
-    final isWide = media.size.width >= 900;      // desktop/tablet breakpoint
-    final sidePad = isWide ? 24.0 : 10.0;        // nicer gutters on wide screens
+    final isWide = media.size.width >= 900; // desktop/tablet breakpoint
+    final sidePad = isWide ? 24.0 : 10.0; // nicer gutters on wide screens
     const contentMaxWidth = 1100.0;
 
     return Scaffold(
@@ -101,7 +112,9 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          manegeRoute == "Add" ? "Add Homecare Agency".tr : "Edit Homecare Agency",
+          manegeRoute == "Add"
+              ? "Add Homecare Agency".tr
+              : "Edit Homecare Agency",
           style: TextStyle(
             color: notifire.getwhiteblackcolor,
             fontFamily: FontFamily.gilroyBold,
@@ -127,23 +140,34 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 12),
-                          _title("Accreditations, Certifications, and Memberships".tr),
+                          _title(
+                              "Accreditations, Certifications, and Memberships"
+                                  .tr),
                           const SizedBox(height: 16),
-                          _subtitle(manegeRoute == "Add" ? "Step 4 of 8".tr : "Step 4 of 7"),
+                          _subtitle(manegeRoute == "Add"
+                              ? "Step 4 of 8".tr
+                              : "Step 4 of 7"),
                           const SizedBox(height: 10),
-                          _sectionHeader("Give Clients Confidence In Your Quality Of Care".tr),
+                          _sectionHeader(
+                              "Give Clients Confidence In Your Quality Of Care"
+                                  .tr),
                           const SizedBox(height: 10),
                           Divider(height: 0.5, color: notifire.getgreycolor),
                           const SizedBox(height: 20),
 
                           // Certifications
-                          _sectionHeader("Select Caregiver Certifications Your Staff Hold".tr),
+                          _sectionHeader(
+                              "Select Caregiver Certifications Your Staff Hold"
+                                  .tr),
                           const SizedBox(height: 8),
                           _checkboxList(
                             items: addHomecareController.allCertifications,
-                            isSelected: (s) => addHomecareController.selectedCertifications.contains(s),
+                            isSelected: (s) => addHomecareController
+                                .selectedCertifications
+                                .contains(s),
                             toggle: (s) {
-                              final sel = addHomecareController.selectedCertifications;
+                              final sel =
+                                  addHomecareController.selectedCertifications;
                               sel.contains(s) ? sel.remove(s) : sel.add(s);
                               setState(() {});
                             },
@@ -151,13 +175,19 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
                           const SizedBox(height: 10),
 
                           // Specialized Certifications
-                          _sectionHeader("Select Specialized Certifications Your Staff Hold".tr),
+                          _sectionHeader(
+                              "Select Specialized Certifications Your Staff Hold"
+                                  .tr),
                           const SizedBox(height: 8),
                           _checkboxList(
-                            items: addHomecareController.specializedCertifications,
-                            isSelected: (s) => addHomecareController.selectedSpecializedCertifications.contains(s),
+                            items:
+                                addHomecareController.specializedCertifications,
+                            isSelected: (s) => addHomecareController
+                                .selectedSpecializedCertifications
+                                .contains(s),
                             toggle: (s) {
-                              final sel = addHomecareController.selectedSpecializedCertifications;
+                              final sel = addHomecareController
+                                  .selectedSpecializedCertifications;
                               sel.contains(s) ? sel.remove(s) : sel.add(s);
                               setState(() {});
                             },
@@ -165,13 +195,18 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
                           const SizedBox(height: 10),
 
                           // Accreditations
-                          _sectionHeader("Select The Accreditations Your Agency Holds To Demonstrate Adherence To High Standards Of Care".tr),
+                          _sectionHeader(
+                              "Select The Accreditations Your Agency Holds To Demonstrate Adherence To High Standards Of Care"
+                                  .tr),
                           const SizedBox(height: 8),
                           _checkboxList(
                             items: addHomecareController.allAccreditations,
-                            isSelected: (s) => addHomecareController.selectedAccreditations.contains(s),
+                            isSelected: (s) => addHomecareController
+                                .selectedAccreditations
+                                .contains(s),
                             toggle: (s) {
-                              final sel = addHomecareController.selectedAccreditations;
+                              final sel =
+                                  addHomecareController.selectedAccreditations;
                               sel.contains(s) ? sel.remove(s) : sel.add(s);
                               setState(() {});
                             },
@@ -179,13 +214,19 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
                           const SizedBox(height: 10),
 
                           // Memberships
-                          _sectionHeader("Select Memberships With Recognized Professional Organizations".tr),
+                          _sectionHeader(
+                              "Select Memberships With Recognized Professional Organizations"
+                                  .tr),
                           const SizedBox(height: 8),
                           _checkboxList(
-                            items: addHomecareController.professionalMemberships,
-                            isSelected: (s) => addHomecareController.selectedMemberships.contains(s),
+                            items:
+                                addHomecareController.professionalMemberships,
+                            isSelected: (s) => addHomecareController
+                                .selectedMemberships
+                                .contains(s),
                             toggle: (s) {
-                              final sel = addHomecareController.selectedMemberships;
+                              final sel =
+                                  addHomecareController.selectedMemberships;
                               sel.contains(s) ? sel.remove(s) : sel.add(s);
                               setState(() {});
                             },
@@ -196,33 +237,43 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
                           const SizedBox(height: 15),
 
                           // Background checks
-                          _question("Do you perform background checks on staff to ensure client safety?".tr),
+                          _question(
+                              "Do you perform background checks on staff to ensure client safety?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.backgroundChecks,
-                            onChanged: (v) => setState(() => addHomecareController.backgroundChecks = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.backgroundChecks = v),
                           ),
                           const SizedBox(height: 10),
 
                           // Drug testing
-                          _question("Do you conduct drug tests for employees?".tr),
+                          _question(
+                              "Do you conduct drug tests for employees?".tr),
                           _yesNo(
                             value: addHomecareController.drugTesting,
-                            onChanged: (v) => setState(() => addHomecareController.drugTesting = v),
+                            onChanged: (v) => setState(
+                                () => addHomecareController.drugTesting = v),
                           ),
                           const SizedBox(height: 10),
 
                           // Reference verification
-                          _question("Do you verify references for your caregivers?".tr),
+                          _question(
+                              "Do you verify references for your caregivers?"
+                                  .tr),
                           _yesNo(
                             value: addHomecareController.referenceVerification,
-                            onChanged: (v) => setState(() => addHomecareController.referenceVerification = v),
+                            onChanged: (v) => setState(() =>
+                                addHomecareController.referenceVerification =
+                                    v),
                           ),
 
                           const SizedBox(height: 22),
 
                           // NEXT
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: isWide ? 160 : 35),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: isWide ? 160 : 35),
                             child: GestButton(
                               Width: double.infinity,
                               height: 55,
@@ -236,10 +287,11 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
                                 fontWeight: FontWeight.bold,
                               ),
                               onclick: () {
-                                Get.toNamed(
-                                  manegeRoute == "Add" ? Routes.addHomecareScreen5 : Routes.addHomecareScreen6,
-                                  arguments: {"add": manegeRoute},
-                                );
+                                // COMMENTED OUT: Advert functionality disabled
+                                // Get.toNamed(
+                                //   manegeRoute == "Add" ? Routes.addHomecareScreen5 : Routes.addHomecareScreen6,
+                                //   arguments: {"add": manegeRoute},
+                                // );
                               },
                             ),
                           ),
@@ -261,52 +313,52 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
   // ---------- UI helpers (responsive-friendly) ----------
 
   Widget _title(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 20,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 20,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _subtitle(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 14,
-        color: notifire.getgreycolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 14,
+            color: notifire.getgreycolor,
+          ),
+        ),
+      );
 
   Widget _sectionHeader(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   Widget _question(String text) => Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontFamily: FontFamily.gilroyBold,
-        fontSize: 16,
-        color: notifire.getwhiteblackcolor,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: FontFamily.gilroyBold,
+            fontSize: 16,
+            color: notifire.getwhiteblackcolor,
+          ),
+        ),
+      );
 
   /// Compact, non-scrolling checkbox list (since parent scrolls)
   Widget _checkboxList({
@@ -332,7 +384,8 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
               value: isSelected(label),
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => toggle(label),
             ),
             Expanded(
@@ -368,7 +421,8 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
               value: value,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(true),
             ),
             Text(
@@ -392,7 +446,8 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
               value: !value,
               side: const BorderSide(color: Color(0xffC5CAD4)),
               activeColor: blueColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onChanged: (_) => onChanged(false),
             ),
             Text(
@@ -411,7 +466,8 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
 
   // (Optional) kept from your file for parity — not used here
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
       setState(() {});

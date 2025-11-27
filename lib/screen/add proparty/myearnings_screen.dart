@@ -97,8 +97,14 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
                                               placeholder:
                                                   "assets/images/ezgif.com-crop.gif",
                                               height: 135,
-                                              imageErrorBuilder: (context, error, stackTrace) {
-                                                return Image.asset("assets/images/ezgif.com-crop.gif",height: 48,width: 48,fit: BoxFit.cover,);
+                                              imageErrorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  "assets/images/ezgif.com-crop.gif",
+                                                  height: 48,
+                                                  width: 48,
+                                                  fit: BoxFit.cover,
+                                                );
                                               },
                                               image:
                                                   "${Config.imageUrl}${myEarningController.earningInfo?.statuswise![index].propImg ?? ""}",
@@ -160,7 +166,8 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             myEarningController
@@ -171,8 +178,7 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
                                             maxLines: 2,
                                             style: TextStyle(
                                               fontSize: 17,
-                                              fontFamily:
-                                                  FontFamily.gilroyBold,
+                                              fontFamily: FontFamily.gilroyBold,
                                               color:
                                                   notifire.getwhiteblackcolor,
                                               overflow: TextOverflow.ellipsis,
@@ -217,9 +223,10 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
                                                         .bookId ??
                                                     "",
                                               );
-                                              Get.toNamed(
-                                                Routes.eReceiptProScreen,
-                                              );
+                                              // COMMENTED OUT: Advert functionality disabled
+                                              // Get.toNamed(
+                                              //   Routes.eReceiptProScreen,
+                                              // );
                                             },
                                             child: Container(
                                               height: 35,
