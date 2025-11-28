@@ -42,8 +42,12 @@ class _BottomSearchScreenState extends State<BottomSearchScreen> {
     searchController.searchText = "";
     searchController.search.text = "";
     searchController.searchData = [];
+    searchController.homes = [];
+    searchController.advertisedProperties = [];
+    searchController.agencies = [];
     setState(() {});
-    searchController.getSearchData(countryId: getData.read("countryId"));
+    // Don't call getSearchData here with empty keyword - API rejects it
+    // Search will be triggered when user types in the TextField
   }
 
   @override
@@ -97,10 +101,17 @@ class _BottomSearchScreenState extends State<BottomSearchScreen> {
                               },
                               onChanged: (value) {
                                 searchController.changeValueUpdate(value);
-                                if (value == "") {
+                                if (value.trim().isEmpty) {
                                   setState(() {
                                     searchController.searchData = [];
+                                    searchController.homes = [];
+                                    searchController.advertisedProperties = [];
+                                    searchController.agencies = [];
                                   });
+                                } else {
+                                  searchController.getSearchData(
+                                    countryId: getData.read("countryId"),
+                                  );
                                 }
                               },
                               decoration: InputDecoration(

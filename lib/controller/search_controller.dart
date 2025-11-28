@@ -29,19 +29,28 @@ class SearchPropertyController extends GetxController implements GetxService {
   HomesearchModel? homesearchData;
   Future getSearchData({String? countryId}) async {
     try {
+      print("🔍 SEARCH DEBUG: Starting getSearchData");
+      print("🔍 SEARCH DEBUG: keyword = '${search.text}'");
+      print("🔍 SEARCH DEBUG: countryId = '$countryId'");
+      print("🔍 SEARCH DEBUG: uid = '${getData.read("UserLogin")["id"]}'");
+      
       Map map = {
         "keyword": search.text,
         "uid": getData.read("UserLogin")["id"].toString(),
         "country_id": countryId,
       };
+      
+      print("🔍 SEARCH DEBUG: Request map = $map");
+      
       Uri uri = Uri.parse(Config.path + Config.searchApi);
-      print("uri {$uri}");
+      print("🔍 SEARCH DEBUG: URI = $uri");
 
       var response = await http.post(
         uri,
         body: jsonEncode(map),
       );
-      print("response::::::::::::::::: {${response.body}}");
+      print("🔍 SEARCH DEBUG: Response status = ${response.statusCode}");
+      print("🔍 SEARCH DEBUG: Response body = ${response.body}");
 
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
@@ -134,10 +143,16 @@ class SearchPropertyController extends GetxController implements GetxService {
               searchData.add(SearchInfo.fromJson(normalized));
             }
         }
+        
+        print("🔍 SEARCH DEBUG: homes count = ${homes.length}");
+        print("🔍 SEARCH DEBUG: advertisedProperties count = ${advertisedProperties.length}");
+        print("🔍 SEARCH DEBUG: agencies count = ${agencies.length}");
+        print("🔍 SEARCH DEBUG: searchData count = ${searchData.length}");
       }
       isLoading = true;
       update();
     } catch (e) {
+      print("🔍 SEARCH DEBUG: ERROR = ${e.toString()}");
       print(e.toString());
     }
   }

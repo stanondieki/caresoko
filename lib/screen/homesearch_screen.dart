@@ -44,7 +44,11 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     searchController.searchText = "";
     searchController.search.text = "";
     searchController.searchData = [];
-    searchController.getSearchData(countryId: getData.read("countryId"));
+    searchController.homes = [];
+    searchController.advertisedProperties = [];
+    searchController.agencies = [];
+    // Don't call getSearchData here with empty keyword - API rejects it
+    // Search will be triggered when user types in the TextField
   }
 
   @override
@@ -104,11 +108,17 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           onChanged: (value) {
                             setState(() {
                               searchController.changeValueUpdate(value);
-                              searchController.getSearchData(
-                                countryId: getData.read("countryId"),
-                              );
-                              if (value == "") {
+                              if (value.trim().isEmpty) {
+                                // Clear results when search is empty
                                 searchController.searchData = [];
+                                searchController.homes = [];
+                                searchController.advertisedProperties = [];
+                                searchController.agencies = [];
+                              } else {
+                                // Only search when there's actual text
+                                searchController.getSearchData(
+                                  countryId: getData.read("countryId"),
+                                );
                               }
                             });
                           },
