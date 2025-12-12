@@ -52,13 +52,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future getCountryData() async {
     selectCountryController.getCountryApi().then((value) {
-      for (int a = 0;
-      a < selectCountryController.countryInfo!.countryData!.length;
-      a++) {
-        if (selectCountryController.countryInfo?.countryData![a].dCon == "1") {
-          setState(() {
-            countrySelected = a;
-          });
+      // Add null check to prevent crash when country API fails
+      if (selectCountryController.countryInfo?.countryData != null) {
+        for (int a = 0;
+        a < selectCountryController.countryInfo!.countryData!.length;
+        a++) {
+          if (selectCountryController.countryInfo?.countryData![a].dCon == "1") {
+            setState(() {
+              countrySelected = a;
+            });
+          }
         }
       }
     });
@@ -81,13 +84,16 @@ class _LoginScreenState extends State<LoginScreen> {
     loginController.password.text = "";
     getCountryData();
     selectCountryController.getCountryApi().then((value) {
-      for (int a = 0;
-      a < selectCountryController.countryInfo!.countryData!.length;
-      a++) {
-        if (selectCountryController.countryInfo?.countryData![a].dCon == "1") {
-          setState(() {
-            countrySelected = a;
-          });
+      // Add null check to prevent crash when country API fails
+      if (selectCountryController.countryInfo?.countryData != null) {
+        for (int a = 0;
+        a < selectCountryController.countryInfo!.countryData!.length;
+        a++) {
+          if (selectCountryController.countryInfo?.countryData![a].dCon == "1") {
+            setState(() {
+              countrySelected = a;
+            });
+          }
         }
       }
     });
@@ -515,8 +521,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // initPlatformState();
                         loginController.getLoginApiData(cuntryCode, context).then(
-                              (value) {
+                              (value) async {
                             if (value["Result"] == "true") {
+                              // Save login session so user stays logged in
+                              final prefs = await SharedPreferences.getInstance();
+                              await prefs.setBool('Remember', true);
+                              await prefs.setBool('Firstuser', true);
+                              
                               if (getData.read("userType") == "admin") {
                                 dashBoardController.getDashBoardData().then(
                                       (value) {

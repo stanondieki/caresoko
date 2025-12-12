@@ -178,18 +178,22 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
   }
 
   Future<void> _continueAsGuest() async {
+    // Set Firstuser flag so splash screen skips onboarding next time
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('Firstuser', true);
+
     // persist country selection
     save(
       "countryId",
       selectCountryController
           .countryInfo?.countryData?[countrySelected].id ??
-          "",
+          "4",  // Default to United States if not set
     );
     save(
       "countryName",
       selectCountryController
           .countryInfo?.countryData?[countrySelected].title ??
-          "",
+          "United States",
     );
 
     selectCountryController.changeCountryIndex(countrySelected);

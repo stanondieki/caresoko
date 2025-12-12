@@ -34,19 +34,43 @@ class SelectCountryController extends GetxController implements GetxService {
         uri,
         body: jsonEncode(map),
       );
-      print("<><><><><><><><><><><><><><>< ${response.body}>>");
+      print("<><><><><><><><><><><><><>< ${response.body}>>");
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
-        countryList = [];
-        for (var element in result["CountryData"]) {
-          countryList.add(element["title"]);
+        if (result["CountryData"] != null) {
+          countryList = [];
+          for (var element in result["CountryData"]) {
+            countryList.add(element["title"]);
+          }
+          countryInfo = CountryInfo.fromJson(result);
+        } else {
+          // API returned but no data - use fallback
+          _setFallbackCountry();
         }
-        countryInfo = CountryInfo.fromJson(result);
+      } else {
+        // API error - use fallback
+        _setFallbackCountry();
       }
       isLoading = true;
       update();
     } catch (e) {
-      print(e.toString());
+      print("Country API Error: ${e.toString()}");
+      // Use fallback country when API fails
+      _setFallbackCountry();
+      isLoading = true;
+      update();
     }
+  }
+  
+  // Fallback to United States when country API fails
+  void _setFallbackCountry() {
+    print("Using fallback country: United States (id=4)");
+    // Set default country if not already set
+    if (getData.read("countryId") == null || getData.read("countryId") == "") {
+      save("countryId", "4");
+      save("countryName", "United States");
+    }
+    // Create a minimal country list
+    countryList = ["United States"];
   }
 }

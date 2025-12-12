@@ -83,4 +83,39 @@ class SubscribeController extends GetxController implements GetxService {
       print(e.toString());
     }
   }
+
+  // Save contract agreement with signature
+  Future<bool> saveContractAgreement({
+    required String representativeName,
+    required String signatureBase64,
+  }) async {
+    try {
+      Map map = {
+        "uid": getData.read("UserLogin")["id"].toString(),
+        "representative_name": representativeName,
+        "signature": signatureBase64,
+      };
+      print("Saving contract: $map");
+      Uri uri = Uri.parse(Config.path + "u_save_contract.php");
+      var response = await http.post(
+        uri,
+        body: jsonEncode(map),
+      );
+      if (response.statusCode == 200) {
+        var result = jsonDecode(response.body);
+        print("Contract save response: $result");
+        if (result["Result"] == "true") {
+          showToastMessage(result["ResponseMsg"]);
+          return true;
+        } else {
+          showToastMessage(result["ResponseMsg"] ?? "Failed to save contract");
+          return false;
+        }
+      }
+      return false;
+    } catch (e) {
+      print("Error saving contract: $e");
+      return false;
+    }
+  }
 }

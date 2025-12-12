@@ -369,13 +369,36 @@ class _ContractAgreementState extends State<ContractAgreement> {
                 child: GestureDetector(
                   onTap: _controller.isEmpty
                       ? null
-                      : () {
-                          // COMMENTED OUT: Advert functionality disabled
-                          // Get.toNamed(Routes.subscribeScreen);
+                      : () async {
+                          // Validate representative name
+                          if (subscribeController.representativeNameController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please enter representative name'),
+                              ),
+                            );
+                            return;
+                          }
+                          
+                          // Export signature to base64
+                          await exportImage(context);
+                          
+                          if (userSignatureBase64 != null) {
+                            // Save contract to backend
+                            await subscribeController.saveContractAgreement(
+                              representativeName: subscribeController.representativeNameController.text,
+                              signatureBase64: userSignatureBase64!,
+                            );
+                            
+                            // Navigate to membership/subscribe screen
+                            Get.toNamed(Routes.membershipScreen);
+                          }
                         },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: notifier.getdarkbluecolor,
+                        color: _controller.isEmpty 
+                            ? Colors.grey 
+                            : notifier.getdarkbluecolor,
                         borderRadius: BorderRadius.circular(50)),
                     height: 50,
                     width: double.infinity,

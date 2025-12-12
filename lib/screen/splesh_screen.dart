@@ -48,12 +48,22 @@ class _SpleshScreenState extends State<SpleshScreen> {
 
     getData.remove("lCode");
     save("lanValue", 0);
+    
+    // Ensure countryId is set before making API calls
+    String? storedCountryId = getData.read("countryId");
+    if (storedCountryId == null || storedCountryId.isEmpty) {
+      // Default to United States (id=4) if no country is set
+      save("countryId", "4");
+      save("countryName", "United States");
+      storedCountryId = "4";
+    }
+    
     homePageController.getHomeDataApi(
-      countryId: getData.read("countryId"),
+      countryId: storedCountryId,
     );
     homePageController.getCatWiseData(
       cId: "0",
-      countryId: getData.read("countryId"),
+      countryId: storedCountryId,
     );
     setScreen();
   }

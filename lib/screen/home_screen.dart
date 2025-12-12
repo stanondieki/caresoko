@@ -85,8 +85,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    propartyHomePageController.getCatWiseData(countryId: getData.read("countryId"), cId: "0");
-    homePageController.getCatWiseData(countryId: getData.read("countryId"), cId: "0");
+    // Ensure countryId is set before making API calls
+    String countryId = getData.read("countryId") ?? "4";
+    if (countryId.isEmpty) {
+      countryId = "4";
+      save("countryId", "4");
+    }
+    
+    // Call both getHomeDataApi and getCatWiseData to ensure isLoading flags are set
+    homePageController.getHomeDataApi(countryId: countryId);
+    homePageController.getCatWiseData(countryId: countryId, cId: "0");
+    propartyHomePageController.getHomeDataApi(countryId: countryId);
+    propartyHomePageController.getCatWiseData(countryId: countryId, cId: "0");
 
     getdarkmodepreviousstate();
     if (getData.read("UserLogin") != null) {
