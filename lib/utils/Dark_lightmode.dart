@@ -10,6 +10,7 @@ class ColorNotifire with ChangeNotifier {
     notifyListeners();
   }
 
+  // ==================== CORE GETTERS (original) ====================
   get getIsDark => isDark;
   get getbgcolor => isDark ? darkmode : bgcolor;
   get getboxcolor => isDark ? boxcolor : WhiteColor;
@@ -33,4 +34,35 @@ class ColorNotifire with ChangeNotifier {
   get getfevAndSearch => isDark ? darkmode : fevAndSearchColor;
   get getlightblackwhite => isDark ? BlackColor : fevAndSearchColor;
   get getborderColor => isDark ? const Color(0xff282828) : Colors.grey.shade200;
+
+  // ==================== CARD & SURFACE GETTERS ====================
+  get getCardBg => isDark ? cardBgDark : cardBgLight;
+  get getSurfaceColor => isDark ? surfaceDark : surfaceLight;
+  get getCardElevation => isDark ? 0.0 : 2.0;
+  get getCardShadow => isDark 
+      ? Colors.transparent 
+      : Colors.black.withOpacity(0.05);
+  
+  // ==================== SEMANTIC COLOR GETTERS ====================
+  get getSuccessColor => successColor;
+  get getWarningColor => warningColor;
+  get getErrorColor => errorColor;
+  get getInfoColor => infoColor;
+  
+  // ==================== TEXT COLOR GETTERS ====================
+  get getPrimaryTextColor => isDark ? WhiteColor : BlackColor;
+  get getSecondaryTextColor => isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+  get getHintTextColor => isDark ? Colors.grey.shade500 : Colors.grey.shade400;
+  
+  // ==================== BUTTON GETTERS ====================
+  get getPrimaryButtonColor => blueColor;
+  get getPrimaryButtonTextColor => WhiteColor;
+  get getSecondaryButtonColor => isDark ? boxcolor : Colors.grey.shade100;
+  get getSecondaryButtonTextColor => isDark ? WhiteColor : BlackColor;
+  
+  // ==================== INPUT FIELD GETTERS ====================
+  get getInputFillColor => isDark ? boxcolor : fevAndSearchColor;
+  get getInputBorderColor => isDark ? const Color(0xff383838) : Colors.grey.shade300;
+  get getInputFocusBorderColor => blueColor;
 }
+

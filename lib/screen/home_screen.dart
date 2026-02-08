@@ -331,18 +331,53 @@ class _HomeScreenState extends State<HomeScreen> {
         searchController.search.text = "";
         Get.toNamed(Routes.homeSearchScreen);
       },
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        height: 50,
+        height: 56,
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: R.isMobile(context) ? 0 : 4),
-        decoration: BoxDecoration(color: notifire.getlightblackwhite, borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+          color: notifire.getInputFillColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: notifire.getInputBorderColor, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: notifire.getCardShadow,
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
         child: Row(children: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Image.asset("assets/images/SearchHomescreen.png", height: 22, width: 22, fit: BoxFit.cover, color: notifire.getlightblack),
+          Container(
+            margin: EdgeInsets.only(left: 12),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: blueColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.search_rounded, color: blueColor, size: 22),
           ),
-          Flexible(
-            child: Text("Search".tr, overflow: TextOverflow.ellipsis, style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: notifire.getlightblack)),
+          SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              "Search care facilities, homecare...".tr,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: FontFamily.gilroyMedium,
+                color: notifire.getHintTextColor,
+                fontSize: 15,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 8),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: blueColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.tune_rounded, color: WhiteColor, size: 20),
           ),
         ]),
       ),
@@ -351,23 +386,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _sectionHeader(String name, String buttonName, {VoidCallback? onTap}) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
       child: Row(children: [
-        Text(name, style: TextStyle(fontSize: 20, fontFamily: FontFamily.gilroyBold, color: notifire.getwhiteblackcolor)),
+        Text(
+          name,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+            fontFamily: FontFamily.gilroyBold,
+            color: notifire.getwhiteblackcolor,
+            letterSpacing: -0.3,
+          ),
+        ),
         Spacer(),
-        TextButton(onPressed: onTap, child: Text(buttonName, style: TextStyle(color: Color(0xff3D5BF6), fontFamily: FontFamily.gilroyBold))),
+        TextButton(
+          onPressed: onTap,
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                buttonName,
+                style: TextStyle(
+                  color: blueColor,
+                  fontFamily: FontFamily.gilroyBold,
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(width: 4),
+              Icon(Icons.arrow_forward_ios_rounded, size: 14, color: blueColor),
+            ],
+          ),
+        ),
       ]),
     );
   }
 
   Widget _categoriesChips({required List items, required int currentIndex, required void Function(int i, String? id) onSelected}) {
     return SizedBox(
-      height: 50,
+      height: 52,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         itemCount: items.length,
-        separatorBuilder: (_, __) => SizedBox(width: 8),
+        separatorBuilder: (_, __) => SizedBox(width: 10),
         itemBuilder: (context, index) {
           final selected = currentIndex == index;
           final item = items[index];
@@ -376,19 +441,32 @@ class _HomeScreenState extends State<HomeScreen> {
             onSelected: (_) => onSelected(index, item.id),
             label: Row(children: [
               FadeInImage.assetNetwork(
-                height: 20,
-                width: 20,
+                height: 22,
+                width: 22,
                 image: "${Config.imageUrl}${item.img ?? ""}",
                 placeholder: "assets/images/ezgif.com-crop.gif",
-                imageErrorBuilder: (c, e, s) => SizedBox(height: 20, width: 20),
+                imageErrorBuilder: (c, e, s) => SizedBox(height: 22, width: 22),
               ),
-              SizedBox(width: 6),
-              Text(item.title ?? "", style: TextStyle(fontFamily: FontFamily.gilroyBold)),
+              SizedBox(width: 8),
+              Text(
+                item.title ?? "",
+                style: TextStyle(
+                  fontFamily: FontFamily.gilroyBold,
+                  color: selected ? WhiteColor : notifire.getwhiteblackcolor,
+                  fontSize: 13,
+                ),
+              ),
             ]),
-            labelPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            labelPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
             selectedColor: blueColor,
-            backgroundColor: notifire.getbgcolor,
-            side: BorderSide(color: blueColor, width: 1.5),
+            backgroundColor: notifire.getSurfaceColor,
+            side: BorderSide(
+              color: selected ? blueColor : notifire.getborderColor,
+              width: selected ? 0 : 1,
+            ),
+            elevation: selected ? 2 : 0,
+            pressElevation: 4,
+            shadowColor: blueColor.withOpacity(0.3),
           );
         },
       ),
@@ -501,6 +579,17 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, idx) {
           final f = featured[idx];
           currency = homePageController.homeDatatInfo?.homeData?.currency ?? "";
+          
+          // Null-safe data extraction
+          final name = f.name ?? "Property ${idx + 1}";
+          final zipcode = f.zipcode ?? "";
+          final city = f.city ?? "";
+          final beds = f.beds ?? "0";
+          final capacity = f.capacity ?? "N/A";
+          final rate = f.rate ?? "";
+          final propertyTypeTitle = f.propertyTypeTitle ?? "";
+          final imageUrl = "${Config.imageUrl}${f.image ?? ""}";
+          
           return Padding(
             padding: EdgeInsets.only(right: 12),
             child: MouseRegion(
@@ -511,9 +600,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   homePageController.chnageObjectIndex(idx);
                   await homePageController.getPropertyDetailsApi(
                     id: f.id,
-                    ptype: homePageController.catWiseInfo?.propertyCat?[idx].propertyType,
+                    ptype: f.propertyType,
                   );
-                  final ptype = homePageController.catWiseInfo?.propertyCat?[idx].propertyType;
+                  final ptype = f.propertyType;
                   if ((ptype ?? "") == "3") {
                     Get.toNamed(Routes.viewHomecareDataScreen);
                   } else {
@@ -526,15 +615,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(24),
                     child: Stack(children: [
+                      // Background Image with better error handling
                       Positioned.fill(
                         child: FadeInImage.assetNetwork(
                           fadeInCurve: Curves.easeInCirc,
                           placeholder: "assets/images/ezgif.com-crop.gif",
-                          image: "${Config.imageUrl}${f.image ?? ""}",
+                          image: imageUrl,
                           fit: BoxFit.cover,
-                          imageErrorBuilder: (context, error, stack) => Container(color: Colors.grey.shade200),
+                          imageErrorBuilder: (context, error, stack) => Container(
+                            color: Colors.grey.shade300,
+                            child: Center(
+                              child: Icon(Icons.home, size: 48, color: Colors.grey.shade500),
+                            ),
+                          ),
                         ),
                       ),
+                      // Gradient overlay
                       Positioned.fill(
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -542,44 +638,93 @@ class _HomeScreenState extends State<HomeScreen> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               stops: const [0.6, 0.8, 1.0],
-                              colors: [Colors.transparent, Colors.black54, Colors.black54],
+                              colors: [Colors.transparent, Colors.black54, Colors.black87],
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: 12,
-                        right: 12,
-                        child: _ratingPill(text: f.rate?.toString() ?? ""),
-                      ),
+                      // Rating badge (only if rate exists)
+                      if (rate.isNotEmpty)
+                        Positioned(
+                          top: 12,
+                          right: 12,
+                          child: _ratingPill(text: rate),
+                        ),
+                      // Content at bottom
                       Positioned(
                         left: 12,
                         right: 12,
                         bottom: 12,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(f.name ?? "", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 18, fontFamily: FontFamily.gilroyBold, color: WhiteColor)),
+                            // Property name
+                            Text(
+                              name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: FontFamily.gilroyBold,
+                                color: WhiteColor,
+                              ),
+                            ),
                             SizedBox(height: 6),
+                            // Location (only if data exists)
+                            if (zipcode.isNotEmpty || city.isNotEmpty)
+                              Row(children: [
+                                Icon(Icons.location_on, size: 16, color: WhiteColor.withOpacity(0.9)),
+                                SizedBox(width: 4),
+                                Expanded(
+                                  child: Text(
+                                    "$zipcode${zipcode.isNotEmpty && city.isNotEmpty ? ', ' : ''}$city",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontFamily: FontFamily.gilroyMedium,
+                                      color: WhiteColor.withOpacity(0.9),
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                            SizedBox(height: 8),
+                            // Beds and Capacity
                             Row(children: [
-                              SvgPicture.asset("assets/images/location.svg", height: 16, colorFilter: ColorFilter.mode(WhiteColor, BlendMode.srcIn)),
-                              SizedBox(width: 4),
-                              Expanded(
-                                child: Text("${f.zipcode}, ${f.city}", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: WhiteColor)),
+                              Icon(Icons.bed, size: 14, color: WhiteColor.withOpacity(0.9)),
+                              SizedBox(width: 6),
+                              Text(
+                                "$beds Beds",
+                                style: TextStyle(
+                                  fontFamily: FontFamily.gilroyMedium,
+                                  color: WhiteColor.withOpacity(0.9),
+                                  fontSize: 12,
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Icon(Icons.groups, size: 14, color: WhiteColor.withOpacity(0.9)),
+                              SizedBox(width: 6),
+                              Text(
+                                capacity,
+                                style: TextStyle(
+                                  fontFamily: FontFamily.gilroyMedium,
+                                  color: WhiteColor.withOpacity(0.9),
+                                  fontSize: 12,
+                                ),
                               ),
                             ]),
-                            SizedBox(height: 8),
-                            Row(children: [
-                              SvgPicture.asset("assets/images/beds.svg", height: 14),
-                              SizedBox(width: 6),
-                              Text("${f.beds} Beds", style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: WhiteColor, fontSize: 12)),
-                              SizedBox(width: 12),
-                              SvgPicture.asset("assets/images/sqft.svg", height: 14),
-                              SizedBox(width: 6),
-                              Text("${f.capacity}", style: TextStyle(fontFamily: FontFamily.gilroyMedium, color: WhiteColor, fontSize: 12)),
-                            ]),
-                            SizedBox(height: 8),
-                            Text("${f.propertyTypeTitle}", style: TextStyle(color: WhiteColor, fontFamily: FontFamily.gilroyBold, fontSize: 16)),
+                            if (propertyTypeTitle.isNotEmpty) ...[
+                              SizedBox(height: 8),
+                              Text(
+                                propertyTypeTitle,
+                                style: TextStyle(
+                                  color: WhiteColor,
+                                  fontFamily: FontFamily.gilroyBold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),

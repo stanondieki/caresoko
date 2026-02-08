@@ -178,16 +178,64 @@ class SignUpController extends GetxController implements GetxService {
     }
   }
 
+  // ========== LOCAL DEVELOPMENT BYPASS ==========
+  // Set to true to skip real registration API and use mock user data
+  // WARNING: Set back to false before deploying to production!
+  static const bool LOCAL_DEV_BYPASS = false; // PRODUCTION READY
+  
   Future setUserApiData(String cuntryCode) async {
     final prefs = await SharedPreferences.getInstance();
 
+    // BYPASS MODE: Skip API call and create mock user for local testing
+    if (LOCAL_DEV_BYPASS) {
+      print("⚠️ LOCAL_DEV_BYPASS ENABLED - Skipping real registration API");
+      
+      // Create mock user data
+      var mockUserData = {
+        "id": "999",
+        "name": name.text,
+        "email": email.text,
+        "mobile": number.text,
+        "ccode": cuntryCode,
+        "password": password.text,
+        "pro_pic": "",
+        "refercode": "MOCK123",
+        "wallet": "0",
+        "status": "1",
+      };
+      
+      await prefs.setBool('Firstuser', true);
+      save("UserLogin", mockUserData);
+      signUpMsg = "Registration successful (Local Dev Mode)";
+      showToastMessage(signUpMsg);
+      
+      print("✅ Mock user created: $mockUserData");
+      update();
+      
+      return {
+        "ResponseCode": "200",
+        "Result": "true",
+        "ResponseMsg": signUpMsg,
+        "UserLogin": mockUserData
+      };
+    }
+
+    // NORMAL MODE: Call actual registration API
     Map map = {
       "name": name.text,
       "email": email.text,
       "mobile": number.text,
       "ccode": cuntryCode,
-      "password": password.text
+      "password": password.text,
     };
+    
+    // Only send referral code if user actually entered one
+    // FIXED: Backend expects 'refercode' not 'rcode'
+    if (referralCode.text.isNotEmpty) {
+      map["refercode"] = referralCode.text;
+    }
+    
+    print("SIGNUP REQUEST DATA: $map");
     Uri uri = Uri.parse(Config.path + Config.registerUser);
     var response = await http.post(
       uri,
@@ -196,13 +244,33 @@ class SignUpController extends GetxController implements GetxService {
 
     if (response.statusCode == 200) {
       var result = jsonDecode(response.body);
+      print("SIGNUP API RESPONSE: $result");
+      
       await prefs.setBool('Firstuser', true);
-      signUpMsg = result["ResponseMsg"];
+      signUpMsg = result["ResponseMsg"] ?? "Registration response received";
       showToastMessage(signUpMsg);
-      save("UserLogin", result["UserLogin"]);
-
-      firebaseNewuser();
-      OneSignal.User.addTagWithKey("user_id", getData.read("UserLogin")["id"]);
+      
+      if (result["UserLogin"] != null) {
+        save("UserLogin", result["UserLogin"]);
+        
+        try {
+          firebaseNewuser();
+        } catch (e) {
+          print("Firebase newuser error: $e");
+        }
+        
+        try {
+          var userId = result["UserLogin"]["id"];
+          if (userId != null) {
+            OneSignal.User.addTagWithKey("user_id", userId.toString());
+          }
+        } catch (e) {
+          print("OneSignal tag error: $e");
+        }
+      } else {
+        print("WARNING: UserLogin is null in response");
+      }
+      
       update();
     }
     print("${jsonDecode(response.body)}");
@@ -211,14 +279,18 @@ class SignUpController extends GetxController implements GetxService {
 
   firebaseNewuser() async {
     AuthService authService = AuthService();
-    // final authService = Provider.of<AuthService>(context, listen: false);
     try {
-      await authService.singUpAndStore(
-          proPicPath: getData.read("UserLogin")["pro_pic"],
-          email: email.text,
-          uid: getData.read("UserLogin")["id"]);
+      var userLogin = getData.read("UserLogin");
+      if (userLogin != null) {
+        await authService.singUpAndStore(
+            proPicPath: userLogin["pro_pic"] ?? "",
+            email: email.text,
+            uid: userLogin["id"]?.toString() ?? "");
+      } else {
+        print("Cannot create Firebase user - UserLogin is null");
+      }
     } catch (e) {
-      print(e);
+      print("firebaseNewuser error: $e");
     }
   }
 

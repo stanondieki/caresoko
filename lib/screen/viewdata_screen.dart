@@ -229,13 +229,26 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
   @override
   void initState() {
     super.initState();
-    loadData();
-    isMeassageAvalable(
-        "${homePageController.propetydetailsInfo!.propetydetails!.userId}");
-
-    _totalImages = homePageController
-        .propetydetailsInfo?.propetydetails?.image?.length ??
-        0;
+    
+    // SAFE: Only access data if it exists (API might return error)
+    final details = homePageController.propetydetailsInfo?.propetydetails;
+    if (details != null) {
+      loadData();
+      isMeassageAvalable("${details.userId ?? ''}");
+      _totalImages = details.image?.length ?? 0;
+    } else {
+      _totalImages = 0;
+      
+      // If no data and not loading, redirect to home after a brief delay
+      // This handles direct URL navigation to /viewDataScreen
+      if (!homePageController.isProperty) {
+        Future.delayed(Duration(milliseconds: 1500), () {
+          if (mounted && homePageController.propetydetailsInfo?.propetydetails == null) {
+            Get.offAllNamed(Routes.bottomBar);
+          }
+        });
+      }
+    }
 
     _pageController = PageController();
 
@@ -325,10 +338,45 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
   Widget build(BuildContext context) {
     notifire = Provider.of<ColorNotifire>(context, listen: true);
     return GetBuilder<HomePageController>(builder: (context) {
+      // Check if data is actually available (not just loading complete)
+      final hasData = homePageController.propetydetailsInfo?.propetydetails != null;
+      
       return Scaffold(
         backgroundColor: notifire.getbgcolor,
-        body: homePageController.isProperty
-            ? LayoutBuilder(
+        body: !homePageController.isProperty
+            // Still loading
+            ? Center(child: CircularProgressIndicator(color: blueColor))
+            : !hasData
+                // Error state - API returned error or null data
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline, size: 64, color: Colors.grey),
+                        SizedBox(height: 16),
+                        Text(
+                          "Could not load property details".tr,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: notifire.getwhiteblackcolor,
+                            fontFamily: FontFamily.gilroyMedium,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "Please try again later".tr,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () => Get.back(),
+                          style: ElevatedButton.styleFrom(backgroundColor: blueColor),
+                          child: Text("Go Back".tr, style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                  )
+                : LayoutBuilder(
           builder: (context, constraints) {
             final bool isDesktop = Responsive.isDesktop(constraints);
             final bool isTablet = Responsive.isTablet(constraints);
@@ -1421,7 +1469,6 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
             );
           },
         )
-            : Center(child: CircularProgressIndicator()),
       );
     });
   }

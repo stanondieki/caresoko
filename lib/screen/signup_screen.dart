@@ -517,7 +517,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               .checkMobileNumber(cuntryCode)
                               .then((value) {
                             if (value == "true") {
-                              if (msgtype["otp_auth"] == "No") {
+                              // MODIFIED: Skip OTP verification - register user immediately
+                              if (true) { // Original: msgtype["otp_auth"] == "No"
                                 signUpController
                                     .setUserApiData(cuntryCode)
                                     .then(

@@ -167,8 +167,12 @@ class PropartyHomePageController extends GetxController implements GetxService {
 
       isProperty = true;
       update();
-    } catch (e) {
-      print(e.toString());
+    } catch (e, stackTrace) {
+      debugPrint("Error in proparty getPropertyDetailsApi: $e\nStack Trace: $stackTrace");
+    } finally {
+      // ALWAYS set isProperty to true to stop loading animation even on error
+      isProperty = true;
+      update();
     }
   }
 

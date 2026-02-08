@@ -12,7 +12,7 @@ class Config {
 
   static const String oneSignel = "****";
 
-  static const googleKey = "**************";
+  static const googleKey = "YOUR_GOOGLE_MAPS_API_KEY";
 
   static const String imageUrl = baseurl;
 

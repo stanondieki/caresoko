@@ -186,8 +186,11 @@ class HomePageController extends GetxController implements GetxService {
       isProperty = true;
       update();
     } catch (e, stackTrace) {
-      //print(e.toString());
-      debugPrint("Error: $e\nStack Trace: $stackTrace");
+      debugPrint("Error in getPropertyDetailsApi: $e\nStack Trace: $stackTrace");
+    } finally {
+      // ALWAYS set isProperty to true to stop loading animation even on error
+      isProperty = true;
+      update();
     }
   }
 
