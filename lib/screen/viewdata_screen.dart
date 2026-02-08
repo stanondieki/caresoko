@@ -238,16 +238,6 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
       _totalImages = details.image?.length ?? 0;
     } else {
       _totalImages = 0;
-      
-      // If no data and not loading, redirect to home after a brief delay
-      // This handles direct URL navigation to /viewDataScreen
-      if (!homePageController.isProperty) {
-        Future.delayed(Duration(milliseconds: 1500), () {
-          if (mounted && homePageController.propetydetailsInfo?.propetydetails == null) {
-            Get.offAllNamed(Routes.bottomBar);
-          }
-        });
-      }
     }
 
     _pageController = PageController();
