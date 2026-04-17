@@ -7,11 +7,11 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/controller/addproperties_controller.dart';
 import 'package:gotocarefinder/controller/dashboard_controller.dart';
 import 'package:gotocarefinder/controller/enquiry_controller.dart';
@@ -24,6 +24,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:latlong2/latlong.dart' as osm;
 
 class AddPropertyScreen1 extends StatefulWidget {
   const AddPropertyScreen1({super.key});
@@ -66,8 +67,8 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
   }
 
   // Map
-  late GoogleMapController mapController1;
-  final Set<Marker> markers = <Marker>{};
+  final MapController mapController1 = MapController();
+  final List<osm.LatLng> markers = <osm.LatLng>[];
 
   Future<Uint8List> getImages(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -82,17 +83,18 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
   }
 
   Future<void> _onAddMarkerButtonPressed(double? lat, dynamic long) async {
+    final parsedLat = double.tryParse(lat.toString());
+    final parsedLng = double.tryParse(long.toString());
+    if (parsedLat == null || parsedLng == null) {
+      return;
+    }
+
     final Uint8List markIcon =
         await getImages("assets/images/location_pin.png", 80);
-    final position =
-        LatLng(double.parse(lat.toString()), double.parse(long.toString()));
+    final position = osm.LatLng(parsedLat, parsedLng);
     markers
       ..clear()
-      ..add(Marker(
-        markerId: const MarkerId("1"),
-        position: position,
-        icon: BitmapDescriptor.fromBytes(markIcon),
-      ));
+      ..add(position);
     setState(() {});
   }
 
@@ -328,25 +330,17 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(15),
-                                        child: GoogleMap(
-                                          gestureRecognizers: {
-                                            Factory<OneSequenceGestureRecognizer>(
-                                                () => EagerGestureRecognizer())
-                                          },
-                                          initialCameraPosition: CameraPosition(
-                                            target: manegeRoute == "Add"
-                                                ? const LatLng(
-                                                    47.751076, -120.740135)
-                                                : LatLng(
-                                                    addPropertiesController
-                                                        .elat,
-                                                    addPropertiesController
-                                                        .elong),
-                                            zoom: 13,
-                                          ),
-                                          mapType: MapType.normal,
-                                          markers: markers,
-                                          onTap: (argument) async {
+                                        child: FlutterMap(
+                                          mapController: mapController1,
+                                          options: MapOptions(
+                                            initialCenter: manegeRoute == "Add"
+                                                ? const osm.LatLng(47.751076, -120.740135)
+                                                : osm.LatLng(
+                                                    addPropertiesController.elat,
+                                                    addPropertiesController.elong,
+                                                  ),
+                                            initialZoom: 13,
+                                            onTap: (tapPosition, argument) async {
                                             setState(() {});
                                             await _onAddMarkerButtonPressed(
                                                 argument.latitude,
@@ -363,14 +357,26 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
 
                                             addPropertiesController.update();
                                           },
-                                          myLocationEnabled: true,
-                                          zoomGesturesEnabled: true,
-                                          tiltGesturesEnabled: true,
-                                          zoomControlsEnabled: true,
-                                          onMapCreated: (controller) {
-                                            setState(() =>
-                                                mapController1 = controller);
-                                          },
+                                          ),
+                                          children: [
+                                            TileLayer(
+                                              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                              userAgentPackageName: 'com.caresoko.app',
+                                            ),
+                                            MarkerLayer(
+                                              markers: markers
+                                                  .map(
+                                                    (p) => Marker(
+                                                      point: p,
+                                                      width: 40,
+                                                      height: 40,
+                                                      child: const Icon(Icons.location_on,
+                                                          color: Colors.red, size: 34),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),

@@ -145,10 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.health_and_safety_rounded, size: 96, color: notifire.getgreycolor),
+                                  Image.asset(
+                                    "assets/images/LogoMain.png",
+                                    height: 110,
+                                    fit: BoxFit.contain,
+                                  ),
                                   SizedBox(height: 16),
                                   Text(
-                                    "Welcome to GoToCare Finder",
+                                    "Welcome to caresoko",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 24,
@@ -579,62 +583,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 14),
-
-                // OR
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "OR".tr,
-                    style: TextStyle(
-                      fontFamily: FontFamily.gilroyMedium,
-                      color: notifire.getwhiteblackcolor,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 14),
-
-                // Guest button
-                SizedBox(
-                  width: double.infinity,
-                  child: GestButton(
-                    Width: double.infinity,
-                    height: 50,
-                    margin: EdgeInsets.only(top: 8, left: 10, right: 10),
-                    buttoncolor: notifire.getboxcolor,
-                    buttontext: "Continue as a Guest".tr,
-                    onclick: () {
-                      setState(() {
-                        save(
-                            "countryId",
-                            selectCountryController.countryInfo
-                                ?.countryData![countrySelected].id ??
-                                "");
-                        save(
-                            "countryName",
-                            selectCountryController.countryInfo
-                                ?.countryData![countrySelected].title ??
-                                "");
-                      });
-
-                      selectCountryController.changeCountryIndex(countrySelected);
-                      homePageController.getHomeDataApi(
-                          countryId: getData.read("countryId"));
-                      homePageController.getCatWiseData(
-                          countryId: getData.read("countryId"), cId: "0");
-                      searchController.getSearchData(
-                          countryId: getData.read("countryId"));
-                      Get.offAndToNamed(Routes.bottoBarScreen);
-                      save('isLoginBack', true);
-                    },
-                    style: TextStyle(
-                      fontFamily: FontFamily.gilroyBold,
-                      color: notifire.getwhiteblackcolor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
 
                 // Sign up row
                 Padding(

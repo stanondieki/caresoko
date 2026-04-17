@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
@@ -230,17 +228,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         _SettingRow(
                           children: [
-                            _SettingTile(
-                              title: "Country".tr,
-                              iconPath: "assets/images/Locationa.png",
-                              trailingText: (getData.read("countryName") == "") ? "" : getData.read("countryName"),
-                              onTap: () {
-                                selectCountryController.getCountryApi().then((value) => Get.toNamed(Routes.selectCountryScreen));
-                              },
-                              height: tileHeight,
-                              iconSize: iconSize,
-                              notifire: notifire,
-                            ),
                             _SettingTile(
                               title: "Language".tr,
                               iconPath: "assets/images/Help Center.png",

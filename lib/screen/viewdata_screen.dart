@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/controller/bookrealestate_controller.dart';
@@ -23,6 +23,7 @@ import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart' as osm;
 
 
 /// ---------- RESPONSIVE HELPERS ----------
@@ -161,7 +162,6 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
         final Map<String, dynamic> data = jsonDecode(res.body);
 
         if (data["Result"] == "true") {
-          final bookId = data["book_id"];
           showToastMessage("Booking Confirmed Successfully!!!".tr);
           // If you want, navigate to booking details:
           // Get.toNamed(Routes.bookingDetailsScreen, arguments: {"book_id": bookId});
@@ -193,10 +193,7 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
   String latitude = "";
   String longitude = "";
 
-  late GoogleMapController mapController;
-  LatLng showLocation = LatLng(27.7089427, 85.3086209);
-
-  final List<Marker> _markers = <Marker>[];
+  final List<osm.LatLng> _markers = <osm.LatLng>[];
 
   Future<Uint8List> getImages(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -293,14 +290,7 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
       final double? lng = double.tryParse(lngStr);
 
       if (lat != null && lng != null) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(LatLng(lat, lng).toString()),
-            icon: BitmapDescriptor.fromBytes(markIcons),
-            position: LatLng(lat, lng),
-            infoWindow: InfoWindow(),
-          ),
-        );
+        _markers.add(osm.LatLng(lat, lng));
       }
     } catch (_) {
       // ignore marker/icon errors
@@ -370,6 +360,7 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
           builder: (context, constraints) {
             final bool isDesktop = Responsive.isDesktop(constraints);
             final bool isTablet = Responsive.isTablet(constraints);
+            final bool isMobile = Responsive.isMobile(constraints);
 
             const double maxContentWidth = 1200;
             final EdgeInsets pagePadding = EdgeInsets.symmetric(
@@ -380,13 +371,13 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
                 ? 420
                 : isTablet
                 ? 360
-                : 300;
+                : 240;
 
             final double mapHeight = isDesktop
                 ? 320
                 : isTablet
                 ? 260
-                : 200;
+                : 180;
 
             // Adaptive feature grid columns
             int featureCols;
@@ -596,6 +587,9 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
                           height: Get.size.height,
                           width: Get.size.width,
                           child: SingleChildScrollView(
+                            padding: EdgeInsets.only(
+                              bottom: isMobile ? 140 : 100,
+                            ),
                             child: Column(
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
@@ -1025,41 +1019,50 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
                                   child: ClipRRect(
                                     borderRadius:
                                     BorderRadius.circular(15),
-                                    child: GoogleMap(
-                                      initialCameraPosition:
-                                      CameraPosition(
-                                        target: LatLng(
+                                    child: FlutterMap(
+                                      options: MapOptions(
+                                        initialCenter: osm.LatLng(
                                           double.tryParse(
-                                              homePageController
-                                                  .propetydetailsInfo
-                                                  ?.propetydetails!
-                                                  .latitude ??
-                                                  "") ??
+                                                  homePageController
+                                                          .propetydetailsInfo
+                                                          ?.propetydetails!
+                                                          .latitude ??
+                                                      "") ??
                                               0,
                                           double.tryParse(
-                                              homePageController
-                                                  .propetydetailsInfo
-                                                  ?.propetydetails!
-                                                  .longtitude ??
-                                                  "") ??
+                                                  homePageController
+                                                          .propetydetailsInfo
+                                                          ?.propetydetails!
+                                                          .longtitude ??
+                                                      "") ??
                                               0,
                                         ),
-                                        zoom: 14.0,
+                                        initialZoom: 14,
                                       ),
-                                      markers: Set<Marker>.of(
-                                          _markers),
-                                      mapType: MapType.normal,
-                                      myLocationEnabled:
-                                      false, // friendlier default on web
-                                      compassEnabled: true,
-                                      zoomGesturesEnabled: true,
-                                      tiltGesturesEnabled: true,
-                                      zoomControlsEnabled: true,
-                                      onMapCreated: (controller) {
-                                        setState(() {
-                                          mapController = controller;
-                                        });
-                                      },
+                                      children: [
+                                        TileLayer(
+                                          urlTemplate:
+                                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                          userAgentPackageName:
+                                              'com.caresoko.app',
+                                        ),
+                                        MarkerLayer(
+                                          markers: _markers
+                                              .map(
+                                                (p) => Marker(
+                                                  point: p,
+                                                  width: 40,
+                                                  height: 40,
+                                                  child: const Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.red,
+                                                    size: 34,
+                                                  ),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   decoration: BoxDecoration(
@@ -1320,137 +1323,15 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
                           ),
                         ),
 
-                        // -------- BOTTOM BOOKING BAR --------
-                        // -------- BOTTOM BOOKING BAR (overflow-proof) --------
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Material( // keeps elevation/ink on web
-                            color: notifire.getblackwhitecolor,
-                            child: Center(
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(maxWidth: 1200),
-                                child: LayoutBuilder(
-                                  builder: (context, c) {
-                                    final isNarrow = c.maxWidth < 520; // stack on very small screens
-                                    final button = Flexible(
-                                      child: ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                          // clamp button width so it never overflows the row
-                                          maxWidth: c.maxWidth < 700 ? 220 : 280,
-                                          minWidth: 140,
-                                          minHeight: 48,
-                                        ),
-                                        child: GetBuilder<BookrealEstateController>(builder: (_) {
-                                          return GestButton(
-                                            Width: double.infinity,
-                                            height: 56,
-                                            buttoncolor: const Color(0xFF4772ff),
-                                            margin: const EdgeInsets.only(top: 10, right: 10, bottom: 10),
-                                            buttontext: "Book Now".tr,
-                                            onclick: _bookNow,  // <-- call our API method
-                                            style: TextStyle(
-                                              fontFamily: FontFamily.gilroyBold,
-                                              color: WhiteColor,
-                                              fontSize: 16,
-                                            ),
-                                          );
-                                          // return GestButton(
-                                          //   Width: double.infinity, // fill the constrained box only
-                                          //   height: 56,
-                                          //   buttoncolor: const Color(0xFF4772ff),
-                                          //   margin: const EdgeInsets.only(top: 10, right: 10, bottom: 10),
-                                          //   buttontext: "Schedule Tour".tr,
-                                          //   onclick: () {
-                                          //     if (getData.read("UserLogin") != null) {
-                                          //       bookrealEstateController.cleanDate();
-                                          //       Get.toNamed(Routes.bookRealEstate);
-                                          //       reviewSummaryController.getProductObject(
-                                          //         pim: homePageController.propetydetailsInfo?.propetydetails!.image![0].image,
-                                          //         pti: homePageController.propetydetailsInfo?.propetydetails!.name ?? "",
-                                          //         pci: homePageController.propetydetailsInfo?.propetydetails!.city ?? "",
-                                          //         pPty: homePageController.propetydetailsInfo?.propetydetails!.propertyTitle,
-                                          //         pId: homePageController.propetydetailsInfo?.propetydetails!.id ?? "",
-                                          //         pLimit: homePageController.propetydetailsInfo?.propetydetails!.capacity ?? "1",
-                                          //       );
-                                          //     } else {
-                                          //       showToastMessage("Please login and Book".tr);
-                                          //     }
-                                          //   },
-                                          //   style: TextStyle(
-                                          //     fontFamily: FontFamily.gilroyBold,
-                                          //     color: WhiteColor,
-                                          //     fontSize: 16,
-                                          //   ),
-                                          // );
-                                        }),
-                                      ),
-                                    );
-
-                                    final license = Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 10, left: 15, bottom: 10, right: 10),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              "License No".tr,
-                                              style: TextStyle(
-                                                fontFamily: FontFamily.gilroyMedium,
-                                                color: greycolor,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 6),
-                                            Row(
-                                              children: [
-                                                Flexible(
-                                                  child: Text(
-                                                    "${homePageController.propetydetailsInfo?.propetydetails!.licenseNo ?? ""}",
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      color: const Color(0xFF4772ff),
-                                                      fontFamily: FontFamily.gilroyBold,
-                                                      fontSize: c.maxWidth >= 900 ? 24 : 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-
-                                    if (isNarrow) {
-                                      // On narrow widths, stack vertically to avoid any chance of overflow
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(children: [license]),
-                                          Row(children: [Expanded(child: Padding(
-                                            padding: const EdgeInsets.only(left: 10),
-                                            child: button,
-                                          ))]),
-                                        ],
-                                      );
-                                    }
-
-                                    // Wider screens: keep it in a single row; button is width‑clamped
-                                    return Row(
-                                      children: [
-                                        license,
-                                        button,
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
+                        if (!isMobile)
+                          // -------- BOTTOM BOOKING BAR --------
+                          // -------- BOTTOM BOOKING BAR (overflow-proof) --------
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: _buildBookingBar(),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -1473,6 +1354,117 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
           fontSize: 17,
           fontFamily: FontFamily.gilroyBold,
           color: notifire.getwhiteblackcolor,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBookingBar() {
+    return Material(
+      color: notifire.getblackwhitecolor,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: LayoutBuilder(
+            builder: (context, c) {
+              final isNarrow = c.maxWidth < 520;
+              final button = Flexible(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: c.maxWidth < 700 ? 220 : 280,
+                    minWidth: 140,
+                    minHeight: 48,
+                  ),
+                  child: GetBuilder<BookrealEstateController>(builder: (_) {
+                    return GestButton(
+                      Width: double.infinity,
+                      height: 56,
+                      buttoncolor: const Color(0xFF4772ff),
+                      margin: const EdgeInsets.only(
+                        top: 10,
+                        right: 10,
+                        bottom: 10,
+                      ),
+                      buttontext: "Book Now".tr,
+                      onclick: _bookNow,
+                      style: TextStyle(
+                        fontFamily: FontFamily.gilroyBold,
+                        color: WhiteColor,
+                        fontSize: 16,
+                      ),
+                    );
+                  }),
+                ),
+              );
+
+              final license = Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    left: 15,
+                    bottom: 10,
+                    right: 10,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "License No".tr,
+                        style: TextStyle(
+                          fontFamily: FontFamily.gilroyMedium,
+                          color: greycolor,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "${homePageController.propetydetailsInfo?.propetydetails!.licenseNo ?? ""}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: const Color(0xFF4772ff),
+                                fontFamily: FontFamily.gilroyBold,
+                                fontSize: c.maxWidth >= 900 ? 24 : 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+
+              if (isNarrow) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(children: [license]),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: button,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  license,
+                  button,
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

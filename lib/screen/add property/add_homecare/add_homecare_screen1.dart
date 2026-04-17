@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:gotocarefinder/controller/add_homecare_controller.dart';
@@ -19,12 +20,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
+import 'package:latlong2/latlong.dart' as osm;
 
 // NOTE: keep your imports as you have them
 
@@ -62,8 +63,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
       Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
   // ---------- Map helpers ----------
-  late GoogleMapController mapController1;
-  final Set<Marker> markers = <Marker>{};
+  final MapController mapController1 = MapController();
+  final List<osm.LatLng> markers = <osm.LatLng>[];
 
   Future<Uint8List> _loadMarkerBytes(String path, int targetHeight) async {
     final data = await rootBundle.load(path);
@@ -83,11 +84,7 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
         await _loadMarkerBytes("assets/images/location_pin.png", 80);
     markers
       ..clear()
-      ..add(Marker(
-        markerId: const MarkerId("homecare_pin"),
-        position: LatLng(lat, lng),
-        icon: BitmapDescriptor.fromBytes(iconBytes),
-      ));
+      ..add(osm.LatLng(lat, lng));
     setState(() {});
   }
 
@@ -140,8 +137,8 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
     final cardPad = EdgeInsets.symmetric(horizontal: sidePad);
 
     final initialTarget = (manegeRoute == "Add")
-        ? const LatLng(47.751076, -120.740135)
-        : LatLng(addHomecareController.elat, addHomecareController.elong);
+      ? const osm.LatLng(47.751076, -120.740135)
+      : osm.LatLng(addHomecareController.elat, addHomecareController.elong);
 
     return Scaffold(
       backgroundColor: notifire.getfevAndSearch,
@@ -219,30 +216,38 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
-                                child: GoogleMap(
-                                  gestureRecognizers: {
-                                    Factory<OneSequenceGestureRecognizer>(
-                                        () => EagerGestureRecognizer()),
-                                  },
-                                  initialCameraPosition: CameraPosition(
-                                    target: initialTarget,
-                                    zoom: 13,
-                                  ),
-                                  mapType: MapType.normal,
-                                  markers: markers,
-                                  onTap: (pos) async {
+                                child: FlutterMap(
+                                  mapController: mapController1,
+                                  options: MapOptions(
+                                    initialCenter: initialTarget,
+                                    initialZoom: 13,
+                                    onTap: (tapPosition, pos) async {
                                     await _onAddMarkerButtonPressed(
                                         pos.latitude, pos.longitude);
                                     await _reverseGeocodeAndSet(
                                         pos.latitude, pos.longitude);
                                     addHomecareController.update();
                                   },
-                                  myLocationEnabled: true,
-                                  zoomGesturesEnabled: true,
-                                  tiltGesturesEnabled: true,
-                                  zoomControlsEnabled: true,
-                                  onMapCreated: (c) =>
-                                      setState(() => mapController1 = c),
+                                  ),
+                                  children: [
+                                    TileLayer(
+                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                      userAgentPackageName: 'com.caresoko.app',
+                                    ),
+                                    MarkerLayer(
+                                      markers: markers
+                                          .map(
+                                            (p) => Marker(
+                                              point: p,
+                                              width: 40,
+                                              height: 40,
+                                              child: const Icon(Icons.location_on,
+                                                  color: Colors.red, size: 34),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

@@ -15,7 +15,6 @@ import 'package:gotocarefinder/controller/homepage_controller.dart';
 import 'package:gotocarefinder/controller/proparty/homepage_controller.dart';
 import 'package:gotocarefinder/controller/search_controller.dart';
 import 'package:gotocarefinder/controller/signup_controller.dart';
-import 'package:gotocarefinder/firebase/chat_screen.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
@@ -175,7 +174,6 @@ class _HomeScreenState extends State<HomeScreen> {
         if (didPop) {
           if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
             // Exit app only on mobile
-            // ignore: avoid_print
             print("Exiting app");
           }
         }
@@ -234,17 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           _catWiseGrid(context),
                           SizedBox(height: 24),
-                          _sectionHeader("For Providers: Buy & Rent".tr, "See All".tr, onTap: () {/* navigate to providers listing */}),
-                          _categoriesChips(
-                            items: propartyHomePageController.homeDatatInfo?.homeData?.catlist ?? [],
-                            currentIndex: propartyHomePageController.catCurrentIndex,
-                            onSelected: (i, id) {
-                              propartyHomePageController.changeCategoryIndex(i);
-                              propartyHomePageController.getCatWiseData(cId: id, countryId: getData.read("countryId"));
-                              setState(() {});
-                            },
-                          ),
-                          _propartyGrid(context),
                         ],
                       ),
                     ),
@@ -517,47 +504,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _propartyGrid(BuildContext context) {
-    if (!propartyHomePageController.isCatWise) {
-      return Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()));
-    }
-    final list = propartyHomePageController.catWiseInfo?.propertyCat ?? [];
-    if (list.isEmpty) return _emptyState();
-    final cross = R.gridCount(context);
-
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(top: 8),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: cross,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        mainAxisExtent: 260,
-      ),
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        final item = list[index];
-        return _PropertyCard(
-          title: item.title ?? "",
-          image: "${Config.imageUrl}${item.image ?? ""}",
-          zipcode: item.zipcode,
-          city: item.city,
-          badgeText: (item.buyorrent == "1") ? (item.rate?.toString() ?? "") : "FOR SALE".tr,
-          typeTitle: (currency ?? "").toString() + (item.price?.toString() ?? ""),
-          trailingTypeText: (item.buyorrent == "1") ? "/night".tr : "",
-          onTap: () async {
-            setState(() => propartyHomePageController.rate = item.rate ?? "");
-            propartyHomePageController.chnageObjectIndex(index);
-            await propartyHomePageController.getPropertyDetailsApi(id: item.id);
-            Get.toNamed(Routes.viewPropartyScreen);
-          },
-          notifire: notifire,
-        );
-      },
-    );
-  }
-
   Widget _listFeatured(BuildContext context) {
     final featured = homePageController.homeDatatInfo?.homeData?.featuredProperty ?? [];
     if (featured.isEmpty) return _emptyState();
@@ -781,7 +727,6 @@ class _PropertyCard extends StatefulWidget {
   final String? city;
   final String badgeText;
   final String typeTitle;
-  final String trailingTypeText;
   final VoidCallback onTap;
   final ColorNotifire notifire;
 
@@ -792,7 +737,6 @@ class _PropertyCard extends StatefulWidget {
     this.city,
     required this.badgeText,
     required this.typeTitle,
-    this.trailingTypeText = "",
     required this.onTap,
     required this.notifire,
   });
@@ -855,11 +799,6 @@ class _PropertyCardState extends State<_PropertyCard> {
                     SizedBox(height: 6),
                     Row(children: [
                       Text(widget.typeTitle, style: TextStyle(color: blueColor, fontFamily: FontFamily.gilroyBold, fontSize: 15)),
-                      if (widget.trailingTypeText.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Text(widget.trailingTypeText, style: TextStyle(color: widget.notifire.getgreycolor, fontFamily: FontFamily.gilroyMedium)),
-                        ),
                     ]),
                   ]),
                 ),

@@ -7,7 +7,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/model/proparty/catwise_info.dart';
@@ -18,6 +17,7 @@ import 'package:gotocarefinder/model/proparty/propetydetails_Info.dart';
 // import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/utils/Custom_widget.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart' as osm;
 
 import '../../screen/home_screen.dart';
 
@@ -51,12 +51,7 @@ class PropartyHomePageController extends GetxController implements GetxService {
 
   PageController pageController = PageController();
 
-  CameraPosition kGoogle = CameraPosition(
-    target: LatLng(21.2381962, 72.8879607),
-    zoom: 5,
-  );
-
-  List<Marker> markers = <Marker>[];
+  final osm.LatLng kMapCenter = osm.LatLng(21.2381962, 72.8879607);
 
   Future<Uint8List> getImages(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -69,8 +64,10 @@ class PropartyHomePageController extends GetxController implements GetxService {
   }
 
   PropartyHomePageController() {
-    getHomeDataApi();
-    getCatWiseData(cId: "0",countryId: getData.read("countryId"));
+    final storedCountryId = (getData.read("countryId") ?? "").toString();
+    final safeCountryId = storedCountryId.isEmpty ? "0" : storedCountryId;
+    getHomeDataApi(countryId: safeCountryId);
+    getCatWiseData(cId: "0", countryId: safeCountryId);
   }
 
   chnageObjectIndex(int index) {
@@ -106,13 +103,18 @@ class PropartyHomePageController extends GetxController implements GetxService {
 
   String addProp = "";
   Future getHomeDataApi({String? countryId}) async {
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>COUNTRy CODE ${countryId}");
+    final storedCountryId = (getData.read("countryId") ?? "").toString();
+    final safeCountryId = (countryId ?? "").toString().isNotEmpty
+        ? countryId!.toString()
+        : (storedCountryId.isEmpty ? "0" : storedCountryId);
+
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>COUNTRy CODE $safeCountryId");
     try {
       isLoading = false;
       Map map = {
         "uid": getData.read("UserLogin") == null ? "0"
             : "${getData.read("UserLogin")["id"]}",
-        "country_id": "4",
+        "country_id": safeCountryId,
       };
       print("--------(Map)-------->>" + map.toString());
       Uri uri = Uri.parse(Config.path + Config.propartyHomeDataApi);
@@ -122,12 +124,16 @@ class PropartyHomePageController extends GetxController implements GetxService {
       );
       log(">>>>>>>>>>>>>>>>>>>>>>>> ????????????????????? ${response.body}");
       if (response.statusCode == 200) {
-        var result = jsonDecode(response.body);
-        homeDatatInfo = HomeDatatInfo.fromJson(result);
-        addProp = homeDatatInfo?.homeData!.showAddProperty ?? "";
-        print("ADDDPORP >>>>>>>>>>>>>>>>>> ${addProp}");
-        var maplist = mapInfo.reversed.toList();
-        currency = homeDatatInfo?.homeData!.currency ?? "";
+        final decoded = jsonDecode(response.body);
+        if (decoded is Map && decoded["Result"]?.toString() == "true") {
+          homeDatatInfo =
+              HomeDatatInfo.fromJson(Map<String, dynamic>.from(decoded));
+          addProp = homeDatatInfo?.homeData?.showAddProperty ?? "";
+          currency = homeDatatInfo?.homeData?.currency ?? "";
+        } else {
+          homeDatatInfo = null;
+          addProp = "";
+        }
         update();
       }
       isLoading = true;

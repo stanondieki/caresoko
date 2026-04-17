@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/model/country_info.dart';
+import 'package:gotocarefinder/services/location_service.dart';
 import 'package:http/http.dart' as http;
 
 class SelectCountryController extends GetxController implements GetxService {
@@ -16,6 +17,10 @@ class SelectCountryController extends GetxController implements GetxService {
 
   bool isLoading = false;
 
+  // Whether auto-detection succeeded
+  bool autoDetected = false;
+  String autoDetectedSource = ''; // 'gps' | 'ip' | ''
+
   Future changeCountryIndex(int index) async {
     currentIndex = index;
     save("currentIndex", currentIndex);
@@ -24,17 +29,9 @@ class SelectCountryController extends GetxController implements GetxService {
 
   Future getCountryApi() async {
     try {
-      Map map = {
-        "uid": getData.read("UserLogin") == null
-            ? "0"
-            : "${getData.read("UserLogin")["id"]}",
-      };
       Uri uri = Uri.parse(Config.path + Config.allCountry);
-      var response = await http.post(
-        uri,
-        body: jsonEncode(map),
-      );
-      print("<><><><><><><><><><><><><>< ${response.body}>>");
+      var response = await http.get(uri).timeout(const Duration(seconds: 10));
+      print("<><><><><><> Country API ${response.body} >>");
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
         if (result["CountryData"] != null) {
@@ -44,33 +41,73 @@ class SelectCountryController extends GetxController implements GetxService {
           }
           countryInfo = CountryInfo.fromJson(result);
         } else {
-          // API returned but no data - use fallback
           _setFallbackCountry();
         }
       } else {
-        // API error - use fallback
         _setFallbackCountry();
       }
       isLoading = true;
       update();
     } catch (e) {
       print("Country API Error: ${e.toString()}");
-      // Use fallback country when API fails
       _setFallbackCountry();
       isLoading = true;
       update();
     }
   }
-  
-  // Fallback to United States when country API fails
-  void _setFallbackCountry() {
-    print("Using fallback country: United States (id=4)");
-    // Set default country if not already set
-    if (getData.read("countryId") == null || getData.read("countryId") == "") {
-      save("countryId", "4");
-      save("countryName", "United States");
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Auto-detect the user's country by location (GPS → IP).
+  //
+  // Returns true  → country was detected & saved; caller can skip the
+  //                 manual country selector and go straight to home.
+  // Returns false → could not detect; caller should show country selector.
+  // ─────────────────────────────────────────────────────────────────────────
+  Future<bool> autoDetectAndSetCountry() async {
+    try {
+      final detected = await LocationService.detectCountry();
+
+      if (detected != null) {
+        // Save to persistent storage
+        save("countryId", detected.id);
+        save("countryName", detected.title);
+
+        // Keep the current-index in sync if countries are already loaded
+        if (countryInfo != null) {
+          final items = countryInfo!.countryData ?? [];
+          for (int i = 0; i < items.length; i++) {
+            if (items[i].id.toString() == detected.id) {
+              currentIndex = i;
+              save("currentIndex", i);
+              break;
+            }
+          }
+        }
+
+        autoDetected = true;
+        autoDetectedSource = detected.source;
+        print('[SelectCountryController] Auto-detected: ${detected.title} (${detected.source})');
+        update();
+        return true;
+      }
+    } catch (e) {
+      print('[SelectCountryController] autoDetectAndSetCountry error: $e');
     }
-    // Create a minimal country list
-    countryList = ["United States"];
+
+    autoDetected = false;
+    update();
+    return false;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Fallback: keep whatever is stored, or default to first country in the DB
+  // ─────────────────────────────────────────────────────────────────────────
+  void _setFallbackCountry() {
+    print("Using fallback country logic");
+    if ((getData.read("countryId") ?? "").toString().isEmpty) {
+      save("countryId", "1");
+      save("countryName", "");
+    }
+    countryList = [];
   }
 }

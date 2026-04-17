@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/controller/bookrealestate_controller.dart';
@@ -21,6 +21,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:latlong2/latlong.dart' as osm;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -194,10 +195,7 @@ class _ViewHomecareDataScreenState extends State<ViewHomecareDataScreen> {
   String latitude = "";
   String longitude = "";
 
-  late GoogleMapController mapController;
-  LatLng showLocation = LatLng(27.7089427, 85.3086209);
-
-  final List<Marker> _markers = <Marker>[];
+  final List<osm.LatLng> _markers = <osm.LatLng>[];
 
   Future<Uint8List> getImages(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -292,14 +290,7 @@ class _ViewHomecareDataScreenState extends State<ViewHomecareDataScreen> {
       final double? lng = double.tryParse(lngStr);
 
       if (lat != null && lng != null) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(LatLng(lat, lng).toString()),
-            icon: BitmapDescriptor.fromBytes(markIcons),
-            position: LatLng(lat, lng),
-            infoWindow: InfoWindow(),
-          ),
-        );
+        _markers.add(osm.LatLng(lat, lng));
       }
     } catch (_) {
       // ignore map marker image load errors
@@ -708,40 +699,50 @@ class _ViewHomecareDataScreenState extends State<ViewHomecareDataScreen> {
                                   child: ClipRRect(
                                     borderRadius:
                                     BorderRadius.circular(15),
-                                    child: GoogleMap(
-                                      initialCameraPosition:
-                                      CameraPosition(
-                                        target: LatLng(
+                                    child: FlutterMap(
+                                      options: MapOptions(
+                                        initialCenter: osm.LatLng(
                                           double.tryParse(
-                                              homePageController
-                                                  .homecareAgencyDetailsInfo
-                                                  ?.homecareAgencyDetails!
-                                                  .latitude ??
-                                                  "") ??
+                                                  homePageController
+                                                          .homecareAgencyDetailsInfo
+                                                          ?.homecareAgencyDetails!
+                                                          .latitude ??
+                                                      "") ??
                                               0,
                                           double.tryParse(
-                                              homePageController
-                                                  .homecareAgencyDetailsInfo
-                                                  ?.homecareAgencyDetails!
-                                                  .longitude ??
-                                                  "") ??
+                                                  homePageController
+                                                          .homecareAgencyDetailsInfo
+                                                          ?.homecareAgencyDetails!
+                                                          .longitude ??
+                                                      "") ??
                                               0,
                                         ),
-                                        zoom: 14.0,
+                                        initialZoom: 14,
                                       ),
-                                      markers: Set<Marker>.of(_markers),
-                                      mapType: MapType.normal,
-                                      myLocationEnabled:
-                                      false, // better default on web
-                                      compassEnabled: true,
-                                      zoomGesturesEnabled: true,
-                                      tiltGesturesEnabled: true,
-                                      zoomControlsEnabled: true,
-                                      onMapCreated: (controller) {
-                                        setState(() {
-                                          mapController = controller;
-                                        });
-                                      },
+                                      children: [
+                                        TileLayer(
+                                          urlTemplate:
+                                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                          userAgentPackageName:
+                                              'com.caresoko.app',
+                                        ),
+                                        MarkerLayer(
+                                          markers: _markers
+                                              .map(
+                                                (p) => Marker(
+                                                  point: p,
+                                                  width: 40,
+                                                  height: 40,
+                                                  child: const Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.red,
+                                                    size: 34,
+                                                  ),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   decoration: BoxDecoration(

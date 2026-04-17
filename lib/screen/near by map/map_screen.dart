@@ -1,14 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_unnecessary_containers, sized_box_for_whitespace, unused_field, prefer_final_fields, prefer_interpolation_to_compose_strings, avoid_print, prefer_collection_literals, unnecessary_brace_in_string_interps, unnecessary_string_interpolations, unused_local_variable
 
-import 'dart:typed_data';
-import 'dart:ui' as ui;
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/controller/homepage_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
@@ -16,6 +10,7 @@ import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/screen/home_screen.dart'; // uses R helpers (grid, padding, max width)
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
+import 'package:latlong2/latlong.dart' as osm;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +23,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   final HomePageController homePageController = Get.find();
-  late GoogleMapController mapController;
+  final MapController mapController = MapController();
   late ColorNotifire notifire;
 
   getdarkmodepreviousstate() async {
@@ -37,17 +32,7 @@ class _MapScreenState extends State<MapScreen> {
     notifire.setIsDark = previusstate ?? false;
   }
 
-  final Set<Marker> markers = <Marker>{};
-
-  Future<Uint8List> _getBytesFromAsset(String path, int width) async {
-    final ByteData data = await rootBundle.load(path);
-    final ui.Codec codec = await ui.instantiateImageCodec(
-      data.buffer.asUint8List(),
-      targetHeight: width,
-    );
-    final ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
-  }
+  final List<_MapPoint> mapPoints = <_MapPoint>[];
 
   @override
   void initState() {
@@ -78,19 +63,40 @@ class _MapScreenState extends State<MapScreen> {
           child: Stack(
             children: [
               Positioned.fill(
-                child: GoogleMap(
-                  initialCameraPosition: homePageController.kGoogle,
-                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                    Factory<EagerGestureRecognizer>(() => EagerGestureRecognizer()),
-                  },
-                  markers: markers,
-                  mapType: MapType.normal,
-                  myLocationEnabled: false,
-                  compassEnabled: true,
-                  zoomGesturesEnabled: true,
-                  tiltGesturesEnabled: true,
-                  zoomControlsEnabled: true,
-                  onMapCreated: (controller) => setState(() => mapController = controller),
+                child: FlutterMap(
+                  mapController: mapController,
+                  options: MapOptions(
+                    initialCenter: homePageController.kMapCenter,
+                    initialZoom: 5,
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.caresoko.app',
+                    ),
+                    MarkerLayer(
+                      markers: mapPoints
+                          .map(
+                            (p) => Marker(
+                              point: p.point,
+                              width: 42,
+                              height: 42,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  setState(() => homePageController.rate = p.rate);
+                                  homePageController.chnageObjectIndex(p.index);
+                                  await homePageController.getPropertyDetailsApi(
+                                      id: p.id, ptype: p.propertyType);
+                                  Get.toNamed(Routes.viewDataScreen);
+                                },
+                                child: const Icon(Icons.location_on,
+                                    color: Colors.red, size: 34),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
                 ),
               ),
 
@@ -123,9 +129,7 @@ class _MapScreenState extends State<MapScreen> {
                           if (item == null) return;
                           final lat = double.tryParse(item.latitude ?? "0") ?? 0;
                           final lng = double.tryParse(item.longtitude ?? "0") ?? 0;
-                          mapController.animateCamera(
-                            CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, lng), zoom: 12)),
-                          );
+                          mapController.move(osm.LatLng(lat, lng), 12);
                         },
                         onCardTap: (index) async {
                           final f = homePageController.homeDatatInfo?.homeData?.featuredProperty?[index];
@@ -149,32 +153,39 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _initMarkers() async {
-    final iconBytes = await _getBytesFromAsset("assets/images/MapPin.png", 100);
     final items = homePageController.homeDatatInfo?.homeData?.featuredProperty ?? [];
+    mapPoints.clear();
     for (var i = 0; i < items.length; i++) {
       final lat = double.tryParse(items[i].latitude?.toString() ?? "0") ?? 0;
       final lng = double.tryParse(items[i].longtitude?.toString() ?? "0") ?? 0;
-      markers.add(
-        Marker(
-          markerId: MarkerId("f-$i"),
-          position: LatLng(lat, lng),
-          icon: BitmapDescriptor.fromBytes(iconBytes),
-          infoWindow: InfoWindow(
-            title: items[i].name,
-            snippet: items[i].city,
-            onTap: () async {
-              setState(() => homePageController.rate = items[i].rate ?? "");
-              homePageController.chnageObjectIndex(i);
-              await homePageController.getPropertyDetailsApi(id: items[i].id, ptype: items[i].propertyType);
-              Get.toNamed(Routes.viewDataScreen);
-            },
-          ),
-          onTap: () => homePageController.updateMapPosition(index: i),
+      mapPoints.add(
+        _MapPoint(
+          index: i,
+          id: items[i].id,
+          propertyType: items[i].propertyType,
+          rate: items[i].rate ?? '',
+          point: osm.LatLng(lat, lng),
         ),
       );
     }
     if (mounted) setState(() {});
   }
+}
+
+class _MapPoint {
+  _MapPoint({
+    required this.index,
+    required this.id,
+    required this.propertyType,
+    required this.rate,
+    required this.point,
+  });
+
+  final int index;
+  final String? id;
+  final String? propertyType;
+  final String rate;
+  final osm.LatLng point;
 }
 
 // ===================== Widgets =====================

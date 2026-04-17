@@ -2,11 +2,9 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/controller/bookrealestate_controller.dart';
@@ -14,7 +12,6 @@ import 'package:gotocarefinder/controller/calendar_controller.dart';
 import 'package:gotocarefinder/controller/gallery_controller.dart';
 import 'package:gotocarefinder/controller/proparty/homepage_controller.dart';
 import 'package:gotocarefinder/controller/reviewsummary_controller.dart';
-import 'package:gotocarefinder/firebase/chat_screen.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/screen/home_screen.dart';
@@ -27,6 +24,7 @@ import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:latlong2/latlong.dart' as osm;
 
 class ViewPropartyScreen extends StatefulWidget {
   @override
@@ -70,11 +68,7 @@ class _ViewPropartyScreenState extends State<ViewPropartyScreen> {
   String latitude = "";
   String longitude = "";
 
-  late GoogleMapController
-      mapController;
-  LatLng showLocation = LatLng(27.7089427, 85.3086209);
-
-  final List<Marker> _markers = <Marker>[];
+  final List<osm.LatLng> _markers = <osm.LatLng>[];
 
   Future<Uint8List> getImages(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -97,25 +91,31 @@ class _ViewPropartyScreenState extends State<ViewPropartyScreen> {
         "${homePageController.propetydetailsInfo!.propetydetails!.userId}");
   }
 
-  loadData() async {
-    final Uint8List markIcons =
-        await getImages("assets/images/MapPin.png", 100);
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
-    _markers.add(
-      Marker(
-        markerId: MarkerId(showLocation.toString()),
-        icon: BitmapDescriptor.fromBytes(markIcons),
-        position: LatLng(
-          double.parse(
-              homePageController.propetydetailsInfo?.propetydetails!.latitude ??
-                  ""),
-          double.parse(homePageController
-                  .propetydetailsInfo!.propetydetails!.longtitude ??
-              ""),
-        ),
-        infoWindow: InfoWindow(),
-      ),
-    );
+  loadData() async {
+    try {
+      final Uint8List markIcons =
+          await getImages("assets/images/MapPin.png", 100);
+
+      final lat = double.tryParse(
+          homePageController.propetydetailsInfo?.propetydetails!.latitude ??
+              "");
+      final lng = double.tryParse(homePageController
+              .propetydetailsInfo?.propetydetails!.longtitude ??
+          "");
+
+      if (lat != null && lng != null) {
+        _markers
+          ..clear()
+          ..add(osm.LatLng(lat, lng));
+      }
+    } catch (_) {
+      // Keep screen usable even if marker/icon setup fails.
+    }
 
     setState(() {});
   }
@@ -798,34 +798,33 @@ class _ViewPropartyScreenState extends State<ViewPropartyScreen> {
                               margin: EdgeInsets.all(10),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(
-                                      double.parse(homePageController
-                                              .propetydetailsInfo
-                                              ?.propetydetails
-                                              !.latitude ??
-                                          ""),
-                                      double.parse(homePageController
-                                              .propetydetailsInfo
-                                              ?.propetydetails
-                                              !.longtitude ??
-                                          ""),
+                                child: FlutterMap(
+                                  options: MapOptions(
+                                    initialCenter: osm.LatLng(
+                                      double.tryParse(homePageController.propetydetailsInfo?.propetydetails!.latitude ?? "") ?? 0,
+                                      double.tryParse(homePageController.propetydetailsInfo?.propetydetails!.longtitude ?? "") ?? 0,
                                     ),
-                                    zoom: 15.0,
+                                    initialZoom: 15,
                                   ),
-                                  markers: Set<Marker>.of(_markers),
-                                  mapType: MapType.normal,
-                                  myLocationEnabled: true,
-                                  compassEnabled: true,
-                                  zoomGesturesEnabled: true,
-                                  tiltGesturesEnabled: true,
-                                  zoomControlsEnabled: true,
-                                  onMapCreated: (controller) {
-                                    setState(() {
-                                      mapController = controller;
-                                    });
-                                  },
+                                  children: [
+                                    TileLayer(
+                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                      userAgentPackageName: 'com.caresoko.app',
+                                    ),
+                                    MarkerLayer(
+                                      markers: _markers
+                                          .map(
+                                            (p) => Marker(
+                                              point: p,
+                                              width: 40,
+                                              height: 40,
+                                              child: const Icon(Icons.location_on,
+                                                  color: Colors.red, size: 34),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ],
                                 ),
                               ),
                               decoration: BoxDecoration(

@@ -60,7 +60,6 @@ import 'package:gotocarefinder/screen/loream_screen.dart';
 import 'package:gotocarefinder/screen/message_screen.dart';
 import 'package:gotocarefinder/screen/mybooking_screen.dart';
 import 'package:gotocarefinder/screen/notification_screen.dart';
-import 'package:gotocarefinder/screen/onbording_screen.dart';
 import 'package:gotocarefinder/screen/otp_screen.dart';
 import 'package:gotocarefinder/screen/our_recommendation_screen.dart';
 import 'package:gotocarefinder/screen/profile_screen.dart';
@@ -157,7 +156,8 @@ final getPages = [
   ),
   GetPage(
     name: Routes.onBordingScreen,
-    page: () => OnBordingScreen(),
+    // Onboarding flow removed; route now points to Login.
+    page: () => LoginScreen(),
   ),
   GetPage(
     name: Routes.login,

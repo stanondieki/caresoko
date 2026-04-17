@@ -8,11 +8,11 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, Factory;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/controller/add_proparty/addproperties_controller.dart';
 import 'package:gotocarefinder/controller/dashboard_controller.dart';
@@ -25,6 +25,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart' as osm;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -91,8 +92,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
   Future<Position> locateUser() async =>
       Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-  late GoogleMapController mapController1;
-  final Set<Marker> markers = <Marker>{};
+  final MapController mapController1 = MapController();
+  final List<osm.LatLng> markers = <osm.LatLng>[];
 
   /// Robust double parser
   double _asDouble(dynamic v, {double fallback = 0}) {
@@ -123,13 +124,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
     final markIcon = await getImages("assets/images/location_pin.png", 80);
     markers
       ..clear()
-      ..add(
-        Marker(
-          markerId: const MarkerId("1"),
-          position: LatLng(lat, lng),
-          icon: BitmapDescriptor.fromBytes(markIcon),
-        ),
-      );
+      ..add(osm.LatLng(lat, lng));
     setState(() {});
   }
 
@@ -399,27 +394,17 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
-                                child: GoogleMap(
-                                  gestureRecognizers: {
-                                    Factory<OneSequenceGestureRecognizer>(
-                                        () => EagerGestureRecognizer())
-                                  },
-                                  initialCameraPosition: CameraPosition(
-                                    target: (!isEdit)
-                                        ? const LatLng(47.751076, -120.740135)
-                                        : LatLng(
-                                            _asDouble(
-                                                addPropertiesController.elat,
-                                                fallback: 0),
-                                            _asDouble(
-                                                addPropertiesController.elong,
-                                                fallback: 0),
+                                child: FlutterMap(
+                                  mapController: mapController1,
+                                  options: MapOptions(
+                                    initialCenter: (!isEdit)
+                                        ? const osm.LatLng(47.751076, -120.740135)
+                                        : osm.LatLng(
+                                            _asDouble(addPropertiesController.elat, fallback: 0),
+                                            _asDouble(addPropertiesController.elong, fallback: 0),
                                           ),
-                                    zoom: 13,
-                                  ),
-                                  mapType: MapType.normal,
-                                  markers: markers,
-                                  onTap: (pos) async {
+                                    initialZoom: 13,
+                                    onTap: (tapPosition, pos) async {
                                     await _onAddMarkerButtonPressed(
                                         pos.latitude, pos.longitude);
                                     addPropertiesController.lat = pos.latitude;
@@ -429,12 +414,26 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                         pos.latitude, pos.longitude);
                                     addPropertiesController.update();
                                   },
-                                  myLocationEnabled: true,
-                                  zoomGesturesEnabled: true,
-                                  tiltGesturesEnabled: true,
-                                  zoomControlsEnabled: true,
-                                  onMapCreated: (controller) => setState(
-                                      () => mapController1 = controller),
+                                  ),
+                                  children: [
+                                    TileLayer(
+                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                      userAgentPackageName: 'com.caresoko.app',
+                                    ),
+                                    MarkerLayer(
+                                      markers: markers
+                                          .map(
+                                            (p) => Marker(
+                                              point: p,
+                                              width: 40,
+                                              height: 40,
+                                              child: const Icon(Icons.location_on,
+                                                  color: Colors.red, size: 34),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

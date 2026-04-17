@@ -104,4 +104,7 @@ class Config {
 
   static const String requestWithdraw = 'request_withdraw.php';
   static const String payOutList = 'payout_list.php';
+
+  // Country auto-detection by IP (server-side, no GPS permission needed)
+  static const String detectCountryApi = 'u_detect_country.php';
 }
