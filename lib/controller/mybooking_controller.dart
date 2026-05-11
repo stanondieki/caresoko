@@ -19,9 +19,11 @@ class MyBookingController extends GetxController implements GetxService {
     try {
       isLoading = false;
       update();
+      final String countryId = (getData.read("countryId") ?? "0").toString();
       Map map = {
         "uid": getData.read("UserLogin")["id"].toString(),
         "status": statusWiseBook,
+        "country_id": countryId,
       };
       print(map.toString());
       Uri uri = Uri.parse(Config.path + Config.statusWiseBook);

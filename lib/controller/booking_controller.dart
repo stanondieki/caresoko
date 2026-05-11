@@ -33,9 +33,11 @@ class BookingController extends GetxController implements GetxService {
     try {
       isLoading = false;
       update();
+      final String countryId = (getData.read("countryId") ?? "0").toString();
       Map map = {
         "uid": getData.read("UserLogin")["id"],
         "status": statusWiseBook,
+        "country_id": countryId,
       };
       Uri uri = Uri.parse(Config.path + Config.proBookStatusWise);
       var response = await http.post(
