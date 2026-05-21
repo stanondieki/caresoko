@@ -100,11 +100,11 @@ class _ViewHomecareDataScreenState extends State<ViewHomecareDataScreen> {
     await showDialog(
       context: context,
       builder: (ctx) {
-        final TextEditingController _msgCtrl = TextEditingController();
+        final TextEditingController msgCtrl = TextEditingController();
         return AlertDialog(
           title: Text("Add Note (Optional)".tr),
           content: TextField(
-            controller: _msgCtrl,
+            controller: msgCtrl,
             maxLines: 3,
             decoration: InputDecoration(
               hintText: "Describe any special request…".tr,
@@ -119,7 +119,7 @@ class _ViewHomecareDataScreenState extends State<ViewHomecareDataScreen> {
             ),
             TextButton(
               onPressed: () {
-                message = _msgCtrl.text.trim();
+                message = msgCtrl.text.trim();
                 Navigator.of(ctx).pop();
               },
               child: Text("OK".tr),

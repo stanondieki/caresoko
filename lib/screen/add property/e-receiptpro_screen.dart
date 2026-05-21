@@ -2,14 +2,12 @@
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/controller/booking_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
-import 'package:gotocarefinder/utils/Custom_widget.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

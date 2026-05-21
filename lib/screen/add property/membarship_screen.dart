@@ -152,7 +152,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
 
               // Clamp textScaleFactor to avoid layout blow-ups on very large fonts
               final clampedMQ = mq.copyWith(
-                textScaleFactor: mq.textScaleFactor.clamp(1.0, 1.2),
+                textScaler: TextScaler.linear(mq.textScaleFactor.clamp(1.0, 1.2)),
               );
 
               return MediaQuery(

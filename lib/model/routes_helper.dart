@@ -68,8 +68,11 @@ import 'package:gotocarefinder/screen/resetpassword_screen.dart';
 import 'package:gotocarefinder/screen/review_screen.dart';
 import 'package:gotocarefinder/screen/review_summary.dart';
 import 'package:gotocarefinder/screen/select_country.dart';
+import 'package:gotocarefinder/screen/signup_role_select_screen.dart';
 import 'package:gotocarefinder/screen/signup_screen.dart';
+import 'package:gotocarefinder/screen/signup_screen_provider.dart';
 import 'package:gotocarefinder/screen/splesh_screen.dart';
+import 'package:gotocarefinder/screen/welcome_screen.dart';
 import 'package:gotocarefinder/screen/view_homecare_data_screen.dart';
 import 'package:gotocarefinder/screen/viewdata_screen.dart';
 import 'package:gotocarefinder/screen/viewprofile_screen.dart';
@@ -77,10 +80,13 @@ import 'package:gotocarefinder/screen/viewprofile_screen.dart';
 class Routes {
   static String initial = "/";
   static String onBordingScreen = '/OnBordingScreen';
+  static String welcomeScreen = '/welcomeScreen';
   static String login = "/Login";
   static String bottoBarScreen = "/BottoBarScreen";
   static String contractScreen = "/contractScreen";
-  static String signUpScreen = "/signUpScreen";
+  static String signUpScreen = "/signUpScreen"; // role-select entry point
+  static String signUpRecipientScreen = "/signUpRecipientScreen";
+  static String signUpProviderScreen = "/signUpProviderScreen";
   static String otpScreen = '/otpScreen';
   static String resetPassword = "/resetPassword";
   static String viewDataScreen = "/viewDataScreen";
@@ -160,6 +166,10 @@ final getPages = [
     page: () => LoginScreen(),
   ),
   GetPage(
+    name: Routes.welcomeScreen,
+    page: () => const WelcomeScreen(),
+  ),
+  GetPage(
     name: Routes.login,
     page: () => LoginScreen(),
   ),
@@ -173,7 +183,15 @@ final getPages = [
   ),
   GetPage(
     name: Routes.signUpScreen,
+    page: () => const SignUpRoleSelectScreen(),
+  ),
+  GetPage(
+    name: Routes.signUpRecipientScreen,
     page: () => SignUpScreen(),
+  ),
+  GetPage(
+    name: Routes.signUpProviderScreen,
+    page: () => SignUpScreenProvider(),
   ),
   GetPage(
     name: Routes.otpScreen,

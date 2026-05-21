@@ -62,7 +62,7 @@ class _AddPropertyScreen4State extends State<AddPropertyScreen4> {
 
     if (manegeRoute == "edit") {
       // Defensive split helpers (ignore empties)
-      List<String> _splitClean(String? s) => (s ?? '')
+      List<String> splitClean(String? s) => (s ?? '')
           .split(',')
           .map((e) => e.trim())
           .where((e) => e.isNotEmpty)
@@ -70,20 +70,20 @@ class _AddPropertyScreen4State extends State<AddPropertyScreen4> {
 
       addPropertiesController.selectedCertifications
         ..clear()
-        ..addAll(_splitClean(addPropertiesController.eCertifications));
+        ..addAll(splitClean(addPropertiesController.eCertifications));
 
       addPropertiesController.selectedSpecializedCertifications
         ..clear()
         ..addAll(
-            _splitClean(addPropertiesController.eSpecializedCertifications));
+            splitClean(addPropertiesController.eSpecializedCertifications));
 
       addPropertiesController.selectedAccreditations
         ..clear()
-        ..addAll(_splitClean(addPropertiesController.eAccreditations));
+        ..addAll(splitClean(addPropertiesController.eAccreditations));
 
       addPropertiesController.selectedMemberships
         ..clear()
-        ..addAll(_splitClean(addPropertiesController.eMemberships));
+        ..addAll(splitClean(addPropertiesController.eMemberships));
 
       addPropertiesController.backgroundChecks =
           addPropertiesController.eBackgroundChecks ?? false;

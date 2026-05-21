@@ -12,7 +12,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 class ContractAgreement extends StatefulWidget {
-  ContractAgreement({super.key});
+  const ContractAgreement({super.key});
 
   @override
   State<ContractAgreement> createState() => _ContractAgreementState();

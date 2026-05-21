@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +15,6 @@ import 'package:gotocarefinder/controller/dashboard_controller.dart';
 import 'package:gotocarefinder/controller/enquiry_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
-import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Custom_widget.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';

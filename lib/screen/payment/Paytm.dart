@@ -8,7 +8,7 @@ class PayTmPayment extends StatefulWidget {
   final String? uid;
   final String? totalAmount;
 
-  const PayTmPayment({this.uid, this.totalAmount});
+  const PayTmPayment({super.key, this.uid, this.totalAmount});
 
   @override
   State<PayTmPayment> createState() => _PayTmPaymentState();

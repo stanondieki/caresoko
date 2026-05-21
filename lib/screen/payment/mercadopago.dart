@@ -8,7 +8,7 @@ class MercadoPago extends StatefulWidget {
   final String? email;
   final String? totalAmount;
 
-  const MercadoPago({this.email, this.totalAmount});
+  const MercadoPago({super.key, this.email, this.totalAmount});
 
   @override
   State<MercadoPago> createState() => _MercadoPagoState();

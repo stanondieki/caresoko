@@ -266,7 +266,6 @@ class _EmptyState extends StatelessWidget {
 /// Adds subtle hover elevation on web/desktop.
 class _ExtraImageTile extends StatefulWidget {
   const _ExtraImageTile({
-    super.key,
     required this.notifire,
     required this.title,
     required this.imageUrl,

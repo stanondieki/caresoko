@@ -6,7 +6,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/model/add%20property%20model/agencylist_info.dart';
-import 'package:gotocarefinder/model/add%20property%20model/proplist_info.dart';
 import 'package:http/http.dart' as http;
 
 class ListOfAgenciesController extends GetxController implements GetxService {

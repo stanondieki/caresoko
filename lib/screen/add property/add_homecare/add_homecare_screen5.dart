@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:gotocarefinder/controller/add_homecare_controller.dart';
-import 'package:gotocarefinder/controller/addproperties_controller.dart';
 import 'package:gotocarefinder/controller/dashboard_controller.dart';
 import 'package:gotocarefinder/controller/enquiry_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';
@@ -18,9 +17,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AddHomeCareScreen5 extends StatefulWidget {
   const AddHomeCareScreen5({super.key});

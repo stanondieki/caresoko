@@ -168,7 +168,7 @@ class PropartyHomePageController extends GetxController implements GetxService {
         var result = json.decode(response.body);
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $result");
         propetydetailsInfo = PropetydetailsInfo.fromJson(result);
-        print("> <> <> <> <> <><> <> <> ${propetydetailsInfo}");
+        print("> <> <> <> <> <><> <> <> $propetydetailsInfo");
       }
 
       isProperty = true;
@@ -236,7 +236,7 @@ class PropartyHomePageController extends GetxController implements GetxService {
 
   Future getCatWiseData({required String? cId, required String? countryId}) async {
 
-    print("++++++ -------- %##%#%#%#%# ${countryId}");
+    print("++++++ -------- %##%#%#%#%# $countryId");
       Map map = {
         "cid": cId ?? "0",
         "uid": getData.read("UserLogin") == null
@@ -247,8 +247,8 @@ class PropartyHomePageController extends GetxController implements GetxService {
 
       Uri uri = Uri.parse(Config.path + Config.propartyCatWiseData);
 
-      print("++++++ -------- +++++++ ------- ++++++${map}");
-      print("++++++ -------- +++++++ ------- ++++++${uri}");
+      print("++++++ -------- +++++++ ------- ++++++$map");
+      print("++++++ -------- +++++++ ------- ++++++$uri");
 
       var response = await http.post(
         uri,

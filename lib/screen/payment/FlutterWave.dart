@@ -8,7 +8,7 @@ class FlutterWave extends StatefulWidget {
   final String? email;
   final String? totalAmount;
 
-  const FlutterWave({this.email, this.totalAmount});
+  const FlutterWave({super.key, this.email, this.totalAmount});
 
   @override
   State<FlutterWave> createState() => _FlutterWaveState();

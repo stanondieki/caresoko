@@ -7,7 +7,6 @@ import 'package:gotocarefinder/controller/homepage_controller.dart';
 import 'package:gotocarefinder/controller/search_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
-import 'package:gotocarefinder/screen/home_screen.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';

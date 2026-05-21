@@ -17,7 +17,6 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:intl/intl.dart';
 
 class AddPropertyScreen5 extends StatefulWidget {

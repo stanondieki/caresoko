@@ -79,7 +79,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
         final details = bookingDetailsController.bookDetailsInfo?.bookdetails;
 
         // Basic safe getters
-        String _safe(String? v, {String fallback = "—"}) =>
+        String safe(String? v, {String fallback = "—"}) =>
             (v == null || v.isEmpty) ? fallback : v;
 
         return Align(
@@ -104,7 +104,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _safe(details?.propTitle, fallback: ""),
+                            safe(details?.propTitle, fallback: ""),
                             style: TextStyle(
                               fontFamily: FontFamily.gilroyBold,
                               fontSize: 18,
@@ -113,7 +113,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                           ),
                           SizedBox(height: 6),
                           Text(
-                            _safe(details?.propType, fallback: ""),
+                            safe(details?.propType, fallback: ""),
                             style: TextStyle(
                               fontFamily: FontFamily.gilroyBold,
                               fontSize: 15,
@@ -122,7 +122,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                           ),
                           SizedBox(height: 6),
                           Text(
-                            _safe(details?.address, fallback: ""),
+                            safe(details?.address, fallback: ""),
                             style: TextStyle(
                               fontFamily: FontFamily.gilroyMedium,
                               fontSize: 15,
@@ -145,13 +145,13 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                         children: [
                           _InfoRow(
                             label: "Date".tr,
-                            value: _safe(details?.date?.toString(), fallback: "—"),
+                            value: safe(details?.date?.toString(), fallback: "—"),
                             notifire: notifire,
                           ),
                           SizedBox(height: 12),
                           _InfoRow(
                             label: "Time".tr,
-                            value: _safe(details?.time?.toString(), fallback: "—"),
+                            value: safe(details?.time?.toString(), fallback: "—"),
                             notifire: notifire,
                           ),
                         ],
@@ -190,7 +190,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                                 final mobile = (getData.read("UserLogin")?["mobile"] ?? "").toString();
                                 return "$ccode $mobile".trim();
                               }
-                              final ccode = _safe(details?.ccode, fallback: "");
+                              final ccode = safe(details?.ccode, fallback: "");
                               return "$ccode ${details?.mobile}".trim();
                             })(),
                             notifire: notifire,
@@ -198,7 +198,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                           SizedBox(height: 12),
                           _InfoRow(
                             label: "Booking Status".tr,
-                            value: _safe(details?.bookStatus, fallback: "—"),
+                            value: safe(details?.bookStatus, fallback: "—"),
                             notifire: notifire,
                           ),
                         ],
@@ -207,7 +207,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                     SizedBox(height: 16),
 
                     // Note (if any)
-                    if (_safe(details?.message, fallback: "").isNotEmpty)
+                    if (safe(details?.message, fallback: "").isNotEmpty)
                       Container(
                         decoration: BoxDecoration(
                           color: notifire.getblackwhitecolor,
@@ -227,7 +227,7 @@ class _EReceiptScreenState extends State<EReceiptScreen> {
                             ),
                             SizedBox(height: 6),
                             Text(
-                              _safe(details?.message, fallback: "—"),
+                              safe(details?.message, fallback: "—"),
                               style: TextStyle(
                                 fontFamily: FontFamily.gilroyMedium,
                                 fontSize: 15,

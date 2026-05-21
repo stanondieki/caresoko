@@ -21,7 +21,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/dashboard_controller.dart';
 import '../controller/search_controller.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 
 bool get _isAndroid => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 bool get _isIOS     => !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;

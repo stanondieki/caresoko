@@ -96,7 +96,7 @@ class SubscribeController extends GetxController implements GetxService {
         "signature": signatureBase64,
       };
       print("Saving contract: $map");
-      Uri uri = Uri.parse(Config.path + "u_save_contract.php");
+      Uri uri = Uri.parse("${Config.path}u_save_contract.php");
       var response = await http.post(
         uri,
         body: jsonEncode(map),

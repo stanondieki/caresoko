@@ -4,9 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, Factory;
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +19,6 @@ import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Custom_widget.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart' as osm;

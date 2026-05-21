@@ -183,10 +183,10 @@ class HomePageController extends GetxController implements GetxService {
         if (ptype == "3") {
           homecareAgencyDetailsInfo =
               HomecareAgencyDetailsInfo.fromJson(result);
-          print("> <> <> <> <> <><> <> <> ${homecareAgencyDetailsInfo}");
+          print("> <> <> <> <> <><> <> <> $homecareAgencyDetailsInfo");
         } else {
           propetydetailsInfo = PropetydetailsInfo.fromJson(result);
-          print("> <> <> <> <> <><> <> <> ${propetydetailsInfo}");
+          print("> <> <> <> <> <><> <> <> $propetydetailsInfo");
         }
       }
 
@@ -255,7 +255,7 @@ class HomePageController extends GetxController implements GetxService {
 
   Future getCatWiseData(
       {required String? cId, required String? countryId}) async {
-    print("++++++ -------- %##%#%#%#%# ${countryId}");
+    print("++++++ -------- %##%#%#%#%# $countryId");
     Map map = {
       "cid": cId ?? "0",
       "uid": getData.read("UserLogin") == null
@@ -266,8 +266,8 @@ class HomePageController extends GetxController implements GetxService {
 
     Uri uri = Uri.parse(Config.path + Config.catWiseData);
 
-    print("++++++ -------- +++++++ ------- ++++++${map}");
-    print("++++++ -------- +++++++ ------- ++++++${uri}");
+    print("++++++ -------- +++++++ ------- ++++++$map");
+    print("++++++ -------- +++++++ ------- ++++++$uri");
 
     var response = await http.post(
       uri,

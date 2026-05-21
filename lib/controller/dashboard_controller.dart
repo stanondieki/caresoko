@@ -67,7 +67,7 @@ class DashBoardController extends GetxController implements GetxService {
 
         dashBoardInfo = DashBoardInfo.fromJson(result);
         print(
-            "USEWRLOGIN OR NOT > <> <> <> <> <> <> <> <> <> ${dashBoardInfo}");
+            "USEWRLOGIN OR NOT > <> <> <> <> <> <> <> <> <> $dashBoardInfo");
       }
       isLoading = true;
       update();

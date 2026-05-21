@@ -10,14 +10,12 @@ import 'package:gotocarefinder/controller/dashboard_controller.dart';
 import 'package:gotocarefinder/controller/enquiry_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
-import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Custom_widget.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
 
 class AddPropertyScreen6 extends StatefulWidget {
   const AddPropertyScreen6({super.key});

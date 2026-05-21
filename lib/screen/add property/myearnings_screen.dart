@@ -81,7 +81,7 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
             // Clamp huge system text scales (prevents overflows)
             final mq = MediaQuery.of(context);
             final clamped = mq.copyWith(
-              textScaleFactor: mq.textScaleFactor.clamp(1.0, 1.2),
+              textScaler: TextScaler.linear(mq.textScaleFactor.clamp(1.0, 1.2)),
             );
 
             // Breakpoints: phone = 1 col (list), tablet = 2, desktop = 3

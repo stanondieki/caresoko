@@ -90,7 +90,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
 
     // clamp text scale to avoid overflow
     final clamped = media.copyWith(
-      textScaleFactor: media.textScaleFactor.clamp(1.0, 1.2),
+      textScaler: TextScaler.linear(media.textScaleFactor.clamp(1.0, 1.2)),
     );
 
     return MediaQuery(

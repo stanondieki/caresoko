@@ -92,7 +92,7 @@ class GalleryImageController extends GetxController implements GetxService {
         for (var element in result["galcatlist"]) {
           selectGalleryCat.add(element["cat_title"]);
         }
-        print("GALLERY CAT LIST >>>>>>>>>>>>>>>>>>>>>>>> ${selectGalleryCat}");
+        print("GALLERY CAT LIST >>>>>>>>>>>>>>>>>>>>>>>> $selectGalleryCat");
         propertyWiseInfo = PropertyWiseInfo.fromJson(result);
       }
       update();

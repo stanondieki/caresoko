@@ -9,7 +9,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/controller/add_homecare_controller.dart';
-import 'package:gotocarefinder/controller/addproperties_controller.dart';
 import 'package:gotocarefinder/controller/dashboard_controller.dart';
 import 'package:gotocarefinder/controller/enquiry_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';

@@ -1,7 +1,14 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class Config {
-  static const String baseurl = 'https://careinafh.caresoko.com/';
+  // Flip to `false` before deploying. When true, the app talks to the local
+  // PHP server (php -S 0.0.0.0:8080 -t d:\projects\Digisrupt\backend_local\careinafh.caresoko.com).
+  static const bool _useLocalBackend = true;
+
+  static const String _localBaseurl = 'http://localhost:8080/';
+  static const String _prodBaseurl = 'https://careinafh.caresoko.com/';
+
+  static const String baseurl = _useLocalBackend ? _localBaseurl : _prodBaseurl;
   // static const String baseurl = 'https://careinafh.digisrupt.com/';
 
   static String? firebaseKey;
@@ -104,6 +111,9 @@ class Config {
 
   static const String requestWithdraw = 'request_withdraw.php';
   static const String payOutList = 'payout_list.php';
+
+  // Provider dashboard summary (KPIs + recent bookings).
+  static const String providerDashboard = 'provider_dashboard.php';
 
   // Country auto-detection by IP (server-side, no GPS permission needed)
   static const String detectCountryApi = 'u_detect_country.php';

@@ -31,10 +31,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // Ensure userType is set even if this screen is opened directly.
+    // Direct field assignment avoids calling update() during initState,
+    // which would mark GetBuilder<SignUpController> widgets dirty mid-build.
+    signUpController.userType = "recipient";
     getCountryData();
   }
 
   SignUpController signUpController = Get.find();
+
+  static const List<String> _careForOptions = [
+    "Self",
+    "Parent",
+    "Spouse",
+    "Other",
+  ];
   SelectCountryController selectCountryController = Get.find();
   HomePageController homePageController = Get.find();
   SearchPropertyController searchController = Get.find();
@@ -400,6 +411,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: 20,
                   ),
+                  // Recipient-specific: who is this care for?
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: GetBuilder<SignUpController>(builder: (_) {
+                      return DropdownButtonFormField<String>(
+                        value: signUpController.careNeededFor,
+                        items: _careForOptions
+                            .map((s) => DropdownMenuItem(
+                                  value: s,
+                                  child: Text(s.tr),
+                                ))
+                            .toList(),
+                        onChanged: (v) {
+                          if (v != null) signUpController.setCareNeededFor(v);
+                        },
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(color: blueColor),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: notifire.getborderColor),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: notifire.getborderColor),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          labelText: "Care needed for".tr,
+                          labelStyle: TextStyle(color: notifire.getgreycolor),
+                        ),
+                        dropdownColor: notifire.getboxcolor,
+                        style: TextStyle(
+                          fontFamily: FontFamily.gilroyBold,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: notifire.getwhiteblackcolor,
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
@@ -652,7 +707,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Request permission for push notifications
     OneSignal.Notifications.addPermissionObserver((state) {
-      print("Has permission " + state.toString());
+      print("Has permission $state");
     });
   }
 }

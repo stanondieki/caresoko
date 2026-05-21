@@ -148,7 +148,7 @@ class _MyPayoutScreenState extends State<MyPayoutScreen> {
                                         child: Image.asset("assets/images/Wallet.png", color: blueColor),
                                       ),
                                       title: Text(
-                                        item.rDate?.toString() ?? "",
+                                        item.rDate.toString() ?? "",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -161,7 +161,7 @@ class _MyPayoutScreenState extends State<MyPayoutScreen> {
                                         crossAxisAlignment: WrapCrossAlignment.center,
                                         children: [
                                           Text(
-                                            item.rType?.toString() ?? "",
+                                            item.rType.toString() ?? "",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -321,7 +321,7 @@ class _MyPayoutScreenState extends State<MyPayoutScreen> {
           ),
           SizedBox(height: 12),
           detailsRow(detailsName: "Status", value: item.status, color: statusColor),
-          detailsRow(detailsName: "Transaction Date".tr, value: item.rDate?.toString(), color: notifire.getwhiteblackcolor),
+          detailsRow(detailsName: "Transaction Date".tr, value: item.rDate.toString(), color: notifire.getwhiteblackcolor),
           if ((item.upiId ?? "").isNotEmpty)
             detailsRow(detailsName: "Payment Method".tr, value: item.upiId, color: notifire.getwhiteblackcolor),
           if ((item.accNumber ?? "").isNotEmpty)

@@ -11,7 +11,6 @@ import 'package:gotocarefinder/controller/selectcountry_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/screen/bottombar_screen.dart';
-import 'package:gotocarefinder/screen/login_screen.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,16 +91,14 @@ class _SpleshScreenState extends State<SpleshScreen> {
   void _scheduleNavigation({required bool autoDetectionFailed}) async {
     final prefs = await SharedPreferences.getInstance();
     Timer(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 1500),
       () {
         if (!mounted) return;
         if (prefs.getBool('Remember') != true) {
-          // Not logged in — go to login screen
-          // The login/onboarding flow will push SelectCountry if needed
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => LoginScreen()),
-          );
+          // Not logged in — show the marketing/welcome screen with explicit
+          // CTAs (Get started / Sign in / Browse as guest). The welcome screen
+          // routes onward to login/role-select as needed.
+          Get.offAllNamed(Routes.welcomeScreen);
         } else if (getData.read("userType") == "admin") {
           Navigator.pushReplacement(
             context,

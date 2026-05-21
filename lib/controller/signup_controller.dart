@@ -21,6 +21,35 @@ class SignUpController extends GetxController implements GetxService {
   TextEditingController password = TextEditingController();
   TextEditingController referralCode = TextEditingController();
 
+  // ===== Role-specific signup fields =====
+  // userType: "recipient" (someone needing care) or "provider" (someone offering care).
+  // Set by SignUpRoleSelectScreen before navigating to the corresponding signup form.
+  String userType = "recipient";
+
+  // Recipient-only
+  String careNeededFor = "Self"; // Self / Parent / Spouse / Other
+
+  // Provider-only
+  TextEditingController agencyName = TextEditingController();
+  String serviceType = "Home Care"; // Home Care / Nursing / Companion / Therapy
+  TextEditingController yearsExperience = TextEditingController();
+  TextEditingController licenseNumber = TextEditingController();
+
+  void setUserType(String type) {
+    userType = type;
+    update();
+  }
+
+  void setCareNeededFor(String v) {
+    careNeededFor = v;
+    update();
+  }
+
+  void setServiceType(String v) {
+    serviceType = v;
+    update();
+  }
+
   bool showPassword = true;
   bool chack = false;
   int currentIndex = 0;
@@ -45,6 +74,11 @@ class SignUpController extends GetxController implements GetxService {
     number.text = "";
     password.text = "";
     referralCode.text = "";
+    agencyName.text = "";
+    yearsExperience.text = "";
+    licenseNumber.text = "";
+    careNeededFor = "Self";
+    serviceType = "Home Care";
     chack = false;
     update();
   }
@@ -70,7 +104,7 @@ class SignUpController extends GetxController implements GetxService {
   }
 
   Future checkMobileNumber(String cuntryCode) async {
-    print("${cuntryCode}");
+    print(cuntryCode);
     try {
       Map map = {
         "mobile": number.text,
@@ -227,8 +261,19 @@ class SignUpController extends GetxController implements GetxService {
       "mobile": number.text,
       "ccode": cuntryCode,
       "password": password.text,
+      "user_type": userType,
     };
-    
+
+    // Role-specific fields
+    if (userType == "provider") {
+      map["agency_name"] = agencyName.text;
+      map["service_type"] = serviceType;
+      map["years_experience"] = yearsExperience.text;
+      map["license_number"] = licenseNumber.text;
+    } else {
+      map["care_needed_for"] = careNeededFor;
+    }
+
     // Only send referral code if user actually entered one
     // FIXED: Backend expects 'refercode' not 'rcode'
     if (referralCode.text.isNotEmpty) {

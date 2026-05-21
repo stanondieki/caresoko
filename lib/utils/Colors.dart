@@ -42,8 +42,8 @@ Color gradientEnd = const Color(0xff6B8CF9);
 
 // ==================== UI COMPONENT COLORS ====================
 Color perpulshadow = const Color(0xffede3ed);
-Color textcolor = const Color(0xffF071731);
-Color yellowshadow = const Color(0xffFfff6e9);
+Color textcolor = const Color(0xfff071731);
+Color yellowshadow = const Color(0xffffff6e9);
 Color greentext = const Color(0xff20BC3B);
 Color bordercolor = const Color(0xffF5F2FB);
 Color onoffColor = const Color(0xffE7E7E7);

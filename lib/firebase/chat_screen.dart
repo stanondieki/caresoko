@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:provider/provider.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 

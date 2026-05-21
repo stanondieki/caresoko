@@ -13,7 +13,7 @@ class Paystackweb extends StatefulWidget {
   final String? url;
   final String skID;
 
-  const Paystackweb({this.url, required this.skID});
+  const Paystackweb({super.key, this.url, required this.skID});
 
   @override
   State<Paystackweb> createState() => _PaystackwebState();

@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, unused_field, prefer_final_fields, prefer_typing_uninitialized_variables, sort_child_properties_last
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -17,9 +16,10 @@ import 'package:gotocarefinder/screen/home_screen.dart';
 import 'package:gotocarefinder/screen/login_screen.dart';
 import 'package:gotocarefinder/screen/near%20by%20map/map_screen.dart';
 import 'package:gotocarefinder/screen/profile_screen.dart';
+import 'package:gotocarefinder/screen/provider_dashboard_screen.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
+import 'package:gotocarefinder/utils/role_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BottoBarScreen extends StatefulWidget {
   const BottoBarScreen({super.key});
@@ -41,12 +41,11 @@ class _BottoBarScreenState extends State<BottoBarScreen>
   int _currentIndex = 0;
   var isLogin;
 
-  final List<Widget> myChilders = [
-    const HomeScreen(),
-    const MapScreen(),
-    FavoriteScreen(),
-    const ProfileScreen(),
-  ];
+  // Tabs are populated in initState based on the logged-in user's role.
+  // Provider users get the ProviderDashboardScreen as their first tab;
+  // recipients (and logged-out visitors) get the regular HomeScreen.
+  late final List<Widget> myChilders;
+  late final String _firstTabLabel;
 
   late ColorNotifire notifire;
 
@@ -59,6 +58,25 @@ class _BottoBarScreenState extends State<BottoBarScreen>
   void initState() {
     super.initState();
     isLogin = getData.read("UserLogin");
+
+    if (isProvider()) {
+      myChilders = [
+        const ProviderDashboardScreen(),
+        const MapScreen(),
+        FavoriteScreen(),
+        const ProfileScreen(),
+      ];
+      _firstTabLabel = "Dashboard";
+    } else {
+      myChilders = [
+        const HomeScreen(),
+        const MapScreen(),
+        FavoriteScreen(),
+        const ProfileScreen(),
+      ];
+      _firstTabLabel = "Home";
+    }
+
     tabController = TabController(length: 4, vsync: this);
 
     // keep _currentIndex in sync with TabController (works for both nav UIs)
@@ -135,7 +153,7 @@ class _BottoBarScreenState extends State<BottoBarScreen>
                           ? const Color(0xff3D5BF6)
                           : notifire.getwhiteblackcolor,
                     ),
-                    label: Text("Home".tr),
+                    label: Text(_firstTabLabel.tr),
                   ),
                   NavigationRailDestination(
                     icon: Image.asset(
@@ -181,7 +199,10 @@ class _BottoBarScreenState extends State<BottoBarScreen>
                     controller: tabController,
                     children: myChilders,
                   ),
-                  if (homePageController.addProp == "Yes")
+                  // Add-listing FAB is provider-only. The legacy
+                  // `addProp == "Yes"` toggle is preserved for backwards compat
+                  // (it can still hide the button via an admin setting).
+                  if (isProvider() && homePageController.addProp == "Yes")
                     Positioned(
                       bottom: 24,
                       right: 24,
@@ -216,7 +237,8 @@ class _BottoBarScreenState extends State<BottoBarScreen>
         children: myChilders,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: homePageController.addProp == "Yes"
+      // Add-listing FAB is provider-only on mobile too.
+      floatingActionButton: (isProvider() && homePageController.addProp == "Yes")
           ? Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
@@ -260,7 +282,7 @@ class _BottoBarScreenState extends State<BottoBarScreen>
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    "Home".tr,
+                    _firstTabLabel.tr,
                     style: TextStyle(
                       fontSize: 14,
                       fontFamily: FontFamily.gilroyMedium,

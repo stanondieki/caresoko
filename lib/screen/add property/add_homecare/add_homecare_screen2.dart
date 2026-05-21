@@ -1,14 +1,9 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/controller/add_homecare_controller.dart';
-import 'package:gotocarefinder/controller/addproperties_controller.dart';
 import 'package:gotocarefinder/controller/dashboard_controller.dart';
 import 'package:gotocarefinder/controller/enquiry_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';
@@ -16,10 +11,8 @@ import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Custom_widget.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddHomeCareScreen2 extends StatefulWidget {
   const AddHomeCareScreen2({super.key});

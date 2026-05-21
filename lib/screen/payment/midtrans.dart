@@ -9,7 +9,7 @@ class MidTrans extends StatefulWidget {
   final String totalAmount;
   final String phonNumber;
 
-  const MidTrans({
+  const MidTrans({super.key, 
     required this.email,
     required this.totalAmount,
     required this.phonNumber,

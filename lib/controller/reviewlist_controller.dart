@@ -29,7 +29,7 @@ class ReviewlistController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       var reviewDecode = jsonDecode(response.body);
       if (reviewDecode["Result"] == "true") {
-        print(">>>>>>>>>>>> POWEPWO ${reviewDecode}");
+        print(">>>>>>>>>>>> POWEPWO $reviewDecode");
         reviewlistData = RiviewInfo.fromJson(reviewDecode);
         isLoading = false;
         update();

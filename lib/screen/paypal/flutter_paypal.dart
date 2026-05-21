@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_collection_literals, prefer_const_constructors, use_build_context_synchronously
 
-library flutter_paypal;
+library;
 
 import 'dart:async';
 import 'dart:core';

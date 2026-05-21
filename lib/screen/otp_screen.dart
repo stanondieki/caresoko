@@ -317,7 +317,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
     // Request permission for push notifications
     OneSignal.Notifications.addPermissionObserver((state) {
-      print("Has permission " + state.toString());
+      print("Has permission $state");
     });
   }
 

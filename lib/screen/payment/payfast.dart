@@ -8,7 +8,7 @@ class PayFast extends StatefulWidget {
   final String? email;
   final String? totalAmount;
 
-  const PayFast({this.email, this.totalAmount});
+  const PayFast({super.key, this.email, this.totalAmount});
 
   @override
   State<PayFast> createState() => _PayFastState();

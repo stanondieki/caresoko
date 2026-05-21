@@ -115,7 +115,7 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
         // Pre-fill display address (safe even if rev-geo fails later)
         _reverseGeocodeAndSet(
             addHomecareController.elat, addHomecareController.elong);
-      } catch (e, st) {
+      } catch (e) {
         // ignore but log
         // print("init error: $e\n$st");
       }

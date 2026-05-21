@@ -305,7 +305,7 @@ class _BookingScreenState extends State<BookingScreen>
                                           Row(
                                             children: [
                                               Text(
-                                                "${bookingController.proStatusWiseInfo?.statuswise![index].propType ?? ""}",
+                                                bookingController.proStatusWiseInfo?.statuswise![index].propType ?? "",
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontFamily:
@@ -560,7 +560,7 @@ class _BookingScreenState extends State<BookingScreen>
                                           Row(
                                             children: [
                                               Text(
-                                                "${bookingController.proStatusWiseInfo?.statuswise![index].propType ?? ""}",
+                                                bookingController.proStatusWiseInfo?.statuswise![index].propType ?? "",
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontFamily:

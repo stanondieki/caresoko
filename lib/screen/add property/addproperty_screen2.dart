@@ -95,8 +95,9 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
           for (final f in facilities) {
             if (titles.contains(f.title)) {
               final id = f.id;
-              if (id != null)
+              if (id != null) {
                 addPropertiesController.selectedFeaturesIndexes.add(id);
+              }
             }
           }
         });

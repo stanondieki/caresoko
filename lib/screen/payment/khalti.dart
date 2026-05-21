@@ -8,7 +8,7 @@ class Khalti extends StatefulWidget {
   final String? email;
   final String? totalAmount;
 
-  const Khalti({this.email, this.totalAmount});
+  const Khalti({super.key, this.email, this.totalAmount});
 
   @override
   State<Khalti> createState() => _KhaltiState();
