@@ -1,6 +1,19 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Config {
+  static bool _envLoaded = false;
+
+  static Future<void> loadEnv() async {
+    if (!_envLoaded) {
+      try {
+        await dotenv.load(fileName: ".env");
+        _envLoaded = true;
+      } catch (e) {
+        print("Warning: .env file not found or error loading: $e");
+      }
+    }
+  }
   // Flip to `false` before deploying. When true, the app talks to the local
   // PHP server (php -S 0.0.0.0:8080 -t d:\projects\Digisrupt\backend_local\careinafh.caresoko.com).
   static const bool _useLocalBackend = true;
@@ -13,13 +26,13 @@ class Config {
 
   static String? firebaseKey;
 
-  static String? projectID = "studio-67236";
+  static String get projectID => dotenv.env['FIREBASE_PROJECT_ID'] ?? "studio-67236";
 
   static const String path = baseurl + 'user_api/';
 
-  static const String oneSignel = "****";
+  static String get oneSignel => dotenv.env['ONESIGNAL_APP_ID'] ?? "****";
 
-  static const googleKey = "YOUR_GOOGLE_MAPS_API_KEY";
+  static String get googleKey => dotenv.env['GOOGLE_MAPS_API_KEY'] ?? "YOUR_GOOGLE_MAPS_API_KEY";
 
   static const String imageUrl = baseurl;
 
