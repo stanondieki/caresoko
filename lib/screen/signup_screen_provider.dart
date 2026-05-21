@@ -248,7 +248,7 @@ class _SignUpScreenProviderState extends State<SignUpScreenProvider> {
                 const SizedBox(height: 20),
                 GetBuilder<SignUpController>(builder: (c) {
                   return DropdownButtonFormField<String>(
-                    value: signUpController.serviceType,
+                    initialValue: signUpController.serviceType,
                     items: _serviceTypes
                         .map((s) => DropdownMenuItem(value: s, child: Text(s.tr)))
                         .toList(),

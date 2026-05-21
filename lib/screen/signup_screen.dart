@@ -416,7 +416,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: GetBuilder<SignUpController>(builder: (_) {
                       return DropdownButtonFormField<String>(
-                        value: signUpController.careNeededFor,
+                        initialValue: signUpController.careNeededFor,
                         items: _careForOptions
                             .map((s) => DropdownMenuItem(
                                   value: s,

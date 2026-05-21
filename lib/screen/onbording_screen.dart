@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
@@ -10,7 +9,6 @@ import 'package:gotocarefinder/model/appbaner_model.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/screen/login_screen.dart';
-import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
