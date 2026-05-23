@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/controller/homepage_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';
@@ -43,8 +42,6 @@ class _SpleshScreenState extends State<SpleshScreen> {
   @override
   void initState() {
     super.initState();
-    // Load environment variables (API keys) from .env file
-    Config.loadEnv();
     currency = getData.read("currency");
     getData.remove("lCode");
     save("lanValue", 0);

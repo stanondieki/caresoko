@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables, sort_child_properties_last, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, unnecessary_string_interpolations, unused_local_variable, no_leading_underscores_for_local_identifiers, avoid_print, prefer_interpolation_to_compose_strings, unrelated_type_equality_checks, use_build_context_synchronously
 import 'dart:convert';
-import 'dart:io' show Platform; // guard any mobile-only behavior
-
 import 'package:badges/badges.dart' as bg;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
       canPop: !kIsWeb, // NEW: allow browser back on web
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) {
-          if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+          if (!kIsWeb &&
+              (defaultTargetPlatform == TargetPlatform.android ||
+               defaultTargetPlatform == TargetPlatform.iOS)) {
             // Exit app only on mobile
             print("Exiting app");
           }

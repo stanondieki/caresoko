@@ -17,6 +17,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddPropertyScreen3 extends StatefulWidget {
   const AddPropertyScreen3({super.key});
@@ -309,11 +310,10 @@ class _AddPropertyScreen3State extends State<AddPropertyScreen3> {
                                         // addPropertiesController.recreationalActivities =
                                         //     addPropertiesController.selectedRecreationalFacilities.join(',');
 
-                                        // COMMENTED OUT: Advert functionality disabled
-                                        // Get.toNamed(
-                                        //   Routes.addPropertyScreen4,
-                                        //   arguments: {"add": manegeRoute},
-                                        // );
+                                        Get.toNamed(
+                                          Routes.addPropertyScreen4,
+                                          arguments: {"add": manegeRoute},
+                                        );
                                       },
                                     ),
                                   ),

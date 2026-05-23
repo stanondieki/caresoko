@@ -44,10 +44,13 @@ class _SignUpScreenProviderState extends State<SignUpScreenProvider> {
 
   static const List<String> _serviceTypes = [
     "Home Care",
-    "Nursing",
-    "Companion",
-    "Therapy",
+    "Adult Family Home",
   ];
+
+  static const Map<String, String> _serviceDescriptions = {
+    "Home Care": "In-home caregiving services (personal care, companionship, nursing)",
+    "Adult Family Home": "Residential care in a licensed adult family home setting",
+  };
 
   @override
   void initState() {
@@ -126,7 +129,7 @@ class _SignUpScreenProviderState extends State<SignUpScreenProvider> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Tell us about the care services you offer.".tr,
+                  "Tell us about your homecare or adult family home services.".tr,
                   style: TextStyle(
                     fontFamily: FontFamily.gilroyMedium,
                     color: notifire.getgreycolor,
@@ -247,17 +250,35 @@ class _SignUpScreenProviderState extends State<SignUpScreenProvider> {
                 ),
                 const SizedBox(height: 20),
                 GetBuilder<SignUpController>(builder: (c) {
-                  return DropdownButtonFormField<String>(
-                    initialValue: signUpController.serviceType,
-                    items: _serviceTypes
-                        .map((s) => DropdownMenuItem(value: s, child: Text(s.tr)))
-                        .toList(),
-                    onChanged: (v) {
-                      if (v != null) signUpController.setServiceType(v);
-                    },
-                    decoration: _dec("Primary service type".tr),
-                    style: _inputStyle,
-                    dropdownColor: notifire.getboxcolor,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DropdownButtonFormField<String>(
+                        value: signUpController.serviceType,
+                        items: _serviceTypes
+                            .map((s) => DropdownMenuItem(value: s, child: Text(s.tr)))
+                            .toList(),
+                        onChanged: (v) {
+                          if (v != null) signUpController.setServiceType(v);
+                        },
+                        decoration: _dec("Service category".tr),
+                        style: _inputStyle,
+                        dropdownColor: notifire.getboxcolor,
+                        validator: (v) => (v == null || v.isEmpty) ? "Please select a service category".tr : null,
+                      ),
+                      if (_serviceDescriptions.containsKey(signUpController.serviceType))
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4, top: 6),
+                          child: Text(
+                            _serviceDescriptions[signUpController.serviceType]!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: FontFamily.gilroyMedium,
+                              color: notifire.getgreycolor,
+                            ),
+                          ),
+                        ),
+                    ],
                   );
                 }),
                 const SizedBox(height: 20),

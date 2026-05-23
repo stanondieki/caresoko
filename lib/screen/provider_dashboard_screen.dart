@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
 import 'package:gotocarefinder/controller/provider_dashboard_controller.dart';
+import 'package:gotocarefinder/model/add%20property%20model/porstatuswise_info.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
 import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
@@ -11,17 +13,6 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';
 
 // ---- small helpers -------------------------------------------------------
-
-String _formatCurrency(double amount, String symbol) {
-  // Match the existing app convention: "$ 1,234.50".
-  final whole = amount.truncate();
-  final cents = ((amount - whole) * 100).round().abs().toString().padLeft(2, '0');
-  final wholeStr = whole.toString().replaceAllMapped(
-        RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-        (m) => '${m[1]},',
-      );
-  return '$symbol $wholeStr.$cents';
-}
 
 Color _statusColor(String status) {
   switch (status.toLowerCase()) {
@@ -162,31 +153,27 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                       _KpiCard(
                         notifire: notifire,
                         icon: Icons.calendar_month_outlined,
-                        label: "Bookings this week".tr,
-                        value: c.isLoading ? '—' : c.bookingsThisWeek.toString(),
-                        sub: c.isLoading
-                            ? null
-                            : "${c.bookingsTotal} ${'total'.tr}",
+                        label: "Total Bookings".tr,
+                        value: c.isLoading ? '—' : c.totalBookings,
                         color: blueColor,
                       ),
                       _KpiCard(
                         notifire: notifire,
                         icon: Icons.payments_outlined,
-                        label: "Earnings (MTD)".tr,
+                        label: "My Earnings".tr,
                         value: c.isLoading
                             ? '—'
-                            : _formatCurrency(c.earningsMtd, c.currency),
+                            : "${c.currency} ${c.totalEarnings}",
                         color: const Color(0xff27AE60),
                       ),
                       _KpiCard(
                         notifire: notifire,
-                        icon: Icons.star_outline,
-                        label: "Average rating".tr,
+                        icon: Icons.home_work_outlined,
+                        label: "Active Listings".tr,
                         value: c.isLoading
                             ? '—'
-                            : (c.avgRating == null
-                                ? "No reviews".tr
-                                : c.avgRating!.toStringAsFixed(1)),
+                            : c.totalListings.toString(),
+                        sub: c.isSubscribed ? "Subscribed".tr : "Not subscribed".tr,
                         color: const Color(0xffF2C94C),
                       ),
                     ];
@@ -230,7 +217,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                       if (!c.isLoading && c.recentBookings.isNotEmpty)
                         TextButton(
                           onPressed: () =>
-                              Get.toNamed(Routes.mybookingScreen),
+                              Get.toNamed(Routes.bookingScreen),
                           style: TextButton.styleFrom(
                               foregroundColor: blueColor,
                               padding: EdgeInsets.zero),
@@ -275,8 +262,8 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   _ActionTile(
                     notifire: notifire,
                     icon: Icons.add_business_outlined,
-                    title: "Add a new service".tr,
-                    subtitle: "Publish a homecare or property listing.".tr,
+                    title: "Add a new listing".tr,
+                    subtitle: "Publish a homecare or adult family home listing.".tr,
                     onTap: () =>
                         Get.toNamed(Routes.membershipScreen),
                   ),
@@ -288,23 +275,44 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                     subtitle: c.totalListings == 0
                         ? "No listings yet — add your first service.".tr
                         : "${c.totalListings} ${'active listings'.tr}",
-                    onTap: () {
-                      Get.snackbar(
-                        "Listings".tr,
-                        "Listings management UI is coming soon.".tr,
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    },
+                    onTap: () =>
+                        Get.toNamed(Routes.listOfPropertyScreen),
+                  ),
+                  const SizedBox(height: 8),
+                  _ActionTile(
+                    notifire: notifire,
+                    icon: Icons.book_outlined,
+                    title: "Manage bookings".tr,
+                    subtitle: "View and manage bookings received.".tr,
+                    onTap: () =>
+                        Get.toNamed(Routes.bookingScreen),
+                  ),
+                  const SizedBox(height: 8),
+                  _ActionTile(
+                    notifire: notifire,
+                    icon: Icons.attach_money_outlined,
+                    title: "My earnings".tr,
+                    subtitle: "View your earnings and transaction history.".tr,
+                    onTap: () =>
+                        Get.toNamed(Routes.myEarningsScreen),
                   ),
                   const SizedBox(height: 8),
                   _ActionTile(
                     notifire: notifire,
                     icon: Icons.account_balance_wallet_outlined,
                     title: "Request payout".tr,
-                    subtitle: c.earningsMtd > 0
-                        ? "${_formatCurrency(c.earningsMtd, c.currency)} ${'available this month'.tr}"
-                        : "Withdraw available earnings to your account.".tr,
-                    onTap: () => Get.toNamed(Routes.walletScreen),
+                    subtitle: "Withdraw available earnings to your account.".tr,
+                    onTap: () =>
+                        Get.toNamed(Routes.myPayoutScreen),
+                  ),
+                  const SizedBox(height: 8),
+                  _ActionTile(
+                    notifire: notifire,
+                    icon: Icons.mail_outlined,
+                    title: "Enquiries".tr,
+                    subtitle: "View enquiries from potential clients.".tr,
+                    onTap: () =>
+                        Get.toNamed(Routes.enquiryScreen),
                   ),
                 ],
               ),
@@ -361,7 +369,7 @@ class _EmptyBookings extends StatelessWidget {
 
 class _BookingRow extends StatelessWidget {
   final ColorNotifire notifire;
-  final RecentBooking booking;
+  final Statuswise booking;
   final String currency;
 
   const _BookingRow({
@@ -372,96 +380,126 @@ class _BookingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _statusColor(booking.status);
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: notifire.getboxcolor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: notifire.getborderColor),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 42,
-            width: 42,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: blueColor.withValues(alpha: 0.10),
+    final status = booking.bookStatus ?? '';
+    final statusColor = _statusColor(status);
+    final propType = booking.propType ?? '';
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () => Get.toNamed(Routes.bookingScreen),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: notifire.getboxcolor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: notifire.getborderColor),
+        ),
+        child: Row(
+          children: [
+            // Thumbnail or icon
+            ClipRRect(
               borderRadius: BorderRadius.circular(10),
+              child: booking.propImg != null && booking.propImg!.isNotEmpty
+                  ? Image.network(
+                      Config.imageUrl + booking.propImg!,
+                      height: 42,
+                      width: 42,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        height: 42,
+                        width: 42,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: blueColor.withValues(alpha: 0.10),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          propType == '3'
+                              ? Icons.medical_services_outlined
+                              : Icons.home_outlined,
+                          color: blueColor,
+                          size: 20,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: 42,
+                      width: 42,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: blueColor.withValues(alpha: 0.10),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        propType == '3'
+                            ? Icons.medical_services_outlined
+                            : Icons.home_outlined,
+                        color: blueColor,
+                        size: 20,
+                      ),
+                    ),
             ),
-            child: Icon(
-              booking.type == 'homecare'
-                  ? Icons.medical_services_outlined
-                  : Icons.home_outlined,
-              color: blueColor,
-              size: 20,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    (booking.propTitle ?? "Booking").tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyBold,
+                      fontSize: 13,
+                      color: notifire.getwhiteblackcolor,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    booking.address ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyMedium,
+                      fontSize: 11,
+                      color: notifire.getgreycolor,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  booking.title.isEmpty ? "Booking".tr : booking.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  "$currency ${booking.propPrice ?? '0'}",
                   style: TextStyle(
                     fontFamily: FontFamily.gilroyBold,
                     fontSize: 13,
                     color: notifire.getwhiteblackcolor,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  [
-                    if (booking.customerName.isNotEmpty) booking.customerName,
-                    if (booking.bookDate.isNotEmpty) booking.bookDate,
-                  ].join(' · '),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: FontFamily.gilroyMedium,
-                    fontSize: 11,
-                    color: notifire.getgreycolor,
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: statusColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    status.isEmpty ? '—' : status.tr,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyBold,
+                      fontSize: 10,
+                      color: statusColor,
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                _formatCurrency(booking.amount, currency),
-                style: TextStyle(
-                  fontFamily: FontFamily.gilroyBold,
-                  fontSize: 13,
-                  color: notifire.getwhiteblackcolor,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  booking.status.isEmpty ? '—' : booking.status.tr,
-                  style: TextStyle(
-                    fontFamily: FontFamily.gilroyBold,
-                    fontSize: 10,
-                    color: statusColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

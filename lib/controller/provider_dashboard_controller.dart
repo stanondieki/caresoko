@@ -1,59 +1,34 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/Api/data_store.dart';
-import 'package:http/http.dart' as http;
+import 'package:gotocarefinder/controller/booking_controller.dart';
+import 'package:gotocarefinder/controller/dashboard_controller.dart';
+import 'package:gotocarefinder/controller/listofproperti_controller.dart';
+import 'package:gotocarefinder/model/add%20property%20model/porstatuswise_info.dart';
 
-/// Recent booking row shown on the provider dashboard.
-class RecentBooking {
-  final String id;
-  final String type; // "homecare" or "property"
-  final String title;
-  final String customerName;
-  final String status;
-  final double amount;
-  final String bookDate;
-
-  RecentBooking({
-    required this.id,
-    required this.type,
-    required this.title,
-    required this.customerName,
-    required this.status,
-    required this.amount,
-    required this.bookDate,
-  });
-
-  factory RecentBooking.fromJson(Map<String, dynamic> j) => RecentBooking(
-        id: j['id']?.toString() ?? '',
-        type: j['type']?.toString() ?? '',
-        title: j['title']?.toString() ?? '',
-        customerName: j['customer_name']?.toString() ?? '',
-        status: j['status']?.toString() ?? '',
-        amount: double.tryParse(j['amount']?.toString() ?? '0') ?? 0,
-        bookDate: j['book_date']?.toString() ?? '',
-      );
-}
-
-/// Fetches and exposes provider dashboard data.
+/// Orchestrates the provider dashboard by delegating to the architecture's
+/// existing controllers:
+///   - [DashBoardController] → `u_dashboard.php` (KPIs, subscription, earnings)
+///   - [BookingController]   → `u_my_book.php`   (owner-side bookings)
+///   - [ListOfPropertiController] → `u_property_list.php` (listing count)
 ///
-/// Lifecycle: create once with `Get.put(ProviderDashboardController())` from
-/// the dashboard screen. Calling `refresh()` re-fetches.
+/// This avoids a custom endpoint and reuses what the production backend
+/// already provides.
 class ProviderDashboardController extends GetxController {
   bool isLoading = true;
   String? errorMessage;
 
-  int bookingsThisWeek = 0;
-  int bookingsTotal = 0;
-  double earningsMtd = 0;
+  // KPIs derived from DashBoardController.dashBoardInfo
+  String totalBookings = "0";
+  String totalEarnings = "0";
   String currency = '\$';
-  double? avgRating;
   int totalListings = 0;
+  bool isSubscribed = false;
+  String withdrawLimit = "0";
 
-  List<RecentBooking> recentBookings = [];
+  // Recent bookings from BookingController (owner side)
+  List<Statuswise> recentBookings = [];
 
   @override
   void onInit() {
@@ -75,40 +50,43 @@ class ProviderDashboardController extends GetxController {
     update();
 
     try {
-      final uri = Uri.parse(Config.path + Config.providerDashboard);
-      final res = await http.post(
-        uri,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"uid": user["id"]}),
-      );
+      // 1. Fetch dashboard KPIs via existing DashBoardController
+      final dashCtrl = Get.find<DashBoardController>();
+      await dashCtrl.getDashBoardData();
 
-      if (res.statusCode != 200) {
-        errorMessage = "Server returned ${res.statusCode}";
-      } else {
-        final body = jsonDecode(res.body) as Map<String, dynamic>;
-        if (body["Result"]?.toString() != "true") {
-          errorMessage = body["ResponseMsg"]?.toString() ?? "Failed to load";
-        } else {
-          final stats = (body["stats"] as Map?) ?? {};
-          bookingsThisWeek =
-              int.tryParse(stats["bookings_this_week"]?.toString() ?? '') ?? 0;
-          bookingsTotal =
-              int.tryParse(stats["bookings_total"]?.toString() ?? '') ?? 0;
-          earningsMtd =
-              double.tryParse(stats["earnings_mtd"]?.toString() ?? '') ?? 0;
-          currency = stats["earnings_currency"]?.toString() ?? '\$';
-          final rawRating = stats["avg_rating"];
-          avgRating =
-              rawRating == null ? null : double.tryParse(rawRating.toString());
-          totalListings =
-              int.tryParse(stats["total_listings"]?.toString() ?? '') ?? 0;
+      if (dashCtrl.dashBoardInfo != null) {
+        isSubscribed = dashCtrl.dashBoardInfo!.isSubscribe == 1;
+        withdrawLimit = dashCtrl.dashBoardInfo!.withdrawLimit;
 
-          final list = (body["recent_bookings"] as List?) ?? [];
-          recentBookings = list
-              .map((e) => RecentBooking.fromJson(e as Map<String, dynamic>))
-              .toList();
+        // Extract KPIs from report_data
+        for (final report in dashCtrl.dashBoardInfo!.reportData) {
+          if (report.title == "Total Booking" || report.title == "Total Book") {
+            totalBookings = report.reportData;
+          }
+          if (report.title == "My Earning") {
+            totalEarnings = report.reportData;
+          }
         }
+
+        // Currency from home data
+        currency = getData.read("currency") ?? '\$';
       }
+
+      // 2. Fetch owner-side bookings via existing BookingController
+      final bookCtrl = Get.find<BookingController>();
+      bookCtrl.statusWiseBook = "active";
+      await bookCtrl.getBookingStatusWise();
+
+      if (bookCtrl.proStatusWiseInfo?.statuswise != null) {
+        // Show up to 5 most recent bookings
+        recentBookings = bookCtrl.proStatusWiseInfo!.statuswise!.take(5).toList();
+      }
+
+      // 3. Get listing count via existing ListOfPropertiController
+      final listCtrl = Get.find<ListOfPropertiController>();
+      await listCtrl.getPropertiList();
+      totalListings = listCtrl.propListInfo?.proplist?.length ?? 0;
+
     } catch (e) {
       errorMessage = e.toString();
       print("ProviderDashboardController.fetch error: $e");

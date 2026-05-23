@@ -17,6 +17,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/routes_helper.dart';
 import '../../controller/booking_controller.dart';
 import '../../controller/enquiry_controller.dart';
 import '../../controller/gallerycategory_controller.dart';
@@ -50,24 +51,19 @@ class _MembershipScreenState extends State<MembershipScreen> {
   final BookingController bookingController = Get.find();
   final EnquiryController enquiryController = Get.find();
 
-  // COMMENTED OUT: Advert functionality disabled
-  // Routes
-  // final List<String> routesList = [
-  //   Routes.listOfPropertyScreen,
-  //   Routes.listOfAgenciesScreen,
-  //   Routes.listOfPropartyScreen,
-  //   Routes.extraImageScreen,
-  //   Routes.galleryCategoryScreen,
-  //   Routes.galleryImageScreen,
-  //   Routes.bookingScreen,
-  //   Routes.myEarningsScreen,
-  //   Routes.enquiryScreen,
-  //   Routes.reviewlistScreen,
-  //   Routes.myPayoutScreen,
-  // ];
-
-  // Empty routes list as a placeholder
-  final List<String> routesList = [];
+  final List<String> routesList = [
+    Routes.listOfPropertyScreen,
+    Routes.listOfAgenciesScreen,
+    Routes.listOfPropartyScreen,
+    Routes.extraImageScreen,
+    Routes.galleryCategoryScreen,
+    Routes.galleryImageScreen,
+    Routes.bookingScreen,
+    Routes.myEarningsScreen,
+    Routes.enquiryScreen,
+    Routes.reviewlistScreen,
+    Routes.myPayoutScreen,
+  ];
 
   late ColorNotifire notifire;
 

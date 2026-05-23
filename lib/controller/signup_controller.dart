@@ -31,7 +31,7 @@ class SignUpController extends GetxController implements GetxService {
 
   // Provider-only
   TextEditingController agencyName = TextEditingController();
-  String serviceType = "Home Care"; // Home Care / Nursing / Companion / Therapy
+  String serviceType = "Home Care"; // Home Care / Adult Family Home
   TextEditingController yearsExperience = TextEditingController();
   TextEditingController licenseNumber = TextEditingController();
 

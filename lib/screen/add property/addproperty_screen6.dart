@@ -16,6 +16,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddPropertyScreen6 extends StatefulWidget {
   const AddPropertyScreen6({super.key});
@@ -209,11 +210,10 @@ class _AddPropertyScreen6State extends State<AddPropertyScreen6> {
                                             addPropertiesController
                                                 .propertyPricingController.text;
 
-                                        // COMMENTED OUT: Advert functionality disabled
-                                        // Get.toNamed(
-                                        //   Routes.addPropertyScreen7,
-                                        //   arguments: {"add": manegeRoute},
-                                        // );
+                                        Get.toNamed(
+                                          Routes.addPropertyScreen7,
+                                          arguments: {"add": manegeRoute},
+                                        );
                                       },
                                     ),
                                   ),

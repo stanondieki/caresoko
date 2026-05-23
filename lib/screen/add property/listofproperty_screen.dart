@@ -8,6 +8,7 @@ import 'package:gotocarefinder/Api/config.dart';
 import 'package:gotocarefinder/controller/addproperties_controller.dart';
 import 'package:gotocarefinder/controller/listofproperti_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/utils/Colors.dart';
 import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:provider/provider.dart';
@@ -161,27 +162,7 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
           fontSize: 16,
         ),
       ),
-      actions: [
-        // Moved the add action to FAB for mobile; keep here for large screens
-        if (kIsWeb) // show on web header too
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: InkWell(
-              onTap: () {
-                // COMMENTED OUT: Advert functionality disabled
-                // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
-              },
-              borderRadius: BorderRadius.circular(25),
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Color(0xff3D5BF6), shape: BoxShape.circle),
-                child: Icon(Icons.add, color: WhiteColor),
-              ),
-            ),
-          ),
-      ],
+      actions: const [],
     );
   }
 
@@ -221,8 +202,7 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
             SizedBox(height: 20),
             FilledButton(
               onPressed: () {
-                // COMMENTED OUT: Advert functionality disabled
-                // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+                Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
               },
               child: Text("Add New Property".tr),
             ),
@@ -289,8 +269,7 @@ class _ListOfPropertyScreenState extends State<ListOfPropertyScreen> {
       print("Edit mapping error: $e\n$st");
     }
 
-    // COMMENTED OUT: Advert functionality disabled
-    // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "edit"});
+    Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "edit"});
   }
 }
 
@@ -302,8 +281,7 @@ class _AddFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        // COMMENTED OUT: Advert functionality disabled
-        // Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+        Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
       },
       tooltip: 'Add property',
       backgroundColor: Color(0xff3D5BF6),

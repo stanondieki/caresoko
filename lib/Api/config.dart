@@ -16,7 +16,7 @@ class Config {
   }
   // Flip to `false` before deploying. When true, the app talks to the local
   // PHP server (php -S 0.0.0.0:8080 -t d:\projects\Digisrupt\backend_local\careinafh.caresoko.com).
-  static const bool _useLocalBackend = true;
+  static const bool _useLocalBackend = false;
 
   static const String _localBaseurl = 'http://localhost:8080/';
   static const String _prodBaseurl = 'https://careinafh.caresoko.com/';
@@ -125,8 +125,8 @@ class Config {
   static const String requestWithdraw = 'request_withdraw.php';
   static const String payOutList = 'payout_list.php';
 
-  // Provider dashboard summary (KPIs + recent bookings).
-  static const String providerDashboard = 'provider_dashboard.php';
+  // Provider dashboard now uses existing endpoints:
+  // u_dashboard.php, u_my_book.php, u_property_list.php
 
   // Country auto-detection by IP (server-side, no GPS permission needed)
   static const String detectCountryApi = 'u_detect_country.php';

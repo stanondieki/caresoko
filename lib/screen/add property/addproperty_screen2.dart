@@ -18,6 +18,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddPropertyScreen2 extends StatefulWidget {
   const AddPropertyScreen2({super.key});
@@ -501,13 +502,10 @@ class _AddPropertyScreen2State extends State<AddPropertyScreen2> {
                                                     .text) ??
                                             0;
 
-                                        // COMMENTED OUT: Advert functionality disabled
-                                        // Get.toNamed(
-                                        //   Routes.addPropertyScreen3,
-                                        //   arguments: {"add": manegeRoute},
-                                        // );
-
-                                        // Keep your (optional) validation flow here if you want to enforce before navigation.
+                                        Get.toNamed(
+                                          Routes.addPropertyScreen3,
+                                          arguments: {"add": manegeRoute},
+                                        );
                                       },
                                     ),
                                   ),

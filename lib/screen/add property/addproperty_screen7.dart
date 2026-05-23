@@ -17,6 +17,7 @@ import 'package:gotocarefinder/utils/Dark_lightmode.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddPropertyScreen7 extends StatefulWidget {
   const AddPropertyScreen7({super.key});
@@ -223,11 +224,10 @@ class _AddPropertyScreen7State extends State<AddPropertyScreen7> {
                                                 .propertyTypicalDayController
                                                 .text;
 
-                                        // COMMENTED OUT: Advert functionality disabled
-                                        // Get.toNamed(
-                                        //   Routes.addPropertyScreen8,
-                                        //   arguments: {"add": manegeRoute},
-                                        // );
+                                        Get.toNamed(
+                                          Routes.addPropertyScreen8,
+                                          arguments: {"add": manegeRoute},
+                                        );
                                       },
                                     ),
                                   ),

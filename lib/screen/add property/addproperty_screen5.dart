@@ -18,6 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddPropertyScreen5 extends StatefulWidget {
   const AddPropertyScreen5({super.key});
@@ -367,21 +368,18 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                       onclick:
                                           addPropertiesController.havePhotos
                                               ? () {
-                                                  // COMMENTED OUT: Advert functionality disabled
-                                                  // Get.toNamed(
-                                                  //   Routes.addPropertyScreen6,
-                                                  //   arguments: {"add": "Add"},
-                                                  // );
+                                                  Get.toNamed(
+                                                    Routes.addPropertyScreen6,
+                                                    arguments: {"add": "Add"},
+                                                  );
                                                 }
                                               : (addPropertiesController
                                                       .consentToPhotographyTerms
                                                   ? () {
-                                                      // After booking consent, you might want to move to confirmation or same step.
-                                                      // COMMENTED OUT: Advert functionality disabled
-                                                      // Get.toNamed(
-                                                      //   Routes.addPropertyScreen5,
-                                                      //   arguments: {"add": "Add"},
-                                                      // );
+                                                      Get.toNamed(
+                                                        Routes.addPropertyScreen6,
+                                                        arguments: {"add": "Add"},
+                                                      );
                                                     }
                                                   : null),
                                     ),

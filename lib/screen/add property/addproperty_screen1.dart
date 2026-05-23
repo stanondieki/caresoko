@@ -22,6 +22,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart' as osm;
+import 'package:gotocarefinder/model/routes_helper.dart';
 
 class AddPropertyScreen1 extends StatefulWidget {
   const AddPropertyScreen1({super.key});
@@ -407,13 +408,10 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
                                                 .propertyDescriptionController
                                                 .text;
 
-                                        // COMMENTED OUT: Advert functionality disabled
-                                        // Get.toNamed(
-                                        //   Routes.addPropertyScreen2,
-                                        //   arguments: {"add": manegeRoute},
-                                        // );
-
-                                        // Keep your validation flow here if you want to enforce before navigation.
+                                        Get.toNamed(
+                                          Routes.addPropertyScreen2,
+                                          arguments: {"add": manegeRoute},
+                                        );
                                       },
                                     ),
                                   ),
