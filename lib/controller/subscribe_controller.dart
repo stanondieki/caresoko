@@ -45,7 +45,7 @@ class SubscribeController extends GetxController implements GetxService {
           //Get.offAndToNamed(Routes.subscribeScreen);
           Get.offAndToNamed(Routes.contractScreen);
         } else {
-          Get.offAndToNamed(Routes.membershipScreen);
+          Get.offAndToNamed(Routes.bottoBarScreen);
         }
         subscribeInfo = SubscribeInfo.fromJson(result);
       }

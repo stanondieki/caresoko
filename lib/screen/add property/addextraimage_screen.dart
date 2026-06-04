@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, deprecated_member_use, avoid_print
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,7 @@ List<String> propartyPanorama = ["Yes", "No"];
 class _AddExtraImageScreenState extends State<AddExtraImageScreen> {
   ExtraImageController extraImageController = Get.find();
   ListOfPropertiController listOfPropertiController = Get.find();
-  String manageRoute = Get.arguments["add"];
+  String manageRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String? selectProparty;
   String slectStatus = propartyStatus.first;
@@ -214,15 +213,17 @@ class _AddExtraImageScreenState extends State<AddExtraImageScreen> {
                                   margin: EdgeInsets.symmetric(horizontal: 20),
                                   width: Get.size.width,
                                   alignment: Alignment.center,
-                                  child: extraImageController.path == null
+                                  child: extraImageController.path == null ||
+                                      extraImageController.base64Image == null ||
+                                      extraImageController.base64Image!.isEmpty
                                       ? Image.asset(
                                           "assets/images/image-upload.png",
                                           height: 40,
                                           width: 42,
                                         )
-                                      : Image.file(
-                                          File(extraImageController.path
-                                              .toString()),
+                                      : Image.memory(
+                                          base64Decode(extraImageController
+                                              .base64Image!),
                                           height: 50,
                                           width: 50,
                                           fit: BoxFit.cover,
@@ -242,18 +243,18 @@ class _AddExtraImageScreenState extends State<AddExtraImageScreen> {
                                           height: 40,
                                           width: 42,
                                         )
-                                      : extraImageController.path == null
+                                      : extraImageController.path == null ||
+                                          extraImageController.base64Image == null ||
+                                          extraImageController.base64Image!.isEmpty
                                           ? Image.network(
                                               "${Config.imageUrl}${extraImageController.image}",
                                               height: 50,
                                               width: 50,
                                               fit: BoxFit.cover,
                                             )
-                                          : Image.file(
-                                              File(
-                                                extraImageController.path
-                                                    .toString(),
-                                              ),
+                                          : Image.memory(
+                                              base64Decode(extraImageController
+                                                  .base64Image!),
                                               height: 50,
                                               width: 50,
                                               fit: BoxFit.cover,
@@ -451,8 +452,7 @@ class _AddExtraImageScreenState extends State<AddExtraImageScreen> {
       extraImageController.path = pickedFile.path;
       print(extraImageController.path.toString());
       setState(() {});
-      File imageFile = File(extraImageController.path.toString());
-      List<int> imageBytes = imageFile.readAsBytesSync();
+      List<int> imageBytes = await pickedFile.readAsBytes();
       extraImageController.base64Image = base64Encode(imageBytes);
       print(extraImageController.base64Image.toString());
       setState(() {});

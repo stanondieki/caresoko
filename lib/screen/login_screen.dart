@@ -534,7 +534,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (getData.read("userType") == "admin") {
                                 dashBoardController.getDashBoardData().then(
                                       (value) {
-                                    Get.offAndToNamed(Routes.membershipScreen);
+                                    Get.offAndToNamed(Routes.bottoBarScreen);
                                   },
                                 );
                               } else {

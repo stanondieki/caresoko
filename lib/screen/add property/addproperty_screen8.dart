@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class _AddPropertyScreen8State extends State<AddPropertyScreen8> {
   final SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   late ColorNotifire notifire;
 
@@ -500,15 +499,17 @@ class _AddPropertyScreen8State extends State<AddPropertyScreen8> {
                                           margin:
                                           EdgeInsets.symmetric(horizontal: 20),
                                           alignment: Alignment.center,
-                                          child: addPropertiesController.logoPath == null
+                                          child: addPropertiesController.logoPath == null ||
+                                              addPropertiesController.logoBase64Image == null ||
+                                              addPropertiesController.logoBase64Image!.isEmpty
                                               ? Image.asset(
                                             "assets/images/image-upload.png",
                                             height: 40,
                                             width: 42,
                                           )
-                                              : Image.file(
-                                            File(addPropertiesController.logoPath
-                                                .toString()),
+                                              : Image.memory(
+                                            base64Decode(addPropertiesController
+                                                .logoBase64Image!),
                                             height: 60,
                                             width: 60,
                                             fit: BoxFit.cover,
@@ -525,16 +526,18 @@ class _AddPropertyScreen8State extends State<AddPropertyScreen8> {
                                             height: 40,
                                             width: 42,
                                           )
-                                              : addPropertiesController.logoPath == null
+                                              : addPropertiesController.logoPath == null ||
+                                                  addPropertiesController.logoBase64Image == null ||
+                                                  addPropertiesController.logoBase64Image!.isEmpty
                                               ? Image.network(
                                             "${Config.imageUrl}${addPropertiesController.eLogo}",
                                             height: 60,
                                             width: 60,
                                             fit: BoxFit.cover,
                                           )
-                                              : Image.file(
-                                            File(addPropertiesController.logoPath
-                                                .toString()),
+                                              : Image.memory(
+                                            base64Decode(addPropertiesController
+                                                .logoBase64Image!),
                                             height: 60,
                                             width: 60,
                                             fit: BoxFit.cover,
@@ -813,9 +816,9 @@ class _AddPropertyScreen8State extends State<AddPropertyScreen8> {
       addPropertiesController.logoPath = pickedFile.path;
       addPropertiesController.eLogoUpdated = true;
       setState(() {});
-      File imageFile = File(addPropertiesController.logoPath.toString());
-      List<int> imageBytes = imageFile.readAsBytesSync();
+      List<int> imageBytes = await pickedFile.readAsBytes();
       addPropertiesController.logoBase64Image = base64Encode(imageBytes);
+      setState(() {});
     }
   }
 }

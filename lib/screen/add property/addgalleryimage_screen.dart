@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, deprecated_member_use
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ List<String> propartyStatus = ["Publish", "UnPublish"];
 class _AddGalleryImageScreenState extends State<AddGalleryImageScreen> {
   GalleryImageController galleryImageController = Get.find();
   ListOfPropertiController listOfPropertiController = Get.find();
-  String mangeRoute = Get.arguments["add"];
+  String mangeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   bool selectGalleryCat = false;
   String selectStatus = propartyStatus.first;
@@ -316,15 +315,17 @@ class _AddGalleryImageScreenState extends State<AddGalleryImageScreen> {
                                   margin: EdgeInsets.symmetric(horizontal: 20),
                                   width: Get.size.width,
                                   alignment: Alignment.center,
-                                  child: galleryImageController.path == null
+                                  child: galleryImageController.path == null ||
+                                      galleryImageController.base64Image == null ||
+                                      galleryImageController.base64Image!.isEmpty
                                       ? Image.asset(
                                           "assets/images/image-upload.png",
                                           height: 40,
                                           width: 42,
                                         )
-                                      : Image.file(
-                                          File(galleryImageController.path
-                                              .toString()),
+                                      : Image.memory(
+                                          base64Decode(galleryImageController
+                                              .base64Image!),
                                           height: 50,
                                           width: 50,
                                           fit: BoxFit.cover,
@@ -344,18 +345,18 @@ class _AddGalleryImageScreenState extends State<AddGalleryImageScreen> {
                                           height: 40,
                                           width: 42,
                                         )
-                                      : galleryImageController.path == null
+                                      : galleryImageController.path == null ||
+                                          galleryImageController.base64Image == null ||
+                                          galleryImageController.base64Image!.isEmpty
                                           ? Image.network(
                                               "${Config.imageUrl}${galleryImageController.gImage}",
                                               height: 50,
                                               width: 50,
                                               fit: BoxFit.cover,
                                             )
-                                          : Image.file(
-                                              File(
-                                                galleryImageController.path
-                                                    .toString(),
-                                              ),
+                                          : Image.memory(
+                                              base64Decode(galleryImageController
+                                                  .base64Image!),
                                               height: 50,
                                               width: 50,
                                               fit: BoxFit.cover,
@@ -488,8 +489,7 @@ class _AddGalleryImageScreenState extends State<AddGalleryImageScreen> {
     if (pickedFile != null) {
       galleryImageController.path = pickedFile.path;
       setState(() {});
-      File imageFile = File(galleryImageController.path.toString());
-      List<int> imageBytes = imageFile.readAsBytesSync();
+      List<int> imageBytes = await pickedFile.readAsBytes();
       galleryImageController.base64Image = base64Encode(imageBytes);
       setState(() {});
     }

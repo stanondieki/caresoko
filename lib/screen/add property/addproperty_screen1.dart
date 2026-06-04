@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -41,7 +40,7 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
   final SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String? selectProperty;
   String? selectCountry;
@@ -100,22 +99,25 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
     addPropertiesController.lat = latitude;
     addPropertiesController.long = longitude;
 
-    final placemarks = await placemarkFromCoordinates(latitude, longitude);
-    final first = placemarks.first;
-
-    if (manegeRoute == "Add") {
-      addPropertiesController.propertyAddress =
-          '${first.name}, ${first.locality}, ${first.country}';
-      addPropertiesController.propertyZipCode = first.postalCode ?? '';
-      addPropertiesController.propertyCountry = first.country ?? '';
-      addPropertiesController.propertyCity = first.locality ?? '';
-    } else {
-      addPropertiesController.ePropertyAddress =
-          '${first.name}, ${first.locality}, ${first.country}';
-      addPropertiesController.ePropertyZipCode = first.postalCode ?? '';
-      addPropertiesController.ePropertyCountry = first.country ?? '';
-      addPropertiesController.ePropertyCity = first.locality ?? '';
-    }
+    try {
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        final first = placemarks.first;
+        if (manegeRoute == "Add") {
+          addPropertiesController.propertyAddress =
+              '${first.name}, ${first.locality}, ${first.country}';
+          addPropertiesController.propertyZipCode = first.postalCode ?? '';
+          addPropertiesController.propertyCountry = first.country ?? '';
+          addPropertiesController.propertyCity = first.locality ?? '';
+        } else {
+          addPropertiesController.ePropertyAddress =
+              '${first.name}, ${first.locality}, ${first.country}';
+          addPropertiesController.ePropertyZipCode = first.postalCode ?? '';
+          addPropertiesController.ePropertyCountry = first.country ?? '';
+          addPropertiesController.ePropertyCity = first.locality ?? '';
+        }
+      }
+    } catch (_) {}
   }
 
   @override
@@ -581,8 +583,7 @@ class _AddPropertyScreen1State extends State<AddPropertyScreen1> {
     if (pickedFile != null) {
       addPropertiesController.path = pickedFile.path;
       setState(() {});
-      File imageFile = File(addPropertiesController.path.toString());
-      List<int> imageBytes = imageFile.readAsBytesSync();
+      List<int> imageBytes = await pickedFile.readAsBytes();
       addPropertiesController.base64Image = base64Encode(imageBytes);
       print("!!!!!!!!!++++++++++++${addPropertiesController.base64Image}");
       setState(() {});

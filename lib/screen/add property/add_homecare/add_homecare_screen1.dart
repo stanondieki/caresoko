@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -42,7 +41,7 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String? selectProperty;
   String? selectCountry;
@@ -393,8 +392,7 @@ class _AddHomeCareScreen1State extends State<AddHomeCareScreen1> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
-      final imageFile = File(pickedFile.path);
-      final bytes = await imageFile.readAsBytes();
+      final bytes = await pickedFile.readAsBytes();
       addHomecareController.base64Image = base64Encode(bytes);
       setState(() {});
     }

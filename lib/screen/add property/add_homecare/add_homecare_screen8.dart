@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +92,7 @@ class _AddHomeCareScreen8State extends State<AddHomeCareScreen8> {
   SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String manegeRoute = Get.arguments["add"];
+  String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String selectValue = list.first;
   String? selectProperty;
@@ -516,11 +515,13 @@ class _AddHomeCareScreen8State extends State<AddHomeCareScreen8> {
   Widget _logoPicker(BuildContext context) {
     final Widget imageWidget;
     if (manegeRoute == "Add") {
-      if (addHomecareController.logoPath == null) {
+      if (addHomecareController.logoPath == null ||
+          addHomecareController.logoBase64Image == null ||
+          addHomecareController.logoBase64Image!.isEmpty) {
         imageWidget = Image.asset("assets/images/image-upload.png", height: 40, width: 42);
       } else {
-        imageWidget = Image.file(
-          File(addHomecareController.logoPath.toString()),
+        imageWidget = Image.memory(
+          base64Decode(addHomecareController.logoBase64Image!),
           height: 50,
           width: 50,
           fit: BoxFit.cover,
@@ -529,14 +530,16 @@ class _AddHomeCareScreen8State extends State<AddHomeCareScreen8> {
     } else {
       if (addHomecareController.eLogo == "") {
         imageWidget = Image.asset("assets/images/image-upload.png", height: 40, width: 42);
-      } else if (addHomecareController.logoPath == null) {
+      } else if (addHomecareController.logoPath == null ||
+          addHomecareController.logoBase64Image == null ||
+          addHomecareController.logoBase64Image!.isEmpty) {
         imageWidget = Image.network(
           "${Config.imageUrl}${addHomecareController.eLogo}",
           height: 50, width: 50, fit: BoxFit.cover,
         );
       } else {
-        imageWidget = Image.file(
-          File(addHomecareController.logoPath.toString()),
+        imageWidget = Image.memory(
+          base64Decode(addHomecareController.logoBase64Image!),
           height: 50, width: 50, fit: BoxFit.cover,
         );
       }
@@ -571,8 +574,7 @@ class _AddHomeCareScreen8State extends State<AddHomeCareScreen8> {
       addHomecareController.logoPath = pickedFile.path;
       addHomecareController.eLogoUpdated = true;
       setState(() {});
-      File imageFile = File(addHomecareController.logoPath.toString());
-      List<int> imageBytes = imageFile.readAsBytesSync();
+      List<int> imageBytes = await pickedFile.readAsBytes();
       addHomecareController.logoBase64Image = base64Encode(imageBytes);
       print("!!!!!!!!!++++++++++++${addHomecareController.logoBase64Image}");
       setState(() {});

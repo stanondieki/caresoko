@@ -390,8 +390,8 @@ class _ContractAgreementState extends State<ContractAgreement> {
                               signatureBase64: userSignatureBase64!,
                             );
                             
-                            // Navigate to membership/subscribe screen
-                            Get.toNamed(Routes.membershipScreen);
+                            // Navigate to main app screen
+                            Get.offAndToNamed(Routes.bottoBarScreen);
                           }
                         },
                   child: Container(

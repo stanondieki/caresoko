@@ -9,8 +9,8 @@ import 'package:gotocarefinder/controller/listofproperti_controller.dart';
 import 'package:gotocarefinder/controller/selectcountry_controller.dart';
 import 'package:gotocarefinder/controller/wallet_controller.dart';
 import 'package:gotocarefinder/model/fontfamily_model.dart';
+import 'package:gotocarefinder/model/routes_helper.dart';
 import 'package:gotocarefinder/screen/add%20property/addintro_screen.dart';
-import 'package:gotocarefinder/screen/add%20property/membarship_screen.dart';
 import 'package:gotocarefinder/screen/favorite_screen.dart';
 import 'package:gotocarefinder/screen/home_screen.dart';
 import 'package:gotocarefinder/screen/login_screen.dart';
@@ -395,10 +395,7 @@ class _BottoBarScreenState extends State<BottoBarScreen>
     dashBoardController.getDashBoardData().then((value) {
       if (isLogin != null) {
         if (dashBoardController.dashBoardInfo?.isSubscribe == 1) {
-          dashBoardController.getDashBoardData();
-          listOfPropertiController.getPropertiList();
-          selectCountryController.getCountryApi();
-          Get.to(() => const MembershipScreen());
+          _showAddListingSheet();
         } else {
           selectCountryController.getCountryApi();
           Get.to(() => BoardingPage());
@@ -407,6 +404,141 @@ class _BottoBarScreenState extends State<BottoBarScreen>
         Get.to(() => LoginScreen());
       }
     });
+  }
+
+  void _showAddListingSheet() {
+    final n = Provider.of<ColorNotifire>(context, listen: false);
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          color: n.getbgcolor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 4,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: n.getborderColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                "What would you like to add?".tr,
+                style: TextStyle(
+                  fontFamily: FontFamily.gilroyBold,
+                  fontSize: 18,
+                  color: n.getwhiteblackcolor,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _AddOptionTile(
+                notifire: n,
+                icon: Icons.home_work_outlined,
+                title: "Adult Family Home / Assisted Living".tr,
+                subtitle: "Add a residential care facility listing.".tr,
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+                },
+              ),
+              const SizedBox(height: 10),
+              _AddOptionTile(
+                notifire: n,
+                icon: Icons.medical_services_outlined,
+                title: "Homecare Agency".tr,
+                subtitle: "Add a homecare service agency listing.".tr,
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(Routes.addHomecareScreen1, arguments: {"add": "Add"});
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AddOptionTile extends StatelessWidget {
+  final ColorNotifire notifire;
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _AddOptionTile({
+    required this.notifire,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: notifire.getboxcolor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: notifire.getborderColor),
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 44,
+              width: 44,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color(0xff3D5BF6).withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: const Color(0xff3D5BF6), size: 22),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyBold,
+                      fontSize: 14,
+                      color: notifire.getwhiteblackcolor,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyMedium,
+                      fontSize: 12,
+                      color: notifire.getgreycolor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right, color: notifire.getgreycolor),
+          ],
+        ),
+      ),
+    );
   }
 }
 

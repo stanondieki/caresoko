@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -36,7 +35,7 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
   final SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String selectValue = list.first;
   String? selectProperty;
@@ -476,7 +475,7 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               image: DecorationImage(
-                                                image: FileImage(File(path)),
+                                                image: MemoryImage(base64Decode(addHomecareController.agencyImagesBase64[index])),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -623,8 +622,7 @@ class _AddHomeCareScreen5State extends State<AddHomeCareScreen5> {
       addHomecareController.path = pickedFile.path;
       addHomecareController.agencyImagesPaths.add(addHomecareController.path!);
 
-      final imageFile = File(addHomecareController.path.toString());
-      final imageBytes = imageFile.readAsBytesSync();
+      final imageBytes = await pickedFile.readAsBytes();
       addHomecareController.base64Image = base64Encode(imageBytes);
       addHomecareController.agencyImagesBase64
           .add(addHomecareController.base64Image!);

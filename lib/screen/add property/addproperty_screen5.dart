@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -37,7 +36,7 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
   final SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String selectValue = list.first;
   String? selectProperty;
@@ -215,6 +214,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .diningImagesPaths,
+                                      base64List: addPropertiesController
+                                          .diningImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Dining Areas",
                                         index: i,
@@ -231,6 +232,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .bedroomsImagesPaths,
+                                      base64List: addPropertiesController
+                                          .bedroomsImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Bedrooms",
                                         index: i,
@@ -249,6 +252,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .commonLivingImagesPaths,
+                                      base64List: addPropertiesController
+                                          .commonLivingImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Common Living Areas",
                                         index: i,
@@ -267,6 +272,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .recreationalSpacesImagesPaths,
+                                      base64List: addPropertiesController
+                                          .recreationalSpacesImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Recreational Spaces",
                                         index: i,
@@ -283,6 +290,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .outdoorImagesPaths,
+                                      base64List: addPropertiesController
+                                          .outdoorImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Outdoor Areas",
                                         index: i,
@@ -301,6 +310,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .accessibleFacilitiesImagesPaths,
+                                      base64List: addPropertiesController
+                                          .accessibleFacilitiesImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Accessible Facilities",
                                         index: i,
@@ -317,6 +328,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .staffQuartersImagesPaths,
+                                      base64List: addPropertiesController
+                                          .staffQuartersImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Staff Quarters",
                                         index: i,
@@ -333,6 +346,8 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
                                     _gallery(
                                       paths: addPropertiesController
                                           .othersImagesPaths,
+                                      base64List: addPropertiesController
+                                          .othersImagesBase64,
                                       onRemove: (i) => _removeAt(
                                         bucket: "Others",
                                         index: i,
@@ -716,6 +731,7 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
   // Gallery that switches to grid on larger screens
   Widget _gallery({
     required List<String> paths,
+    required List<String> base64List,
     required Function(int index) onRemove,
     required bool useGrid,
     required int gridCols,
@@ -734,9 +750,9 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.only(bottom: 10),
-            itemCount: paths.length,
+            itemCount: base64List.length,
             itemBuilder: (context, index) {
-              return _previewThumb(paths[index], () => onRemove(index));
+              return _previewThumb(base64List[index], () => onRemove(index));
             },
           ),
         ),
@@ -754,11 +770,11 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
           return Wrap(
             spacing: spacing,
             runSpacing: spacing,
-            children: List.generate(paths.length, (i) {
+            children: List.generate(base64List.length, (i) {
               return SizedBox(
                 width: tileWidth,
                 height: tileHeight,
-                child: _previewThumb(paths[i], () => onRemove(i)),
+                child: _previewThumb(base64List[i], () => onRemove(i)),
               );
             }),
           );
@@ -767,7 +783,7 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
     );
   }
 
-  Widget _previewThumb(String path, VoidCallback onRemove) {
+  Widget _previewThumb(String base64, VoidCallback onRemove) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -777,7 +793,7 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
-                image: FileImage(File(path)), fit: BoxFit.cover),
+                image: MemoryImage(base64Decode(base64)), fit: BoxFit.cover),
           ),
         ),
         Positioned(
@@ -888,12 +904,12 @@ class _AddPropertyScreen5State extends State<AddPropertyScreen5> {
       addPropertiesController.propertyImagesPaths
           .add(addPropertiesController.path!);
 
-      File imageFile = File(addPropertiesController.path.toString());
-      List<int> imageBytes = imageFile.readAsBytesSync();
+      List<int> imageBytes = await pickedFile.readAsBytes();
       addPropertiesController.base64Image = base64Encode(imageBytes);
       addPropertiesController.propertyImagesBase64
           .add(addPropertiesController.base64Image!);
 
+      setState(() {});
       switch (addPropertiesController.photosBeingAdded) {
         case "Dining Areas":
           addPropertiesController.diningImagesPaths

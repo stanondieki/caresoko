@@ -95,7 +95,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   if (agency.isNotEmpty) ...[
                     const SizedBox(height: 6),
                     Text(
-                      agency + (serviceType.isNotEmpty ? "  ·  ${serviceType.tr}" : ""),
+                      agency + (serviceType.isNotEmpty ? "  \u00B7  ${serviceType.tr}" : ""),
                       style: TextStyle(
                         fontFamily: FontFamily.gilroyMedium,
                         color: notifire.getgreycolor,
@@ -154,7 +154,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         notifire: notifire,
                         icon: Icons.calendar_month_outlined,
                         label: "Total Bookings".tr,
-                        value: c.isLoading ? '—' : c.totalBookings,
+                        value: c.isLoading ? '\u2014' : c.totalBookings,
                         color: blueColor,
                       ),
                       _KpiCard(
@@ -162,7 +162,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         icon: Icons.payments_outlined,
                         label: "My Earnings".tr,
                         value: c.isLoading
-                            ? '—'
+                            ? '\u2014'
                             : "${c.currency} ${c.totalEarnings}",
                         color: const Color(0xff27AE60),
                       ),
@@ -171,7 +171,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         icon: Icons.home_work_outlined,
                         label: "Active Listings".tr,
                         value: c.isLoading
-                            ? '—'
+                            ? '\u2014'
                             : c.totalListings.toString(),
                         sub: c.isSubscribed ? "Subscribed".tr : "Not subscribed".tr,
                         color: const Color(0xffF2C94C),
@@ -190,13 +190,18 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                             .toList(),
                       );
                     }
-                    return Column(
-                      children: cards
-                          .map((card) => Padding(
-                                padding: const EdgeInsets.only(bottom: 12),
-                                child: card,
-                              ))
-                          .toList(),
+                    // Mobile: horizontally scrollable cards with peek
+                    return SizedBox(
+                      height: 148,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: cards.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 10),
+                        itemBuilder: (_, i) => SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.44,
+                          child: cards[i],
+                        ),
+                      ),
                     );
                   }),
 
@@ -259,65 +264,203 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
+                  GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 2.6,
+                    children: [
                   _ActionTile(
                     notifire: notifire,
                     icon: Icons.add_business_outlined,
                     title: "Add a new listing".tr,
                     subtitle: "Publish a homecare or adult family home listing.".tr,
-                    onTap: () =>
-                        Get.toNamed(Routes.membershipScreen),
+                    onTap: () => _showAddListingSheet(notifire),
                   ),
-                  const SizedBox(height: 8),
-                  _ActionTile(
-                    notifire: notifire,
-                    icon: Icons.list_alt_outlined,
-                    title: "My listings".tr,
-                    subtitle: c.totalListings == 0
-                        ? "No listings yet — add your first service.".tr
-                        : "${c.totalListings} ${'active listings'.tr}",
-                    onTap: () =>
-                        Get.toNamed(Routes.listOfPropertyScreen),
-                  ),
-                  const SizedBox(height: 8),
-                  _ActionTile(
-                    notifire: notifire,
-                    icon: Icons.book_outlined,
-                    title: "Manage bookings".tr,
-                    subtitle: "View and manage bookings received.".tr,
-                    onTap: () =>
-                        Get.toNamed(Routes.bookingScreen),
-                  ),
-                  const SizedBox(height: 8),
-                  _ActionTile(
-                    notifire: notifire,
-                    icon: Icons.attach_money_outlined,
-                    title: "My earnings".tr,
-                    subtitle: "View your earnings and transaction history.".tr,
-                    onTap: () =>
-                        Get.toNamed(Routes.myEarningsScreen),
-                  ),
-                  const SizedBox(height: 8),
-                  _ActionTile(
-                    notifire: notifire,
-                    icon: Icons.account_balance_wallet_outlined,
-                    title: "Request payout".tr,
-                    subtitle: "Withdraw available earnings to your account.".tr,
-                    onTap: () =>
-                        Get.toNamed(Routes.myPayoutScreen),
-                  ),
-                  const SizedBox(height: 8),
-                  _ActionTile(
-                    notifire: notifire,
-                    icon: Icons.mail_outlined,
-                    title: "Enquiries".tr,
-                    subtitle: "View enquiries from potential clients.".tr,
-                    onTap: () =>
-                        Get.toNamed(Routes.enquiryScreen),
+                      _ActionTile(
+                        notifire: notifire,
+                        icon: Icons.list_alt_outlined,
+                        title: "My listings".tr,
+                        subtitle: c.totalListings == 0
+                            ? "No listings yet \u2014 add your first service.".tr
+                            : "${c.totalListings} ${'active listings'.tr}",
+                        onTap: () =>
+                            Get.toNamed(Routes.listOfPropertyScreen),
+                      ),
+                      _ActionTile(
+                        notifire: notifire,
+                        icon: Icons.book_outlined,
+                        title: "Manage bookings".tr,
+                        subtitle: "View and manage bookings received.".tr,
+                        onTap: () =>
+                            Get.toNamed(Routes.bookingScreen),
+                      ),
+                      _ActionTile(
+                        notifire: notifire,
+                        icon: Icons.attach_money_outlined,
+                        title: "My earnings".tr,
+                        subtitle: "View your earnings and transaction history.".tr,
+                        onTap: () =>
+                            Get.toNamed(Routes.myEarningsScreen),
+                      ),
+                      _ActionTile(
+                        notifire: notifire,
+                        icon: Icons.account_balance_wallet_outlined,
+                        title: "Request payout".tr,
+                        subtitle: "Withdraw available earnings to your account.".tr,
+                        onTap: () =>
+                            Get.toNamed(Routes.myPayoutScreen),
+                      ),
+                      _ActionTile(
+                        notifire: notifire,
+                        icon: Icons.mail_outlined,
+                        title: "Enquiries".tr,
+                        subtitle: "View enquiries from potential clients.".tr,
+                        onTap: () =>
+                            Get.toNamed(Routes.enquiryScreen),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  void _showAddListingSheet(ColorNotifire notifire) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          color: notifire.getbgcolor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 4,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: notifire.getborderColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                "What would you like to add?".tr,
+                style: TextStyle(
+                  fontFamily: FontFamily.gilroyBold,
+                  fontSize: 18,
+                  color: notifire.getwhiteblackcolor,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _AddOptionTile(
+                notifire: notifire,
+                icon: Icons.home_work_outlined,
+                title: "Adult Family Home / Assisted Living".tr,
+                subtitle: "Add a residential care facility listing.".tr,
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(Routes.addPropertyScreen1, arguments: {"add": "Add"});
+                },
+              ),
+              const SizedBox(height: 10),
+              _AddOptionTile(
+                notifire: notifire,
+                icon: Icons.medical_services_outlined,
+                title: "Homecare Agency".tr,
+                subtitle: "Add a homecare service agency listing.".tr,
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(Routes.addHomecareScreen1, arguments: {"add": "Add"});
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AddOptionTile extends StatelessWidget {
+  final ColorNotifire notifire;
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _AddOptionTile({
+    required this.notifire,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: notifire.getboxcolor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: notifire.getborderColor),
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 44,
+              width: 44,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: blueColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: blueColor, size: 22),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyBold,
+                      fontSize: 14,
+                      color: notifire.getwhiteblackcolor,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontFamily: FontFamily.gilroyMedium,
+                      fontSize: 12,
+                      color: notifire.getgreycolor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right, color: notifire.getgreycolor),
+          ],
         ),
       ),
     );
@@ -488,7 +631,7 @@ class _BookingRow extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    status.isEmpty ? '—' : status.tr,
+                    status.isEmpty ? '\u2014' : status.tr,
                     style: TextStyle(
                       fontFamily: FontFamily.gilroyBold,
                       fontSize: 10,
@@ -530,21 +673,29 @@ class _KpiCard extends StatelessWidget {
         color: notifire.getboxcolor,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: notifire.getborderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 36,
-            width: 36,
+            height: 40,
+            width: 40,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: color, size: 20),
+            child: Icon(icon, color: color, size: 22),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Text(
             value,
             style: TextStyle(
@@ -600,50 +751,60 @@ class _ActionTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: notifire.getboxcolor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: notifire.getborderColor),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Row(
           children: [
             Container(
-              height: 42,
-              width: 42,
+              height: 40,
+              width: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: blueColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: blueColor),
+              child: Icon(icon, color: blueColor, size: 20),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     title,
                     style: TextStyle(
                       fontFamily: FontFamily.gilroyBold,
-                      fontSize: 14,
+                      fontSize: 13,
                       color: notifire.getwhiteblackcolor,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: FontFamily.gilroyMedium,
-                      fontSize: 12,
+                      fontSize: 11,
                       color: notifire.getgreycolor,
                     ),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: notifire.getgreycolor),
+            Icon(Icons.chevron_right, color: notifire.getgreycolor, size: 18),
           ],
         ),
       ),

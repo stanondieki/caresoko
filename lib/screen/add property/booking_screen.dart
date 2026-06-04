@@ -35,15 +35,14 @@ class _BookingScreenState extends State<BookingScreen>
 
   @override
   void initState() {
+    super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController?.index == 0;
-    print("|||||||||||${_tabController?.index}");
+    print("Booking tab initial index: ${_tabController?.index}");
     if (_tabController?.index == 0) {
       bookingController.statusWiseBook = "active";
       bookingController.getBookingStatusWise();
     }
     getdarkmodepreviousstate();
-    super.initState();
   }
 
   @override

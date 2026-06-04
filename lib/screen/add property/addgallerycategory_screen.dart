@@ -31,7 +31,7 @@ class _AddGalleryCategoryScreenState extends State<AddGalleryCategoryScreen> {
   String? selectProparty;
   String slectStatus = propartyStatus.first;
 
-  String manageRoutes = Get.arguments["add"];
+  String manageRoutes = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   late ColorNotifire notifire;
   getdarkmodepreviousstate() async {

@@ -30,7 +30,7 @@ class _AddHomeCareScreen2State extends State<AddHomeCareScreen2> {
   final SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String slectStatus = propartyStatus.first;
 

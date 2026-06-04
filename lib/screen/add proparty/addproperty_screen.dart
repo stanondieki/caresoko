@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_brace_in_string_interps, sort_child_properties_last, unnecessary_new, prefer_typing_uninitialized_variables, unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -909,7 +908,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               image: DecorationImage(
-                                                image: FileImage(File(path)),
+                                                image: MemoryImage(base64Decode(addPropertiesController.propertyImagesBase64[index])),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -1467,8 +1466,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       addPropertiesController.path = pickedFile.path;
       addPropertiesController.propertyImagesPaths.add(pickedFile.path);
 
-      final imageFile = File(pickedFile.path);
-      final imageBytes = imageFile.readAsBytesSync();
+      final imageBytes = await pickedFile.readAsBytes();
       addPropertiesController.base64Image = base64Encode(imageBytes);
       addPropertiesController.propertyImagesBase64
           .add(addPropertiesController.base64Image!);

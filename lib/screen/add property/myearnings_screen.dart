@@ -28,6 +28,7 @@ class _MyEarningsScreenState extends State<MyEarningsScreen> {
   @override
   void initState() {
     super.initState();
+    myEarningController.getEarningsData();
     getdarkmodepreviousstate();
   }
 

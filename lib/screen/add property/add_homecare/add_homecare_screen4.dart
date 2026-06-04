@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings, avoid_print, deprecated_member_use, unused_field
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -34,7 +33,7 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
   final SelectCountryController selectCountryController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final String manegeRoute = Get.arguments["add"];
+  late final String manegeRoute = Get.arguments != null ? Get.arguments["add"] ?? "Add" : "Add";
 
   String slectStatus = propartyStatus.first;
 
@@ -469,8 +468,7 @@ class _AddHomeCareScreen4State extends State<AddHomeCareScreen4> {
     if (pickedFile != null) {
       addHomecareController.path = pickedFile.path;
       setState(() {});
-      final imageFile = File(addHomecareController.path.toString());
-      final imageBytes = imageFile.readAsBytesSync();
+      final imageBytes = await pickedFile.readAsBytes();
       addHomecareController.base64Image = base64Encode(imageBytes);
     }
   }

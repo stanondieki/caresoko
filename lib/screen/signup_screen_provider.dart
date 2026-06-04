@@ -254,7 +254,7 @@ class _SignUpScreenProviderState extends State<SignUpScreenProvider> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DropdownButtonFormField<String>(
-                        value: signUpController.serviceType,
+                        initialValue: signUpController.serviceType,
                         items: _serviceTypes
                             .map((s) => DropdownMenuItem(value: s, child: Text(s.tr)))
                             .toList(),

@@ -41,6 +41,7 @@ class _MyPayoutScreenState extends State<MyPayoutScreen> {
   @override
   void initState() {
     super.initState();
+    payOutController.getPayOutList();
     getdarkmodepreviousstate();
   }
 
